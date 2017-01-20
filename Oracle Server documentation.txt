@@ -1,0 +1,30 @@
+Documentation
+
+SSH Login available,
+username: oracle
+password: oracle
+IP: 10.10.10.5
+port: 21
+
+to start Oracle Database:
+$ORACLE_HOME/bin/dbstart $ORACLE_HOME
+
+to stop Oracle Database:
+$ORACLE_HOME/bin/dbshut $ORACLE_HOME
+
+Database presets:
+port: 1521
+SID: orcl
+
+Database username/password:
+SYS/oracle
+C##ITSTOCK/itst0ck
+C##super/oracl3
+
+
+To access the server with VNC:
+
+Open tightVNC viewer
+Remote host: 10.10.10.5::5902 
+Password: oracle
+In case of authentication password popup: oracle
