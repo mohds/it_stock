@@ -250,7 +250,7 @@ public class Access {
     
     public boolean user_exists(String user, String column_to_check){
         boolean exists = false;
-        String query = "SELECT id FROM admisn WHERE admins."+ column_to_check +" = '"+ user +"'";
+        String query = "SELECT id FROM admins WHERE admins."+ column_to_check +" = '"+ user +"'";
         Connection con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
@@ -1017,6 +1017,10 @@ public class Access {
     public boolean add_user(String name, String user, String password_hash){
         boolean return_me = false;
         
+        if(user.isEmpty() || name.isEmpty()){
+            return return_me;
+        }
+        
         // now add user with corresponding mailbox
         String query = "INSERT INTO admins (name, username, password_hash) VALUES('"+ name +"', '"+ user +"','"+ password_hash +"')";
         
@@ -1053,6 +1057,26 @@ public class Access {
         }
         return user_id;
     }
+    public boolean confirm_added_user(String user){
+        boolean return_me = false;
+        
+        String query = "SELECT admins.name, admins.username, admins.password_hash FROM admins WHERE admins.username='"+ user +"'";
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+          
+            if(rs.next()){
+                return_me = true;
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return return_me;
+    }
     public String password_hash(String password){
         String password_hash = "";
         Hash hash = new Hash();
@@ -1061,20 +1085,13 @@ public class Access {
         }
         catch(Exception ex){
                System.out.println("Could not hash password!");
-        }        
+        }
         return password_hash;
     }
     private Connection connect_to_db(){
         
-        String url="jdbc:oracle:thin:ccpe/ccpe@localhost:1521:XE";
+        Connect conn = new Connect();
+        return conn.connect();
         
-        try{
-            Connection con = DriverManager.getConnection(url);
-            return con;
-        }
-        catch(Exception e){
-            System.out.println(e.toString());
-            return null;
-        }
     }
 }

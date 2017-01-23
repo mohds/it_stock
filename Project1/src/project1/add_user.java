@@ -60,24 +60,31 @@ public class add_user extends HttpServlet {
             out.println("</head>");            
             out.println("<body>");
             out.println("<div id='MainContainer'>");
-            out.println("<h1>User successfully added</h1>");
             out.println("<div class='confirmation table'>");
-            out.println("<table>");
-            out.println("<tr>");
-            out.println("<th>Name: </th>");
-            out.println("<td>"+ name +"</td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<th>Username: </th>");
-            out.println("<td>"+ user +"</td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<th>Password Hash: </th>");
-            out.println("<td>"+ password_hash +"</td>");
-            out.println("</tr>");
-            out.println("");
-            out.println("</table><br>");
+            if(access.confirm_added_user(user)){
+                out.println("<h1>User successfully added</h1>");                
+                out.println("<table>");
+                out.println("<tr>");
+                out.println("<th>Name: </th>");
+                out.println("<td>"+ name +"</td>");
+                out.println("</tr>");
+                out.println("<tr>");
+                out.println("<th>Username: </th>");
+                out.println("<td>"+ user +"</td>");
+                out.println("</tr>");
+                out.println("<tr>");
+                out.println("<th>Password Hash: </th>");
+                out.println("<td>"+ password_hash +"</td>");
+                out.println("</tr>");
+                out.println("");
+                out.println("</table><br>");
+            }
+            else{
+                out.println("<h1>Failed to add user</h1>");
+                out.println("<a href='new_user.jsp'>< return</a><br>");
+            }
             out.println("</div>");
+            
             out.println("<a href='login.jsp'>Login</a>");
             out.println("</div>");
             out.println("</body></html>");

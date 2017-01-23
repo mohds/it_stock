@@ -4,6 +4,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1256"/>
         <title>new_user</title>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/user_check.js"></script>
     </head>
     <body>
         <div id='MainContainer'>
@@ -11,7 +13,7 @@
                 <h1>New User</h1>
                 <form action='add_user' method='POST'>
                     <span>Name:</span><input type='text' name='name'><br>
-                    <span>Username:</span><input type='text' name='username'><br>
+                    <span>Username:</span><input id='username' type='text' name='username'><span id='user-result'></span><br>
                     <span>Password:</span><input type='password' name='password'><br>
                     <input type='submit' value='Submit'>
                 </form>

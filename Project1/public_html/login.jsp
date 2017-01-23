@@ -15,7 +15,7 @@
                     <input type='password' value='' name='password'><br>
                     <input type='submit' value='Submit'><br>
                     <a href='#'>Forgot your password?</a><br>
-                    <a href='#'>New User?</a>
+                    <a href='new_user.jsp'>New User?</a>
                 </form>
             </div>
         </div>
