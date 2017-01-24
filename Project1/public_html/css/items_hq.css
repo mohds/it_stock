@@ -1,0 +1,15 @@
+@charset "windows-1256";
+
+#specs_values_region,#h3_specs_values_region
+{
+  top: 10%;
+  position: absolute;
+  left: 25%;
+}
+
+#h3_specs_values_region
+{
+  top: 5%;
+  position: absolute;
+  left: 25%;
+}

@@ -43,14 +43,13 @@
                 <br>
                 <h3>Enter Specs:</h3>
                 <label>Add Item of type:</label>
-                <select id="combobox">
+                <select>
                     <option value="">Select one...</option>
                     <% 
                         item.generate_combo_options("types", out);
                     %>
                 </select>
             </div>
-                
         </div>
     </body>
 </html>
