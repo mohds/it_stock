@@ -105,7 +105,36 @@
             <value n="id" v="Servlet Runtime"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <url n="id" path="../../../AppData/Roaming/JDeveloper/system12.2.1.2.42.161008.1648/o.jdeveloper/Json-simple-1.1.1.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../AppData/Roaming/JDeveloper/system12.2.1.2.42.161008.1648/o.jdeveloper/Gson-2.8.0-sources.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../AppData/Roaming/JDeveloper/system12.2.1.2.42.161008.1648/o.jdeveloper/Gson-2.6.2.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Gson-2.8.0-sources.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
+      <hash n="internalDefinitions">
+         <list n="libraryDefinitions">
+            <hash>
+               <list n="classPath">
+                  <url path="gson-2.8.0-sources.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Gson-2.8.0-sources.jar"/>
+               <value n="id" v="Gson-2.8.0-sources.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+         </list>
+      </hash>
       <list n="libraryReferences">
          <hash>
             <value n="id" v="JSP Runtime"/>
@@ -113,6 +142,22 @@
          </hash>
          <hash>
             <value n="id" v="Servlet Runtime"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../AppData/Roaming/JDeveloper/system12.2.1.2.42.161008.1648/o.jdeveloper/Json-simple-1.1.1.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../AppData/Roaming/JDeveloper/system12.2.1.2.42.161008.1648/o.jdeveloper/Gson-2.8.0-sources.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" path="../../../AppData/Roaming/JDeveloper/system12.2.1.2.42.161008.1648/o.jdeveloper/Gson-2.6.2.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Gson-2.8.0-sources.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
