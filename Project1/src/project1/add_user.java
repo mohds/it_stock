@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-
+// mohammad
 public class add_user extends HttpServlet {
     private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 
