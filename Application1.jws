@@ -29,4 +29,37 @@
    <list n="listOfChildren">
       <hash><url n="URL" path="Project1/Project1.jpr"/></hash>
    </list>
+   <hash n="oracle.jdeveloper.maven.compiler.MavenConfiguration">
+      <hash n="oracle.jdeveloper.maven.compiler.MavenConfiguration">
+         <value n="alwaysExecutePackageRadioButtonSelected" v="false"/>
+         <value n="defaultExecuteRadioButtonSelected" v="true"/>
+         <value n="resolveWorkspaceArtifactOn" v="false"/>
+      </hash>
+   </hash>
+   <hash n="oracle.jdeveloper.model.ApplicationLibraries">
+      <list n="libraryReferences">
+         <hash>
+            <url n="id" path="../../AppData/Roaming/JDeveloper/system12.2.1.2.42.161008.1648/o.jdeveloper/Gson-2.6.2.library"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+      </list>
+   </hash>
+   <hash n="oracle.jdeveloper.model.PathsConfiguration">
+      <hash n="ApplicationSrcContentSet">
+         <list n="pattern-filters">
+            <string v="+**"/>
+         </list>
+         <list n="url-path">
+            <url path="src/"/>
+         </list>
+      </hash>
+   </hash>
+   <hash n="oracle.mds.internal.dt.ide.CustOptions">
+      <list n="customizationLibraries">
+         <hash/>
+      </list>
+   </hash>
+   <hash n="ResourceBundleOptions">
+      <list n="RegisteredResourceBundles"/>
+   </hash>
 </jws:workspace>

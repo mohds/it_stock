@@ -19,7 +19,18 @@
     </head>
     <body>
         <div id="MainContainer">
-            <input id="type_combo" type="text">
+            <div class="ui-widget">
+                <label>Add Item of type: </label><input id="TypeCombo" name="type"><button id="NewTypeButton">New</button><br>
+                <h3>Enter Specs:</h3>
+                <label>Brand: </label><input type="text" name="brand"><button>New</button><br>
+                <label>Location: </label><input type="text" name="location"><button>New</button><br>                
+                <div id="ExtraSpecs"></div>
+                <div id="NewTypeDialog" title="Add a new type">
+                    <label>Name: </label><input type="text" name="type_name" /><br>                   
+                    <br>
+                    <button type="submit">Add</button>                    
+                </div>
+            </div>
         </div>
     </body>
 </html>
