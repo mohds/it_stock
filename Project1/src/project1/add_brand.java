@@ -1,18 +1,12 @@
 package project1;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-
-public class load_types extends HttpServlet {
+public class add_brand extends HttpServlet {
     private static final String CONTENT_TYPE = "text/html; charset=windows-1256";
 
     public void init(ServletConfig config) throws ServletException {
@@ -22,21 +16,16 @@ public class load_types extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
-        
-        Gson gson = new Gson();        
-        List<String> types = new ArrayList<String>();
-        String type_search = "";
-        type_search = request.getParameter("term");
-
-        types = Queries.get_types(type_search);        
-        out.println(gson.toJson(types));
-        
         out.close();
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
+        
+        String brand = request.getParameter("brand");
+        Queries.insert_into_table("brands", brand);
+        
         out.close();
     }
 }

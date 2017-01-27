@@ -1,7 +1,5 @@
 package project1;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -11,7 +9,7 @@ import java.util.List;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class get_specs extends HttpServlet {
+public class add_item extends HttpServlet {
     private static final String CONTENT_TYPE = "text/html; charset=windows-1256";
 
     public void init(ServletConfig config) throws ServletException {
@@ -21,6 +19,9 @@ public class get_specs extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
+        
+        
+        
         out.close();
     }
 
@@ -28,19 +29,17 @@ public class get_specs extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        // get the type selected in the autocomplete box of labeled "Add Item of type:"
-        String type = request.getParameter("type_selected");
+        // get sent attributes
+        String type = request.getParameter("type");
+        String brand = request.getParameter("brand");
+        String location = request.getParameter("location");
+        String label = request.getParameter("label");
+        String serial_number = request.getParameter("serial_number");
+        String condition = request.getParameter("condition");
+        String[] specs_names = request.getParameterValues("specs_names[]"); // sorted with respect to specs_values
+        String[] specs_values = request.getParameterValues("specs_values[]"); // sorted with respect to specs_names
         
-        // get specs of chosen type and add to list
-        List<String> specs = new ArrayList<String>();
-        specs = Queries.get_specs_of_type(type);
-        
-        // output as JSON
-        Gson gson = new Gson();
-        out.println(gson.toJson(specs));
-        
-        // test
-        // System.out.println(gson.toJson(specs));
+        Queries.add_item(label, location, brand, type, serial_number, condition, specs_names, specs_values);
         
         out.close();
     }

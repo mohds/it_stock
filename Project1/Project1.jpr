@@ -111,7 +111,7 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Gson-2.6.2"/>
+            <value n="id" v="Gson-2.8.0.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
@@ -119,16 +119,12 @@
          <list n="libraryDefinitions">
             <hash>
                <list n="classPath">
-                  <url path="gson 2.6.2/gson-2.6.2.jar" jar-entry=""/>
+                  <url path="gson 2.8.0/gson-2.8.0.jar" jar-entry=""/>
                </list>
-               <value n="description" v="Gson-2.6.2"/>
-               <list n="docPath">
-                  <url path="gson 2.6.2/gson-2.6.2-javadoc.jar" jar-entry=""/>
-               </list>
-               <value n="id" v="Gson-2.6.2"/>
-               <list n="sourcePath">
-                  <url path="gson 2.6.2/gson-2.6.2-sources.jar" jar-entry=""/>
-               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Gson-2.8.0.jar"/>
+               <value n="id" v="Gson-2.8.0.jar"/>
+               <value n="locked" v="true"/>
             </hash>
          </list>
       </hash>
@@ -146,7 +142,7 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Gson-2.6.2"/>
+            <value n="id" v="Gson-2.8.0.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

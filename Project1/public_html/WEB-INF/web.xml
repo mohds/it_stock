@@ -32,12 +32,36 @@
     <servlet-class>project1.items_hq</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>load_types</servlet-name>
-    <servlet-class>project1.load_types</servlet-class>
+    <servlet-name>get_types</servlet-name>
+    <servlet-class>project1.get_types</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>get_specs</servlet-name>
     <servlet-class>project1.get_specs</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>add_item</servlet-name>
+    <servlet-class>project1.add_item</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>get_brands</servlet-name>
+    <servlet-class>project1.get_brands</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>get_locations</servlet-name>
+    <servlet-class>project1.get_locations</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>get_conditions</servlet-name>
+    <servlet-class>project1.get_conditions</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>add_brand</servlet-name>
+    <servlet-class>project1.add_brand</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>add_location</servlet-name>
+    <servlet-class>project1.add_location</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>login</servlet-name>
@@ -69,11 +93,35 @@
     <url-pattern>/items_hq</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>load_types</servlet-name>
-    <url-pattern>/load_types</url-pattern>
+    <servlet-name>get_types</servlet-name>
+    <url-pattern>/get_types</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>get_specs</servlet-name>
     <url-pattern>/get_specs</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>add_item</servlet-name>
+    <url-pattern>/add_item</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>get_brands</servlet-name>
+    <url-pattern>/get_brands</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>get_locations</servlet-name>
+    <url-pattern>/get_locations</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>get_conditions</servlet-name>
+    <url-pattern>/get_conditions</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>add_brand</servlet-name>
+    <url-pattern>/add_brand</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>add_location</servlet-name>
+    <url-pattern>/add_location</url-pattern>
   </servlet-mapping>
 </web-app>
