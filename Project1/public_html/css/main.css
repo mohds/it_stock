@@ -1,2 +1,6 @@
 @charset "windows-1256";
 
+#message-box {
+    color:blue;
+    opacity:0.5;
+}

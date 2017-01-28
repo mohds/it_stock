@@ -39,7 +39,12 @@ public class add_item extends HttpServlet {
         String[] specs_names = request.getParameterValues("specs_names[]"); // sorted with respect to specs_values
         String[] specs_values = request.getParameterValues("specs_values[]"); // sorted with respect to specs_names
         
-        Queries.add_item(label, location, brand, type, serial_number, condition, specs_names, specs_values);
+        if(Queries.add_item(label, location, brand, type, serial_number, condition, specs_names, specs_values)){
+            out.println("Item added successfully");
+        }
+        else{
+            out.println("Cannot add item. Check input.");
+        }
         
         out.close();
     }

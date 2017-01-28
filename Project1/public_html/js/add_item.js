@@ -77,10 +77,77 @@ $(document).ready(function(){
     $("#AddLocationButton").on("click", function(){
         add_location();
     });
+    
+    $("#add_spec").on("click", function(){
+        add_spec();
+    });
+    
+    $("#AddTypeButton").on("click", function(){
+        add_type();
+    });
+    
+    
+    // input checker
+    var x_timer;    
+    $("#label").keyup(function (e){
+            clearTimeout(x_timer);
+            var label = $(this).val();
+            x_timer = setTimeout(function(){
+                    check_label_ajax(label);
+            }, 1000);
+    }); 
+
+    function check_label_ajax(label){
+            $("#label-result").html('<img src="images/ajax-loader.gif" />');
+            $.post('label_checker', {'label':label}, function(data) {
+              $("#label-result").html(data);
+            });
+    }
+    $("#serial_number").keyup(function (e){
+            clearTimeout(x_timer);
+            var serial = $(this).val();
+            x_timer = setTimeout(function(){
+                    check_serial_ajax(serial);
+            }, 1000);
+    }); 
+
+    function check_serial_ajax(serial){
+            $("#serial-result").html('<img src="images/ajax-loader.gif" />');
+            $.post('serial_checker', {'serial':serial}, function(data) {
+              $("#serial-result").html(data);
+            });
+    }
+    
 });
 
 // populate conditions select box
 get_conditions();
+
+var spec_id = 0; // will be used as a unique identifier for each added spec space
+
+function add_spec(){
+    var html_code = "<div id=\"spec_"+ spec_id +"\"><input type=\"text\" id=\"spec_input_"+ spec_id +"\" name=\"spec_new\" class=\"spec_new\"><button onclick=\"remove_spec("+ spec_id +")\">remove<\/button><br><\/div>";
+    
+    var selector = "#spec_input_"+ spec_id +"";
+    $(document).on('keydown.autocomplete', selector, function() {
+        $(this).autocomplete({
+            source: "get_all_specs_filtered",
+            minLength: 1
+        });
+    });
+    
+    //$("#spec_input_"+ spec_id +"").autocomplete({
+    //  source: "get_all_specs",
+    //  minLength: 1
+    //});
+    
+    $("#specs_list").append(html_code);
+    spec_id++;
+}
+
+function remove_spec(spec_id_){
+    $("#spec_"+ spec_id_ +"").remove();
+}
 
 function get_conditions(){
     $("#condition_options").html('');
@@ -94,6 +161,28 @@ function get_conditions(){
                 html_code += "<\/select>";
                 $("#condition_options").append(html_code);
     }, 'json');
+}
+
+function add_type(){
+    // first we get the main three attributes
+    var type = document.getElementById("type_name").value;
+    
+    // second we get the extra specs attributes
+    var specs_names = [];
+    var specs_temp = document.getElementsByClassName("spec_new");
+    for(var i = 0 ; i < specs_temp.length ; i++){
+        specs_names.push(specs_temp[i].value);
+    }
+    
+    $.post('add_type', {type: type,specs_names: specs_names}, 
+        function(returnedData){
+            
+    }, 'json');
+    
+    $("#NewTypeDialog").dialog("close");
+    $("#specs_list").html('');
+    document.getElementById("type_name").value = "";
+    
 }
 
 function add_brand(){
@@ -122,7 +211,7 @@ function add_location(){
 }
 
 function add_item(){
-    // first we get the main three attributes
+    // first we get the main attributes
     var type = document.getElementById("TypeCombo").value;
     var brand = document.getElementById("brand").value;
     var location = document.getElementById("location").value;
@@ -141,8 +230,8 @@ function add_item(){
     
     $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values}, 
         function(returnedData){
-            
-    }, 'json');    
+            $("#message-box").html(returnedData);
+    });    
 }
 
 function generate_extra_specs(type_selected){

@@ -12,6 +12,68 @@ public class Queries {
         super();
     }
     
+    
+    public static void add_type(String type, String[] specs){
+        
+        // deal with '+' chars
+        for(int i = 0 ; i < specs.length ; i++){
+            specs[i] = specs[i].replace('+', ' ');
+        }
+        type = type.replace('+', ' ');
+
+        String query = "INSERT INTO types(name) VALUES('"+ type +"')";
+        // query check
+        // System.out.println(query);              
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        String type_id = "type ID not found.";        
+        query = "SELECT id FROM types WHERE types.name = '"+ type +"' ";
+        // System.out.println(query);
+        con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()){
+                type_id = rs.getString("id");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        // add specs
+        for(int i = 0 ; i < specs.length ; i++){
+            insert_into_table("specs", specs[i]);
+        }
+        
+        // add to specs_types
+        for(int i = 0 ; i < specs.length ; i++) {            
+            String spec_id = get_id_from_name("specs", specs[i]);            
+            query = "INSERT INTO specs_types(spec_id, type_id) VALUES('"+ spec_id +"','"+ type_id +"')";
+            // query check
+            // System.out.println(query);              
+            con = connect_to_db();
+            try{
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate(query);
+                con.close();
+            }
+            catch(Exception e){
+                System.out.println(e.toString());
+            }
+        }
+    }
+    
+    
     public static void insert_into_table(String table, String name){
         
         String query = "INSERT INTO "+ table +" (name) VALUES('"+ name +"')";
@@ -57,6 +119,15 @@ public class Queries {
         String brand_id = get_id_from_name("brands", brand);
         String type_id = get_id_from_name("types", type);
         String condition_id = get_id_from_name("item_conditions", condition);
+        
+        // check if label / serial exist
+        Access access = new Access();
+        if(access.label_exists(label)){
+            return false;
+        }
+        else if(access.serial_exists(serial_number)){
+            return false;
+        }
         
         // now add item
         String query = "INSERT INTO items (label, location_id, brand_id, type_id, serial_number, condition_id) VALUES('"+ label +"','"+ location_id +"','"+ brand_id +"','"+ type_id +"','"+ serial_number +"','"+ condition_id +"')";  

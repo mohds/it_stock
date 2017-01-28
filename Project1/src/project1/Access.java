@@ -248,6 +248,42 @@ public class Access {
         return roles;
     }
     
+    public boolean label_exists(String label){
+        boolean exists = false;
+        String query = "SELECT id FROM items WHERE lower(label) = lower('"+ label +"') OR upper(label) = upper('"+ label +"')";
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                exists = true;
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return exists;   
+    }
+    public boolean serial_exists(String serial){
+        boolean exists = false;
+        String query = "SELECT id FROM items WHERE lower(serial_number) = lower('"+ serial +"') OR upper(serial_number) = upper('"+ serial +"')";
+        //System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                exists = true;
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return exists;   
+    }
+    
     public boolean user_exists(String user, String column_to_check){
         boolean exists = false;
         String query = "SELECT id FROM admins WHERE admins."+ column_to_check +" = '"+ user +"'";

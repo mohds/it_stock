@@ -21,20 +21,22 @@
         <div id="MainContainer">
             <div class="ui-widget">
                 <h2>Add a new Item</h2>
+                <span id="message-box"></span><br>
                 <label>Add Item of type: </label><input id="TypeCombo" name="type"/><button id="NewTypeButton">New</button><br>
                 <h3>Enter Specs:</h3>
-                <label>Label: </label><input type="text" id="label" name="label"/><br>
+                <label>Label: </label><input type="text" id="label" name="label"/><span id='label-result'></span><br>
                 <label>Brand: </label><input type="text" id="brand" name="brand"/><button id="NewBrandButton">New</button><br>
                 <label>Location: </label><input type="text" id="location" name="location"/><button id="NewLocationButton">New</button><br>
-                <label>Serial Number: </label><input type="text" id="serial_number" name="serial_number"/><br>
-                <label>Condition: </label>                
-                <div id="condition_options"></div><br>
+                <label>Serial Number: </label><input type="text" id="serial_number" name="serial_number"/><span id='serial-result'></span><br>
+                <label>Condition: </label><div id="condition_options"></div><br>
                 <div id="ExtraSpecs"></div>
                 <button type="button" id="AddItemButton">Add Item</button>
                 <div id="NewTypeDialog" title="Add a new type">
-                    <label>Name: </label><input type="text" name="type_name" /><br>                   
+                    <label>Name: </label><input type="text" name="type_name" id="type_name"/><br>                   
+                    <label>Specs: </label><button id="add_spec">Add</button><br>
+                    <div id="specs_list" ></div>
                     <br>
-                    <button type="submit">Add</button>                    
+                    <button id="AddTypeButton" type="button">Add</button>                    
                 </div>
                 <div id="NewBrandDialog" title="Add a new brand">
                     <label>Name: </label><input type="text" id="brand_to_add" name="brand_to_add" /><br>                   
