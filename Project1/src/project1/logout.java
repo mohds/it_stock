@@ -35,8 +35,8 @@ public class logout extends HttpServlet {
         
         session.invalidate();  
           
-        out.print("<h2 style=\"float:left\">You are successfully logged out!</h2>");  
-          
+        out.print("<h2 style=\"float:left\">You are successfully logged out!</h2><br>");  
+        out.print("<a href='login.jsp'>< login</a>");
         out.println("</div></body></html>");
           
         out.close();

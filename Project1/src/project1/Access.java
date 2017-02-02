@@ -19,6 +19,26 @@ public class Access {
     public Access() {
         super();
     }
+    public boolean update_access_groups(String[] admins, String[] access_levels){
+        boolean return_me = false;
+        for(int i = 0 ; i < admins.length ; i++){
+            String access_group_id = get_id_of_access_group(access_levels[i]);
+            String query = "UPDATE admins SET admins.access_group_id ='"+ access_group_id +"' WHERE admins.username = '"+ admins[i] +"' ";
+            Connection con = connect_to_db();
+            try{
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate(query);
+                con.close();
+                return_me = true;
+            }
+            catch(Exception e){
+                return_me = false;
+                System.out.println(e.toString());
+                return return_me;
+            }
+        }
+        return return_me;
+    }
     public void generate_hidden_data(String[] users, String role_to_manage, PrintWriter out){
         if(users != null){
             for(int i = 0 ; i < users.length ; i++){
@@ -149,6 +169,22 @@ public class Access {
         }
         
         return return_me;
+    }
+    public String get_access_level(String username){
+        String access_level = "Access level not found";
+        String query = "SELECT access_groups.name FROM access_groups, admins WHERE admins.access_group_id = access_groups.id AND admins.username = '"+ username +"' ";
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                access_level = rs.getString("name");
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        return access_level;
     }
     public boolean users_have_courses(List<String> user_ids){
         boolean return_me = false;
@@ -343,7 +379,7 @@ public class Access {
     public boolean login(String user, String password){
         boolean return_me = false;
         String password_hash = "";
-        String check_column = "name";
+        String check_column = "username";
         
         Hash hash = new Hash();
         try{
@@ -446,10 +482,10 @@ public class Access {
         
         return return_me;
     }
-    public List<String> get_users(){
+    public List<String> get_admins(){
         List<String> users = new ArrayList<String>();
         // find the id of the required access_group
-        String query = "SELECT people.username FROM people";
+        String query = "SELECT admins.username FROM admins";
         Connection con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
@@ -545,7 +581,7 @@ public class Access {
     }
     public void generate_users_list(PrintWriter out, HttpServletResponse response, HttpServletRequest request, String access_group){
         List<String> users = new ArrayList<String>();
-        users = get_users();
+        users = get_admins();
         
         for(Iterator<String> i = users.iterator(); i.hasNext(); ){
             String user = i.next();
@@ -559,7 +595,7 @@ public class Access {
     }
     public void generate_users(PrintWriter out, HttpServletResponse response, HttpServletRequest request, String role){
         List<String> users = new ArrayList<String>();
-        users = get_users();
+        users = get_admins();
         
         for(Iterator<String> i = users.iterator(); i.hasNext(); ){
             String user = i.next();
@@ -1058,21 +1094,21 @@ public class Access {
         }
         
         // now add user with corresponding mailbox
-        String query = "INSERT INTO admins (name, username, password_hash) VALUES('"+ name +"', '"+ user +"','"+ password_hash +"')";
+        String query = "INSERT INTO admins (name, username, password_hash, access_group_id) VALUES('"+ name +"', '"+ user +"','"+ password_hash +"', '4')";
         
-        //query check
-        System.out.println("Query: " + query);
+        // query check
+        //System.out.println("Query: " + query);
         
         Connection con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
-            stmt.executeUpdate(query);               
+            stmt.executeUpdate(query);
             con.close();
             return_me = true;
         }
         catch(Exception e){
             System.out.println(e.toString());
-        }                
+        }
         return return_me;
     }
     private String get_user_id(String user){

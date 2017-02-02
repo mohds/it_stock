@@ -19,6 +19,7 @@
     </head>
     <body>
         <div id="MainContainer">
+        <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
             <div class="ui-widget">
                 <h2>Add a new Item</h2>
                 <span id="message-box"></span><br>

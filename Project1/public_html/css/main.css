@@ -4,3 +4,24 @@
     color:blue;
     opacity:0.5;
 }
+
+#MainContainer {
+	
+}
+
+#MainContainer a {
+    text-decoration: none;
+}
+#index-table td:hover{
+    background-color: honeydew;
+}
+#index-table td{
+    color: black;
+    text-align: center;
+    padding: 20px 22px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+}
+#index-table table{    
+    border-collapse: collapse;
+}

@@ -41,8 +41,7 @@ public class login extends HttpServlet {
         String password = "";
         Access access = new Access();
         
-        user = request.getParameter("username"); // could be an email or username
-                
+        user = request.getParameter("username"); // could be an email or username        
         password = request.getParameter("password");
         
         // sql-injection protection        
@@ -50,12 +49,14 @@ public class login extends HttpServlet {
         password = access.filter_sql_injection(password);
         
         if(access.login(user, password)){
+            request.getRequestDispatcher("nav_bar.html").include(request, response);
             out.println("<h1 style=\"float:left\">Login successful</h1>");
             HttpSession session = request.getSession();
-            session.setAttribute("username",user); // reminder that user can be logged in with email.
+            session.setAttribute("username",user);
             
             Log log = new Log();
-            log.log("Logged in", request, session);
+            log.log("Logged in", request, session);            
+            
         }
         else{
             out.println("Login failed");

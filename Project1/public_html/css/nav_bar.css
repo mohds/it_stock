@@ -1,0 +1,22 @@
+#nav_bar ul {
+    list-style-type: none;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#nav_bar li{
+    float: left;
+}
+
+#nav_bar li a{
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#nav_bar a:hover{
+    background-color: aliceblue;
+}

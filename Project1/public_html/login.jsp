@@ -7,6 +7,7 @@
     </head>
     <body>
         <div id='MainContainer'>
+        <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
             <div class='login form'>
                 <form action='login' method='POST'>
                     <span>Username</span><br>

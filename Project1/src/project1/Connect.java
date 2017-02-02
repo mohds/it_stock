@@ -3,9 +3,12 @@ package project1;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import java.util.List;
+
 public class Connect {
     
     public Connection connect(){
+                
         String url="jdbc:oracle:thin:C##ITSTOCK/itst0ck@10.10.10.5:1521:orcl";
         
         try{
