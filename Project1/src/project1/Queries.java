@@ -12,7 +12,26 @@ public class Queries {
         super();
     }
     
-    
+    public static List<String> get_ids_filtered(String id, String table){
+        List<String> ids = new ArrayList<String>();
+            
+        String query = "SELECT id FROM "+ table +" WHERE id LIKE '%"+ id +"%' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                ids.add(rs.getString("id"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return ids;
+    }
     public static void add_type(String type, String[] specs){
         
         // deal with '+' chars

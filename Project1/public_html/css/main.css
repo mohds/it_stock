@@ -25,3 +25,6 @@
 #index-table table{    
     border-collapse: collapse;
 }
+.container{
+    float:left;
+}
