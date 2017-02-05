@@ -12,6 +12,27 @@ public class Queries {
         super();
     }
     
+    public static List<String> get_item_labels_filtered(String item_label){
+        List<String> labels = new ArrayList<String>();
+            
+        String query = "SELECT items.label FROM items WHERE lower(label) LIKE lower('%"+ item_label +"%') OR upper(label) LIKE ('%"+ item_label +"%') ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                labels.add(rs.getString("label"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return labels;
+    }
+    
     public static List<String> get_ids_filtered(String id, String table){
         List<String> ids = new ArrayList<String>();
             

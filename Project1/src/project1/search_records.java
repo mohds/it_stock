@@ -16,6 +16,21 @@ public class search_records extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
+        
+        String ReceiptId = request.getParameter("ReceiptId");
+        String item_label = request.getParameter("item_label");
+        String Borrower = request.getParameter("Borrower");
+        String Receiver = request.getParameter("Receiver");
+        String BorrowBeforeDate = request.getParameter("BorrowBeforeDate");
+        String BorrowAfterDate = request.getParameter("BorrowAfterDate");
+        String ReturnBeforeDate = request.getParameter("ReturnBeforeDate");
+        String ReturnAfterDate = request.getParameter("ReturnAfterDate");
+        String ItemType = request.getParameter("ItemType");
+        String ReceiptStatus = request.getParameter("ReceiptStatus");
+        String ItemStatus = request.getParameter("ItemStatus");
+        
+        Records.generate_results(ReceiptId, item_label, Borrower, Receiver, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, ItemStatus, out);
+                
         out.close();
     }
 
@@ -23,16 +38,6 @@ public class search_records extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        String ReceiptId = request.getParameter("ReceiptId");
-        String Borrower = request.getParameter("Borrower");
-        String Receiver = request.getParameter("Receiver");
-        String BeforeDate = request.getParameter("BeforeDate");
-        String AfterDate = request.getParameter("AfterDate");
-        String ItemType = request.getParameter("ItemType");
-        String ReceiptStatus = request.getParameter("ReceiptStatus");
-        String ItemStatus = request.getParameter("ItemStatus");
-        
-        Records.generate_results(ReceiptId, Borrower, Receiver, BeforeDate, AfterDate, ItemType, ReceiptStatus, ItemStatus);
         
         out.close();
     }
