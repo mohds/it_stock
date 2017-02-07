@@ -32,6 +32,25 @@ public class Queries {
         
         return labels;
     }
+    public static String get_id_from_username(String username){
+        String id = "";
+        String query = "SELECT id FROM admins WHERE username =  '"+ username +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                id = rs.getString("id");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return id;
+    }
     
     public static List<String> get_ids_filtered(String id, String table){
         List<String> ids = new ArrayList<String>();

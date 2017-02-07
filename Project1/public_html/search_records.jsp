@@ -24,7 +24,7 @@
                 <label>Receipt ID: </label><input type="text" id="ReceiptId" /><br>
                 <label>Item Label: </label><input type="text" id="ItemLabel" /><br>
                 <label>Borrower: </label><input type="text" id="Borrower" /><br>
-                <label>Receiver: </label><input type="text" id="Receiver" /><br>
+                <label>IT admin: </label><input type="text" id="AdminCheckerId" /><br>
                 <label>Borrowed Before: </label><input type="text" id="BorrowBeforeDate" /><br>
                 <label>Borrowed After: </label><input type="text" id="BorrowAfterDate" /><br>
                 <label>Returned Before: </label><input type="text" id="ReturnBeforeDate" /><br>
@@ -56,7 +56,6 @@
                         <th>Borrower</th>
                         <th>Borrow Date</th>
                         <th>Return Date</th>
-                        <th>Status</th>
                         <th>Details</th>
                     </tr>
                 </table>
@@ -66,7 +65,7 @@
                 <label>Item Label:</label><span id="ItemLabel_dialog"></span><br>
                 <label>Item Type:</label><span id="ItemType_dialog"></span><br>
                 <label>Borrower:</label><span id="Borrower_dialog"></span><br>
-                <label>IT Admin:</label><span id="Admin_dialog"></span><br>
+                <label>IT Admin:</label><span id="AdminChecker_dialog"></span><br>
                 <label>Borrowed On:</label><span id="BorrowDate_dialog"></span><br>
                 <label>Returned On:</label><span id="ReturnDate_dialog"></span><br>
                 <label>Receipt ID:</label><span id="ReceiptId_dialog"></span><br>
@@ -81,6 +80,16 @@
                 <label>Condition:</label><span id="ReturnDate_ItemDialog"></span><br>
                 <label>Availability:</label><span id="ReceiptId_ItemDialog"></span><br>
                 <div id="ItemSpecs"></div>
+            </div>
+            <div id="ReturnDialog">
+                <span id="ReturnTitle"></span></br>
+                <label>Returned By: </label><input type="text" id="ClientReturner_ReturnDialog"><button id="AddClient_ReturnDialog">New</button></br>
+                <span id="ConfirmReturnButton"></span>
+            </div>
+            <div id="NewClientDialog">
+                <span id="">New client</span></br>
+                <label>Client name: </label><input type="text" id="NewClientName"></br>
+                <button id="AddNewClientButton">Add</button>
             </div>
         </div>
     </body>

@@ -1,13 +1,13 @@
 package project1;
 
 public class RecordDetailed {
-    private String record_id, admin, item_id, item_label, item_type, borrower, borrow_date, return_date, status, receipt_id;
+    private String record_id, admin_checker, item_id, item_label, item_type, borrower, borrow_date, return_date, status, receipt_id;
     
     public String get_item_label(){
         return item_label;
     }
     public String get_admin(){
-        return admin;
+        return admin_checker;
     }
     public String get_item_id(){
         return item_id;
@@ -62,13 +62,13 @@ public class RecordDetailed {
         receipt_id = s;
     }
     public void set_admin(String s){
-        admin = s;
+        admin_checker = s;
     }
     
-    public RecordDetailed(String record_id, String admin, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status, String receipt_id) {
+    public RecordDetailed(String record_id, String admin_checker, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status, String receipt_id) {
         super();
         set_record_id(record_id);
-        set_admin(admin);
+        set_admin(admin_checker);
         set_item_id(item_id);
         set_item_label(item_label);
         set_item_type(item_type);

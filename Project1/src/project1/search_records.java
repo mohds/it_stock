@@ -20,7 +20,7 @@ public class search_records extends HttpServlet {
         String ReceiptId = request.getParameter("ReceiptId");
         String item_label = request.getParameter("item_label");
         String Borrower = request.getParameter("Borrower");
-        String Receiver = request.getParameter("Receiver");
+        String AdminCheckerId = request.getParameter("AdminCheckerId");
         String BorrowBeforeDate = request.getParameter("BorrowBeforeDate");
         String BorrowAfterDate = request.getParameter("BorrowAfterDate");
         String ReturnBeforeDate = request.getParameter("ReturnBeforeDate");
@@ -29,7 +29,7 @@ public class search_records extends HttpServlet {
         String ReceiptStatus = request.getParameter("ReceiptStatus");
         String ItemStatus = request.getParameter("ItemStatus");
         
-        Records.generate_results(ReceiptId, item_label, Borrower, Receiver, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, ItemStatus, out);
+        Records.generate_results(ReceiptId, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, ItemStatus, out);
                 
         out.close();
     }

@@ -11,6 +11,12 @@
 
 }
 
+#MainContainer .pending{
+    background-color: #FFc0cb;
+}
+#MainContainer .done{
+    background-color: #33CC56;
+}
 
 #LeftContainer label{
     display: inline-block;
