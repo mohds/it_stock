@@ -13,3 +13,32 @@
   position: absolute;
   left: 25%;
 }
+
+#results_region
+{
+  top: 10%;
+  position:absolute;
+  left: 50%;
+}
+#h3_search_results_id
+{
+  top: 5%;
+  position:absolute;
+  left: 50%;
+}
+
+
+
+#div_add_new_specs_popup
+{
+  top:55%;
+  position: absolute;
+  left: 35%;
+}
+
+#popup_specs_values_region
+{
+  top: 55%;
+  position: absolute;
+  left: 65%;
+}

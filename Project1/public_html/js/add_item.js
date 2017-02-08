@@ -211,6 +211,9 @@ function add_location(){
 }
 
 function add_item(){
+    
+    $("#message-box").html("Adding new Item please wait.");
+    
     // first we get the main attributes
     var type = document.getElementById("TypeCombo").value;
     var brand = document.getElementById("brand").value;

@@ -23,6 +23,35 @@
     <servlet-class>project1.generate_items_table</servlet-class>
   </servlet>
   
+  
+  
+  <servlet>
+    <servlet-name>get_specs_popup</servlet-name>
+    <servlet-class>project1.get_specs_popup</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>popup_update</servlet-name>
+    <servlet-class>project1.popup_update</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>delete_item</servlet-name>
+    <servlet-class>project1.delete_item</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>show_receipt_popup</servlet-name>
+    <servlet-class>project1.show_receipt_popup</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>create_receipt_and_records</servlet-name>
+    <servlet-class>project1.create_receipt_and_records</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>delete_item_spec</servlet-name>
+    <servlet-class>project1.delete_item_spec</servlet-class>
+  </servlet>
+  
+  
+  
   <servlet>
     <servlet-name>generate_specs_select</servlet-name>
     <servlet-class>project1.generate_specs_select</servlet-class>
@@ -139,6 +168,35 @@
     <servlet-name>generate_items_table</servlet-name>
     <url-pattern>/generate_items_table</url-pattern>
   </servlet-mapping>
+  
+  
+  
+  <servlet-mapping>
+    <servlet-name>get_specs_popup</servlet-name>
+    <url-pattern>/get_specs_popup</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>popup_update</servlet-name>
+    <url-pattern>/popup_update</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>delete_item</servlet-name>
+    <url-pattern>/delete_item</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>show_receipt_popup</servlet-name>
+    <url-pattern>/show_receipt_popup</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>create_receipt_and_records</servlet-name>
+    <url-pattern>/create_receipt_and_records</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>delete_item_spec</servlet-name>
+    <url-pattern>/delete_item_spec</url-pattern>
+  </servlet-mapping>
+  
+  
   
   <servlet-mapping>
     <servlet-name>generate_specs_select</servlet-name>

@@ -13,6 +13,7 @@
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-1.12.4.js"></script>
         <script src="js/jquery-ui.js"></script>
+        <script src="js/jquery.printElement.min.js"></script>
         <script src="js/search_records.js"></script>
                 
     </head>
@@ -60,6 +61,7 @@
                     </tr>
                 </table>
             </div>
+            <!--<button onClick="print_table()">Print Table</button>-->
             <div id="ViewDetailsDialog">
                 <label>Item ID:</label><span id="ItemId_dialog"></span><br>
                 <label>Item Label:</label><span id="ItemLabel_dialog"></span><br>

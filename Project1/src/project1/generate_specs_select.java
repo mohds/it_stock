@@ -28,14 +28,15 @@ public class generate_specs_select
   {
     response.setContentType(CONTENT_TYPE);
     PrintWriter out = response.getWriter();
-    String selected_type = request.getParameter("selected_type");
-    
-    connect_to_db connect = new connect_to_db();
-    Connection con = connect.connect();
+    String selected_type = request.getParameter("selected_type"); //get selected type name from request parameter
     
     db_queries queries = new db_queries();
     
-    List<String> type_specs_list = queries.get_type_specs(selected_type);
+    List<String> type_specs_list = queries.get_type_specs(selected_type); //list contains all relevant spec names of selected type
+    
+    //Select element for relevant specs
+    //
+    //
     
     out.println("<label>Specs: </label><select name = 'select_item_specs' id = 'select_item_specs' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
     out.println("<option value = 'Please select'>Please select</option>");
@@ -44,7 +45,8 @@ public class generate_specs_select
       out.println("<option value = '" + type_specs_list.get(i) + "'>" + type_specs_list.get(i) + "</option>");
     }
     out.println("</select>");
-    out.println("<input id = 'add_spec_button' type = 'button' value = 'Add' onclick = 'add_spec();' />");
+    
+    out.println("<input id = 'add_spec_button' type = 'button' value = 'Add' onclick = 'add_spec();' />");  //add button, onclick, call add_spec() from get_type_specs.js
     out.close();
   }
 }

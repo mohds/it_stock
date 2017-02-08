@@ -107,6 +107,10 @@ $(document).ready(function(){
     });
 });
 
+function print_table(){
+    $("MainContainer").printElement();
+}
+
 function add_client(){
     var client = document.getElementById("NewClientName").value;
     
