@@ -6,7 +6,14 @@ function show_specs(item_id)  //show popup containing item details
               autoOpen: false,
               resizable: false,
               width: 'auto',
-              effect: 'slide'
+              show: {
+                  effect: "slide",
+                  duration: 200
+              },
+              hide: {
+                  effect: "slide",
+                  duration: 200
+              }
       });      
       
       $.get('get_specs_popup', {'item_id':item_id}, function(data)
