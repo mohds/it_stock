@@ -28,8 +28,10 @@ public class search_records extends HttpServlet {
         String ItemType = request.getParameter("ItemType");
         String ReceiptStatus = request.getParameter("ReceiptStatus");
         String ItemStatus = request.getParameter("ItemStatus");
+        String lower_bound = request.getParameter("lower_bound");
+        String upper_bound = request.getParameter("upper_bound");
         
-        Records.generate_results(ReceiptId, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, ItemStatus, out);
+        Records.generate_results(ReceiptId, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, ItemStatus, out, lower_bound, upper_bound);
                 
         out.close();
     }

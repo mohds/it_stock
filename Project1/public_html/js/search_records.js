@@ -45,8 +45,20 @@ $(document).ready(function(){
     });
     
     // buttons
+    $("#NextButton").on("click", function(){
+        lower_bound += 15;
+        upper_bound += 15;
+        search(lower_bound, upper_bound);
+    });
+    $("#PreviousButton").on("click", function(){
+        lower_bound -= 15;
+        upper_bound -= 15;
+        search(lower_bound, upper_bound);
+    });
     $("#SearchButton").on("click", function(){
-        search();
+        lower_bound = 0;
+        upper_bound = 15;
+        search(lower_bound, upper_bound);
     });
     $("#AddNewClientButton").on("click", function(){
         add_client();
@@ -85,6 +97,7 @@ $(document).ready(function(){
     });
     $("#ReturnDialog").dialog({
         autoOpen: false,
+        width: 400,
         show: {
             effect: "slide",
             duration: 200
@@ -107,6 +120,11 @@ $(document).ready(function(){
     });
 });
 
+// define global variables
+// variables to be used in upper and lower bounds of number of records
+var upper_bound = 15;
+var lower_bound = 0;
+
 function print_table(){
     $("MainContainer").printElement();
 }
@@ -127,12 +145,19 @@ function add_client(){
 function return_item(record_id, row_id){
     
     var client_returner = document.getElementById("ClientReturner_ReturnDialog").value;
+    var new_location = document.getElementById("NewLocation_ReturnDialog").value;
     
-    $.get('return_item', {record_id: record_id, client_returner: client_returner}, function(returnedData){
-       document.getElementById(row_id).cells[5].innerHTML = returnedData; 
+    $.get('return_item', {record_id: record_id, client_returner: client_returner, new_location: new_location}, function(returnedData){
+        if(returnedData.includes("ERROR")){
+            // do nothing
+        }
+        else{
+            $("#ReturnDialog").dialog("close");
+            document.getElementById(row_id).cells[5].innerHTML = returnedData;            
+            document.getElementById(row_id).setAttribute("class", "done");
+        }
     });
-    $("#ReturnDialog").dialog("close");
-    document.getElementById(row_id).setAttribute("class", "done");
+    
     
 }
 function view_return(record_id, item_label, row_id){
@@ -155,41 +180,45 @@ function view_return(record_id, item_label, row_id){
         source: "get_clients",
         minLength: 1
     });
+    $("#NewLocation_ReturnDialog").autocomplete({
+        source: "get_locations",
+        minLength: 1
+    });
     
 }
 
 function view_receipt(receipt_id){
     clear_all_input();
     document.getElementById("ReceiptId").value = receipt_id;
-    search();
+    search(lower_bound, upper_bound);
     $("#ViewDetailsDialog").dialog("close");        
     clear_details_dialog();
 }
 function view_type_history(item_type){
     clear_all_input();
     document.getElementById("ItemType").value = item_type;
-    search();
+    search(lower_bound, upper_bound);
     $("#ViewDetailsDialog").dialog("close");        
     clear_details_dialog(); 
 }
 function view_item_history(item_label){
     clear_all_input();
     document.getElementById("ItemLabel").value = item_label;
-    search();
+    search(lower_bound, upper_bound);
     $("#ViewDetailsDialog").dialog("close");        
     clear_details_dialog();    
 }
 function view_borrower_history(borrower){
     clear_all_input();
     document.getElementById("Borrower").value = borrower;
-    search();
+    search(lower_bound, upper_bound);
     $("#ViewDetailsDialog").dialog("close");        
     clear_details_dialog();    
 }
 function view_admin_history(admin){
     clear_all_input();
     document.getElementById("AdminCheckerId").value = admin;
-    search();
+    search(lower_bound, upper_bound);
     $("#ViewDetailsDialog").dialog("close");        
     clear_details_dialog();    
 }
@@ -239,7 +268,7 @@ function view_more(record_id){
     $("#ViewDetailsDialog").dialog("open");
 }
 
-function search(){
+function search(lower_bound, upper_bound){
     var ReceiptId = document.getElementById("ReceiptId").value;
     var item_label = document.getElementById("ItemLabel").value;
     var Borrower = document.getElementById("Borrower").value;
@@ -252,7 +281,7 @@ function search(){
     var ReceiptStatus = document.getElementById("ReceiptStatus").value;
     var ItemStatus = document.getElementById("ItemStatus").value;
         
-    $.getJSON('search_records', {ReceiptId: ReceiptId, item_label: item_label, Borrower: Borrower, AdminCheckerId: AdminCheckerId, BorrowBeforeDate: BorrowBeforeDate, BorrowAfterDate: BorrowAfterDate, ReturnBeforeDate: ReturnBeforeDate, ReturnAfterDate: ReturnAfterDate, ItemType: ItemType, ReceiptStatus: ReceiptStatus, ItemStatus: ItemStatus},
+    $.getJSON('search_records', {ReceiptId: ReceiptId, item_label: item_label, Borrower: Borrower, AdminCheckerId: AdminCheckerId, BorrowBeforeDate: BorrowBeforeDate, BorrowAfterDate: BorrowAfterDate, ReturnBeforeDate: ReturnBeforeDate, ReturnAfterDate: ReturnAfterDate, ItemType: ItemType, ReceiptStatus: ReceiptStatus, ItemStatus: ItemStatus, lower_bound: lower_bound, upper_bound: upper_bound},
         function(returnedData){                    
             // remove all rows except first
             $("#ResultsTable").find("tr:gt(0)").remove();            

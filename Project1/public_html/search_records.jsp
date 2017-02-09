@@ -19,6 +19,7 @@
     </head>
     <body>
         <div id="MainContainer">
+            <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
             <h2>Search records</h2>
             <span id="message-box"></span>
             <div class="container" id="LeftContainer">
@@ -60,6 +61,8 @@
                         <th>Details</th>
                     </tr>
                 </table>
+                </br>
+                <button id="PreviousButton">< Previous</button><button id="NextButton">Next ></button>
             </div>
             <!--<button onClick="print_table()">Print Table</button>-->
             <div id="ViewDetailsDialog">
@@ -86,6 +89,7 @@
             <div id="ReturnDialog">
                 <span id="ReturnTitle"></span></br>
                 <label>Returned By: </label><input type="text" id="ClientReturner_ReturnDialog"><button id="AddClient_ReturnDialog">New</button></br>
+                <label>To Location: </label><input type="text" id="NewLocation_ReturnDialog"><button id="AddLocation_ReturnDialog">New</button></br>
                 <span id="ConfirmReturnButton"></span>
             </div>
             <div id="NewClientDialog">

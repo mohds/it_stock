@@ -11,7 +11,7 @@ import java.util.List;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class get_specs extends HttpServlet {
+public class save_specs_names extends HttpServlet {
     private static final String CONTENT_TYPE = "text/html; charset=windows-1256";
 
     public void init(ServletConfig config) throws ServletException {
@@ -28,23 +28,18 @@ public class get_specs extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        // get the type selected in the autocomplete box of labeled "Add Item of type:"
-        String type = request.getParameter("type_selected");
+        String[] specs_names = request.getParameterValues("specs_names[]");
+        String[] specs_ids = request.getParameterValues("specs_ids[]");
+        String type = request.getParameter("type");
         
-        // get specs of chosen type and add to list
         List<Spec> specs = new ArrayList<Spec>();
-        List<String> specs_names = Queries.get_specs_of_type(type);
-        for(int i = 0 ; i < specs_names.size() ; i++) {
-            String spec_id = Queries.get_id_from_name("specs", specs_names.get(i));
-            specs.add(new Spec(specs_names.get(i), spec_id));
+        
+        for(int i = 0 ; i < specs_names.length ; i++){
+            specs.add(new Spec(specs_names[i], specs_ids[i]));
         }
         
-        // output as JSON
-        Gson gson = new Gson();
-        out.println(gson.toJson(specs));
+        Queries.save_specs_names(specs, type);     
         
-        // test
-        // System.out.println(gson.toJson(specs));
         
         out.close();
     }

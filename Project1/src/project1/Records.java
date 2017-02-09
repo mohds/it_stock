@@ -21,15 +21,20 @@ public class Records {
         super();
     }
     
-    public static void return_item(String record_id, String client_returner, PrintWriter out, String admin_receiver){
-        
+    public static boolean return_item(String record_id, String client_returner, PrintWriter out, String admin_receiver, String new_location){
+                
         String current_datetime = "";
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         current_datetime = dateFormat.format(date);
         
         String client_returner_id = Queries.get_id_from_name("clients", client_returner);
+        String location_id = Queries.get_id_from_name("locations", new_location);
         String admin_receiver_id = Queries.get_id_from_username(admin_receiver);
+        
+        if(location_id.contains("not_found") || client_returner_id.contains("not_found")){
+            return false;
+        }
         
         String query = "UPDATE records SET records.return_datetime = TO_TIMESTAMP('"+ current_datetime +"','DD/MM/YYYY HH24:MI:SS.FF'), records.client_returner_id = '"+ client_returner_id +"', records.admin_receiver_id = '"+ admin_receiver_id +"' WHERE records.id = '"+ record_id +"' ";
         Connection con = connect_to_db();
@@ -78,7 +83,8 @@ public class Records {
         catch(Exception e){
             System.out.println(e.toString());
         }
-        query = "UPDATE items SET items.availability = '1' WHERE items.id = '"+ item_id +"' ";
+        
+        query = "UPDATE items SET items.availability = '1', items.location_id = '"+ location_id +"' WHERE items.id = '"+ item_id +"' ";
         con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
@@ -94,12 +100,14 @@ public class Records {
         DateFormat dateFormat_return = new SimpleDateFormat("dd/MM/yyyy");
         out.println(dateFormat_return.format(date_return));
         
+        return true;
+        
     }
     
     public static boolean receipt_closed(String receipt_id){
         boolean return_me = true;
         
-        String query = "SELECT * FROM records, receipts WHERE  records.return_datetime IS NULL AND records.receipt_id = '"+ receipt_id +"' AND records.receipt_id = receipts.id";
+        String query = "SELECT records.id FROM records, receipts WHERE  records.return_datetime IS NULL AND records.receipt_id = '"+ receipt_id +"' AND records.receipt_id = receipts.id";
         // System.out.println(query);
         
         Connection con = connect_to_db();
@@ -215,7 +223,7 @@ public class Records {
         out.println(gson.toJson(record));
     }
     
-    public static void generate_results(String ReceiptId, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String ItemStatus, PrintWriter out){
+    public static void generate_results(String ReceiptId, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
         String query = "SELECT records.id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
         
         if(!(ReceiptId.length() == 0)){
@@ -277,6 +285,12 @@ public class Records {
         
         // add deleted check
         query += " AND ITEMS.deleted = '0'";
+                
+        // add order
+        query += " ORDER BY ID DESC";
+        
+        // add limits
+        query = "SELECT * FROM (SELECT ROWNUM rn, id, label, type, client, borrow_datetime, return_datetime, status FROM("+ query + ")) WHERE rn > "+ lower_bound +" AND rn <= "+ upper_bound +"";
         
         // query check
         // System.out.println(query);

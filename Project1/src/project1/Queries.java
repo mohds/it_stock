@@ -12,6 +12,58 @@ public class Queries {
         super();
     }
     
+    public static boolean spec_exists(String spec){
+        boolean return_me = false;
+        
+        String query = "SELECT id FROM specs where specs.name = '"+ spec +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()){
+                return_me = true;
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return return_me;
+    }
+    
+    public static boolean save_specs_names(List<Spec> specs, String type){
+        boolean return_me = false;
+        
+        for(int i = 0 ; i < specs.size() ; i++){
+            Spec spec = specs.get(i);
+            String spec_id = spec.get_spec_id();
+            String spec_name = spec.get_spec_name();
+            
+            if(spec_exists(spec_name)){
+                
+            }
+            else{
+                String query = "UPDATE specs SET specs.name = '"+ spec_name +"' WHERE specs.id = '"+ spec_id +"' ";
+                // query check
+                // System.out.println(query);              
+                Connection con = connect_to_db();
+                try{
+                    Statement stmt = con.createStatement();
+                    stmt.executeUpdate(query);
+                    con.close();
+                }
+                catch(Exception e){
+                    System.out.println(e.toString());
+                }
+            }            
+            
+        }
+        
+        return return_me;
+    }
+    
     public static List<String> get_item_labels_filtered(String item_label){
         List<String> labels = new ArrayList<String>();
             
@@ -74,9 +126,11 @@ public class Queries {
     }
     public static void add_type(String type, String[] specs){
         
-        // deal with '+' chars
-        for(int i = 0 ; i < specs.length ; i++){
-            specs[i] = specs[i].replace('+', ' ');
+        if(specs != null){
+            // deal with '+' chars
+            for(int i = 0 ; i < specs.length ; i++){
+                specs[i] = specs[i].replace('+', ' ');
+            }
         }
         type = type.replace('+', ' ');
 
@@ -109,25 +163,27 @@ public class Queries {
             System.out.println(e.toString());
         }
         
-        // add specs
-        for(int i = 0 ; i < specs.length ; i++){
-            insert_into_table("specs", specs[i]);
-        }
-        
-        // add to specs_types
-        for(int i = 0 ; i < specs.length ; i++) {            
-            String spec_id = get_id_from_name("specs", specs[i]);            
-            query = "INSERT INTO specs_types(spec_id, type_id) VALUES('"+ spec_id +"','"+ type_id +"')";
-            // query check
-            // System.out.println(query);              
-            con = connect_to_db();
-            try{
-                Statement stmt = con.createStatement();
-                stmt.executeUpdate(query);
-                con.close();
+        if(specs != null) {
+            // add specs
+            for(int i = 0 ; i < specs.length ; i++){
+                insert_into_table("specs", specs[i]);
             }
-            catch(Exception e){
-                System.out.println(e.toString());
+            
+            // add to specs_types
+            for(int i = 0 ; i < specs.length ; i++) {            
+                String spec_id = get_id_from_name("specs", specs[i]);            
+                query = "INSERT INTO specs_types(spec_id, type_id) VALUES('"+ spec_id +"','"+ type_id +"')";
+                // query check
+                // System.out.println(query);              
+                con = connect_to_db();
+                try{
+                    Statement stmt = con.createStatement();
+                    stmt.executeUpdate(query);
+                    con.close();
+                }
+                catch(Exception e){
+                    System.out.println(e.toString());
+                }
             }
         }
     }
@@ -181,10 +237,10 @@ public class Queries {
         
         // check if label / serial exist
         Access access = new Access();
-        if(access.label_exists(label)){
+        if(access.label_exists(label) && label != null){
             return false;
         }
-        else if(access.serial_exists(serial_number)){
+        else if(access.serial_exists(serial_number) && serial_number != null){
             return false;
         }
         
@@ -199,7 +255,9 @@ public class Queries {
             con.close();
         }
         catch(Exception e){
+            System.out.println(query);
             System.out.println(e.toString());
+            return false;
         }
         
         // wait a second
@@ -210,52 +268,58 @@ public class Queries {
             System.out.println(ex);
         }
         
-        // we will now get the added item's id
-        // not the best practice
-        // migrate to PL SQL in updates
-        String item_id = "Item ID not found.";        
-        query = "SELECT id FROM items ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
-        // System.out.println(query);
-        con = connect_to_db();
-        try{
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            if(rs.next()){
-                item_id = rs.getString("id");
-            }
-            con.close();
-        }
-        catch(Exception e){
-            System.out.println(e.toString());
-        }
         
-        // now add specs and their values
-        for(int i = 0 ; i < specs_names.length ; i++){
-            String spec_id = get_id_from_name("specs", specs_names[i]);
-            query = "INSERT INTO itemspecvalues (value, spec_id, item_id) VALUES('"+ specs_values[i] +"','"+ spec_id +"','"+ item_id +"')";  
-            // query check
-            // System.out.println(query);              
+        if(specs_names != null){
+            // we will now get the added item's id
+            // not the best practice
+            // migrate to PL SQL in updates
+            String item_id = "Item ID not found.";        
+            query = "SELECT id FROM items ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
+            // System.out.println(query);
             con = connect_to_db();
             try{
                 Statement stmt = con.createStatement();
-                stmt.executeUpdate(query);
-                return_me = true;
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs.next()){
+                    item_id = rs.getString("id");
+                }
                 con.close();
             }
             catch(Exception e){
                 System.out.println(e.toString());
+            }            
+        
+            // now add specs and their values
+            for(int i = 0 ; i < specs_names.length ; i++){
+                String spec_id = get_id_from_name("specs", specs_names[i]);
+                query = "INSERT INTO itemspecvalues (value, spec_id, item_id) VALUES('"+ specs_values[i] +"','"+ spec_id +"','"+ item_id +"')";  
+                // query check
+                // System.out.println(query);              
+                con = connect_to_db();
+                try{
+                    Statement stmt = con.createStatement();
+                    stmt.executeUpdate(query);
+                    return_me = true;
+                    con.close();
+                }
+                catch(Exception e){
+                    System.out.println(e.toString());
+                }
             }
+        }
+        else{
+            return_me = true;
         }
         
         return return_me;
     }
     
     public static String get_id_from_name(String table, String name){
-        String id = "ID not found for table " + table + " and name " + name;
+        String id = "not_found";
         
         name = name.replace("+", " ");
         
-        String query = "SELECT id FROM "+ table +" WHERE name = '"+ name +"' ";
+        String query = "SELECT id FROM "+ table +" WHERE upper(name) = upper('"+ name +"') ";
         // System.out.println(query);
         Connection con = connect_to_db();
         try{
@@ -267,6 +331,7 @@ public class Queries {
         }
         catch(Exception e){
             System.out.println(e.toString());
+            System.out.println(query);
         }
         
         return id;

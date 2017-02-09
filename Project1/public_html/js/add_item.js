@@ -87,6 +87,7 @@ $(document).ready(function(){
     });
     
     
+    
     // input checker
     var x_timer;    
     $("#label").keyup(function (e){
@@ -237,12 +238,35 @@ function add_item(){
     });    
 }
 
+function save_specs_names(){
+    var specs_names = [];
+    var specs_ids = [];
+    var type = document.getElementById("TypeCombo").value;
+    var specs_names_temp = document.getElementsByClassName("spec_name");
+    for(var i = 0 ; i < specs_names_temp.length ; i++){
+        specs_names.push(specs_names_temp[i].innerHTML);       
+    }
+    var specs_ids_temp = document.getElementsByClassName("spec_id");
+    for(var j = 0 ; j < specs_ids_temp.length ; j++){
+        specs_ids.push(specs_ids_temp[j].value);       
+    }
+    $.post('save_specs_names', {type: type, specs_names: specs_names, spec_id: spec_id, specs_ids: specs_ids}, 
+        function(returnedData){
+            
+    });
+}
+
 function generate_extra_specs(type_selected){
     $("#ExtraSpecs").html('');
     $.post('get_specs', {type_selected: type_selected}, 
         function(returnedData){
                 for( i = 0 ; i < returnedData.length ; i++ ){
-                    $("#ExtraSpecs").append('<label>' + returnedData[i] + ': <\/label><input type=\"text\" class=\"spec\" name=\"' + returnedData[i] + '\">');
+                    $("#ExtraSpecs").append("<input type=\"hidden\" value=\""+ returnedData[i].spec_id +"\" class=\"spec_id\" ><label class=\"spec_name\" contenteditable=\"true\" onfocusout=\"save_specs_names()\" >" + returnedData[i].spec_name + "<\/label><input type=\"text\" class=\"spec\" name=\"" + returnedData[i].spec_name + "\">&nbsp&nbsp&nbsp&nbsp&nbsp");
                 }
     }, 'json');
+    
+    // on lost focus
+    $(".spec_name").focusout(function(){
+        save_specs_names();
+    });
 }

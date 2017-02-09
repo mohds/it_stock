@@ -19,12 +19,19 @@ public class return_item extends HttpServlet {
         
         String record_id = request.getParameter("record_id");
         String client_returner = request.getParameter("client_returner");
+        String new_location = request.getParameter("new_location");
         // session ready for use
         // commented until required
         //HttpSession session = request.getSession();
         //String admin_receiver = (String)session.getAttribute("username");
         String admin_receiver = "m.salloum"; // static until session is implemented
-        Records.return_item(record_id, client_returner, out, admin_receiver);
+        if(Records.return_item(record_id, client_returner, out, admin_receiver, new_location)){
+            // do nothing
+        }
+        else{
+            // send error flag to client side
+            out.println("ERROR");
+        }
         
         out.close();
     }

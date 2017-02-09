@@ -8,6 +8,9 @@ $(document).ready(function(){
 });
 
 function save_access_groups(){
+    
+    $("#message-box").html("Saving user access. Please wait.");
+    
     var admins = [];
     var access_levels = [];
     
