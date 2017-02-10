@@ -176,43 +176,52 @@ function set_expected_return_date()
 
 function create_receipt()
 {
-  var x_timer;   
-  var client_name = document.getElementById('receipt_client_name_id').value;
-  var receipt_notes = document.getElementById('receipt_notes_id').value;
-  var current_date_time = document.getElementById('current_date_time_id').value;
-  var admin_id = document.getElementById('admin_id_id').value;
-  var global_expected_date = document.getElementById('global_expected_date_id').value;
-  
-  var records_items_ids = document.getElementsByClassName('item_ids_class');
-  var records_expected_dates_of_return = document.getElementsByClassName('records_expected_date_class');
-  var records_notes = document.getElementsByClassName('records_notes_class');
-  var records_returning = document.getElementsByClassName('records_returning_class');
-  
-  var array_records_items_ids = new Array();
-  var array_records_expected_dates_of_return = new Array();
-  var array_records_notes = new Array();
-  var array_records_returning = new Array();
-  
-  for(var k = 0 ; k < records_items_ids.length ; ++k)
+  if(confirm('Create receipt?'))
   {
-    array_records_items_ids.push(records_items_ids[k].innerText);
-    array_records_expected_dates_of_return.push(records_expected_dates_of_return[k].value);
-    array_records_notes.push(records_notes[k].value);
-    array_records_returning.push(records_returning[k].value);
-  }
-  
-  clearTimeout(x_timer);		        
-  x_timer = setTimeout(function()
-  {
-    send_to_servlet(array_records_items_ids,array_records_expected_dates_of_return,array_records_notes,array_records_returning,client_name,receipt_notes,current_date_time,admin_id,global_expected_date);
-  }, 1000);
-  
-  function send_to_servlet(get_array_records_items_ids,get_array_records_expected_dates_of_return,get_array_records_notes,get_array_records_returning,get_client_name,get_receipt_notes,get_current_date_time,get_admin_id,get_global_expected_date)
-  {
-    $.get('create_receipt_and_records', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'global_expected_date':get_global_expected_date}, function(data)
+    var x_timer;   
+    var client_name = document.getElementById('receipt_client_name_id').value;
+    var receipt_notes = document.getElementById('receipt_notes_id').value;
+    var current_date_time = document.getElementById('current_date_time_id').value;
+    var admin_id = document.getElementById('admin_id_id').value;
+    var global_expected_date = document.getElementById('global_expected_date_id').value;
+    var receipt_country = document.getElementById('receipt_country_id').value;
+    
+    var records_items_ids = document.getElementsByClassName('item_ids_class');
+    var records_expected_dates_of_return = document.getElementsByClassName('records_expected_date_class');
+    var records_notes = document.getElementsByClassName('records_notes_class');
+    var records_returning = document.getElementsByClassName('records_returning_class');
+    
+    var array_records_items_ids = new Array();
+    var array_records_expected_dates_of_return = new Array();
+    var array_records_notes = new Array();
+    var array_records_returning = new Array();
+    
+    for(var k = 0 ; k < records_items_ids.length ; ++k)
     {
-      //alert("Receipt successfully created.");
-    });
+      array_records_items_ids.push(records_items_ids[k].innerText);
+      array_records_expected_dates_of_return.push(records_expected_dates_of_return[k].value);
+      array_records_notes.push(records_notes[k].value);
+      array_records_returning.push(records_returning[k].value);
+    }
+    
+    clearTimeout(x_timer);		        
+    x_timer = setTimeout(function()
+    {
+      send_to_servlet(array_records_items_ids,array_records_expected_dates_of_return,array_records_notes,array_records_returning,client_name,receipt_notes,current_date_time,admin_id,global_expected_date,receipt_country);
+    }, 1000);
+    
+    function send_to_servlet(get_array_records_items_ids,get_array_records_expected_dates_of_return,get_array_records_notes,get_array_records_returning,get_client_name,get_receipt_notes,get_current_date_time,get_admin_id,get_global_expected_date,get_receipt_country)
+    {
+      $.get('create_receipt_and_records', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
+      {
+        //alert("Receipt successfully created.");
+      });
+      
+      $.get('create_receipt_pdf', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
+      {
+        //alert("Receipt successfully created.");
+      });
+    }
   }
 }
 $( function() {

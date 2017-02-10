@@ -53,6 +53,7 @@ public class create_receipt_and_records
     String current_date_time = request.getParameter("current_date_time");
     String admin_id = request.getParameter("admin_id");
     String global_expected_date = request.getParameter("global_expected_date");
+    String receipt_country = request.getParameter("receipt_country");
     
     if(request.getParameterValues("records_items_id[]") != null)
     {
@@ -74,7 +75,7 @@ public class create_receipt_and_records
       records_returning = request.getParameterValues("records_returning[]");
     }
     
-    String sql_insert_receipt = "INSERT INTO RECEIPTS(CLIENT_ID, NOTES, STATUS) VALUES('" + client_id + "','" + receipt_notes + "','0')";
+    String sql_insert_receipt = "INSERT INTO RECEIPTS(CLIENT_ID, NOTES, STATUS, COUNTRY) VALUES('" + client_id + "','" + receipt_notes + "','0','" + receipt_country + "')";
     System.out.println(sql_insert_receipt);
     PreparedStatement  stat_receipt;
     String generatedColumns[] = { "ID" };

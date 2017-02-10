@@ -105,6 +105,10 @@ public class show_receipt_popup
     out.println("<input type = 'button' value = 'Set all' onclick = 'set_expected_return_date()'>");
     out.println("<br><br>");
     
+    out.println("<label>Country: </label>");
+    out.println("<input type = 'text' id = 'receipt_country_id'>");
+    out.println("<br><br>");
+    
     out.println("<table border = '1'>");
     out.println("<th>Item ID</th>");
     out.println("<th>Expected date of return</th>");

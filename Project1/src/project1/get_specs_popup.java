@@ -170,16 +170,22 @@ public class get_specs_popup
         out.println("<tr>");
         if(authorized)  //if authorized to edit item
         {
-          out.println("<td>" + rs_specs.getString(1) + "</td>");  //first column: spec name
-          out.println("<td><input type = 'text' class = 'popup_spec_inputs' id = 'popup_spec_" + rs_specs.getString(1) + "_input ' value = '" + rs_specs.getString(2) + "'></td>"); //second column: spec value as an input text element with the current value as default value
-          out.println("<td><img src = 'images/remove.png' onclick = 'delete_item_spec(" + item_id + "," + rs_specs.getString(3) + ")'></td>");
+          if(!rs_specs.getString(2).equals(""))
+          {
+            out.println("<td>" + rs_specs.getString(1) + "</td>");  //first column: spec name
+            out.println("<td><input type = 'text' class = 'popup_spec_inputs' id = 'popup_spec_" + rs_specs.getString(1) + "_input ' value = '" + rs_specs.getString(2) + "'></td>"); //second column: spec value as an input text element with the current value as default value
+            out.println("<td><img src = 'images/remove.png' onclick = 'delete_item_spec(" + item_id + "," + rs_specs.getString(3) + ")'></td>");
+          }
         }
         else  //if not authroized to edit item
         {
           //generate data as labels(can't edit)
           //
-          out.println("<td>" + rs_specs.getString(1) + "</td>");
-          out.println("<td>" + rs_specs.getString(2) + "</td>");
+          if(!rs_specs.getString(2).equals(""))
+          {
+            out.println("<td>" + rs_specs.getString(1) + "</td>");
+            out.println("<td>" + rs_specs.getString(2) + "</td>");
+          }
         }
         out.println("</tr>");
       }

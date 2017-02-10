@@ -34,6 +34,8 @@ public class items_hq extends HttpServlet {
       out.println("<html>");
       out.println("<head><title>items_hq</title></head>");
       
+      request.getRequestDispatcher("nav_bar.html").include(request,response);
+      
       //javascript and css links
       //
       //

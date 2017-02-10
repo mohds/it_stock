@@ -76,6 +76,8 @@ function delete_item(item_id)
 function add_to_cart()
 {
   var checkboxes = document.getElementsByClassName("items_checkboxes_class");
+  var selected_ids_array = [];
+  var ids_in_cart_array = [];
   for(var i = 0 ; i < checkboxes.length; ++i)
   {
     if(checkboxes[i].checked == true)
@@ -83,21 +85,31 @@ function add_to_cart()
       var checkbox_id = checkboxes[i].id;
       var fields = checkbox_id.split('_');
       var item_id = fields[1];
-      var type_id = document.getElementById('item_'+ item_id + '_type');
-      var type = type_id.innerText;
-      var table = document.getElementById("items_in_cart_table");
-      var row = table.insertRow();
-      row.id = "cart_row_" + item_id;
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      cell1.innerHTML = item_id;
-      cell2.innerHTML = "<a class='showAlert' title='View' onclick = 'show_specs(" + item_id + ")'>" + type + "</a>";
-      cell3.innerHTML = "<input type='button' value='Remove' onclick='deleteRow(this)'/>";
+      selected_ids_array.push(item_id);
     }
   }
-}
+    $("#items_in_cart_table tr").each(function(){
+        ids_in_cart_array.push($(this).find("td:first").text()); //put elements into array
+    });
+    for(var k = 0 ; k < selected_ids_array.length ; k++)
+    {
+      if(ids_in_cart_array.indexOf(selected_ids_array[k]) == -1)
+      {
+        var type_id = document.getElementById('item_'+ selected_ids_array[k] + '_type');
+        var type = type_id.innerText;
+        var table = document.getElementById("items_in_cart_table");
+        var row = table.insertRow();
+        row.id = "cart_row_" + selected_ids_array[k];
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        cell1.innerHTML = selected_ids_array[k];
+        cell2.innerHTML = "<a class='showAlert' title='View' onclick = 'show_specs(" + selected_ids_array[k] + ")'>" + type + "</a>";
+        cell3.innerHTML = "<input type='button' value='Remove' onclick='deleteRow(this)'/>";
+      }
+    }
 
+    }
 function deleteRow(btn) {
   var row = btn.parentNode.parentNode;
   row.parentNode.removeChild(row);
