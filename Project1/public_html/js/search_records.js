@@ -153,7 +153,7 @@ function return_item(record_id, row_id){
         }
         else{
             $("#ReturnDialog").dialog("close");
-            document.getElementById(row_id).cells[5].innerHTML = returnedData;            
+            document.getElementById(row_id).cells[6].innerHTML = returnedData;            
             document.getElementById(row_id).setAttribute("class", "done");
         }
     });
@@ -187,6 +187,13 @@ function view_return(record_id, item_label, row_id){
     
 }
 
+function view_item_by_id(item_id){
+    clear_all_input();
+    document.getElementById("ItemId").value = item_id;
+    search(lower_bound, upper_bound);
+    $("#ViewDetailsDialog").dialog("close");        
+    clear_details_dialog();
+}
 function view_receipt(receipt_id){
     clear_all_input();
     document.getElementById("ReceiptId").value = receipt_id;
@@ -255,7 +262,7 @@ function view_more(record_id){
     
     $.getJSON('get_record_details', {record_id: record_id}, 
         function(returnedData){
-            document.getElementById("ItemId_dialog").innerHTML =" <a onclick=\"view_item_history('" + returnedData[0].item_label + "')\">" + returnedData[0].item_id + "<\/a>";
+            document.getElementById("ItemId_dialog").innerHTML =" <a onclick=\"view_item_by_id('" + returnedData[0].item_id + "')\">" + returnedData[0].item_id + "<\/a>";
             document.getElementById("ItemLabel_dialog").innerHTML =" " + "<a onclick=\"view_item_history('"+ returnedData[0].item_label +"')\">"+ returnedData[0].item_label +"<\/a>";
             document.getElementById("ItemType_dialog").innerHTML =" " + "<a onclick=\"view_type_history('"+ returnedData[0].item_type +"')\">"+ returnedData[0].item_type +"<\/a>";
             document.getElementById("Borrower_dialog").innerHTML =" " + "<a onclick=\"view_borrower_history('"+ returnedData[0].borrower +"')\">"+ returnedData[0].borrower +"<\/a>";
@@ -270,6 +277,7 @@ function view_more(record_id){
 
 function search(lower_bound, upper_bound){
     var ReceiptId = document.getElementById("ReceiptId").value;
+    var item_id = document.getElementById("ItemId").value;
     var item_label = document.getElementById("ItemLabel").value;
     var Borrower = document.getElementById("Borrower").value;
     var AdminCheckerId = document.getElementById("AdminCheckerId").value;
@@ -281,17 +289,17 @@ function search(lower_bound, upper_bound){
     var ReceiptStatus = document.getElementById("ReceiptStatus").value;
     var ItemStatus = document.getElementById("ItemStatus").value;
         
-    $.getJSON('search_records', {ReceiptId: ReceiptId, item_label: item_label, Borrower: Borrower, AdminCheckerId: AdminCheckerId, BorrowBeforeDate: BorrowBeforeDate, BorrowAfterDate: BorrowAfterDate, ReturnBeforeDate: ReturnBeforeDate, ReturnAfterDate: ReturnAfterDate, ItemType: ItemType, ReceiptStatus: ReceiptStatus, ItemStatus: ItemStatus, lower_bound: lower_bound, upper_bound: upper_bound},
+    $.getJSON('search_records', {ReceiptId: ReceiptId, item_id: item_id, item_label: item_label, Borrower: Borrower, AdminCheckerId: AdminCheckerId, BorrowBeforeDate: BorrowBeforeDate, BorrowAfterDate: BorrowAfterDate, ReturnBeforeDate: ReturnBeforeDate, ReturnAfterDate: ReturnAfterDate, ItemType: ItemType, ReceiptStatus: ReceiptStatus, ItemStatus: ItemStatus, lower_bound: lower_bound, upper_bound: upper_bound},
         function(returnedData){                    
             // remove all rows except first
             $("#ResultsTable").find("tr:gt(0)").remove();            
             var html_code = "";
             for(var i = 0 ; i < returnedData.length ; i++){
                 if(returnedData[i].return_date == "Pending"){
-                    html_code += "<tr id=\"row_"+ i +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ i +"')\">Return<\/button><\/td><td><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    html_code += "<tr id=\"row_"+ i +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ i +"')\">Return<\/button><\/td><td><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
                 }
                 else{
-                    html_code += "<tr id=\"row_"+ i +"\" class=\"done\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].return_date +"<\/td><td><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    html_code += "<tr id=\"row_"+ i +"\" class=\"done\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].return_date +"<\/td><td><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
                 }
             }
             $("#ResultsTable").append(html_code);

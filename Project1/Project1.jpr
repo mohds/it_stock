@@ -115,15 +115,11 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Itextpdf-5.4.3.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Spdf_2.9.2-0.1.0.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Darwinsys-api-1.0.3.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Itextpdf-5.4.3.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
@@ -144,25 +140,7 @@
             </hash>
             <hash>
                <list n="classPath">
-                  <url path="../../../../../../itextpdf-5.4.3.jar/itextpdf-5.4.3.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Itextpdf-5.4.3.jar"/>
-               <value n="id" v="Itextpdf-5.4.3.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
-                  <url path="../../../../../../spdf_2.9.2-0.1.0.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Spdf_2.9.2-0.1.0.jar"/>
-               <value n="id" v="Spdf_2.9.2-0.1.0.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
-                  <url path="../../../../../../darwinsys-api-1.0.3.jar" jar-entry=""/>
+                  <url path="jar/darwinsys-api-1.0.3.jar" jar-entry=""/>
                </list>
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Darwinsys-api-1.0.3.jar"/>
@@ -171,7 +149,16 @@
             </hash>
             <hash>
                <list n="classPath">
-                  <url path="../../../../../../spdf.jar" jar-entry=""/>
+                  <url path="jar/itextpdf-5.4.3.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Itextpdf-5.4.3.jar"/>
+               <value n="id" v="Itextpdf-5.4.3.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="jar/spdf.jar" jar-entry=""/>
                </list>
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Spdf.jar"/>
@@ -198,15 +185,11 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Itextpdf-5.4.3.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Spdf_2.9.2-0.1.0.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Darwinsys-api-1.0.3.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Itextpdf-5.4.3.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>

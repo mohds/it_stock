@@ -223,11 +223,14 @@ public class Records {
         out.println(gson.toJson(record));
     }
     
-    public static void generate_results(String ReceiptId, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
-        String query = "SELECT records.id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
+    public static void generate_results(String ReceiptId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
+        String query = "SELECT records.id, items.id AS item_id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
         
         if(!(ReceiptId.length() == 0)){
-            query += "AND Receipts.id LIKE '%"+ ReceiptId +"%' ";
+            query += "AND Receipts.id = '"+ ReceiptId +"' ";
+        }
+        if(!(item_id.length() == 0)){
+            query += "AND items.id = '"+ item_id +"' ";
         }
         if(!(label.length() == 0)){
             query += "AND items.label LIKE '%"+ label +"%' ";
@@ -290,7 +293,7 @@ public class Records {
         query += " ORDER BY ID DESC";
         
         // add limits
-        query = "SELECT * FROM (SELECT ROWNUM rn, id, label, type, client, borrow_datetime, return_datetime, status FROM("+ query + ")) WHERE rn > "+ lower_bound +" AND rn <= "+ upper_bound +"";
+        query = "SELECT * FROM (SELECT ROWNUM rn, id, item_id, label, type, client, borrow_datetime, return_datetime, status FROM("+ query + ")) WHERE rn > "+ lower_bound +" AND rn <= "+ upper_bound +"";
         
         // query check
         // System.out.println(query);
@@ -304,6 +307,7 @@ public class Records {
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){                
                 String record_id = rs.getString("id");
+                String item_id_ = rs.getString("item_id");
                 String borrower = rs.getString("client");
                 String item_label = rs.getString("label");
                 String item_type = rs.getString("type");
@@ -327,7 +331,7 @@ public class Records {
                     // do nothing
                 }
                 
-                record_list.add(new Record(record_id, item_label, item_type, borrower, borrow_date, return_date, status));
+                record_list.add(new Record(record_id, item_id_, item_label, item_type, borrower, borrow_date, return_date, status));
             }
             con.close();
         }

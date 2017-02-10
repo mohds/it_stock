@@ -24,6 +24,7 @@
             <span id="message-box"></span>
             <div class="container" id="LeftContainer">
                 <label>Receipt ID: </label><input type="text" id="ReceiptId" /><br>
+                <label>Item ID: </label><input type="text" id="ItemId"/></br>
                 <label>Item Label: </label><input type="text" id="ItemLabel" /><br>
                 <label>Borrower: </label><input type="text" id="Borrower" /><br>
                 <label>IT admin: </label><input type="text" id="AdminCheckerId" /><br>
@@ -52,7 +53,8 @@
                 <!--<img id="LoadingResults" src="images/ajax-loader-2.gif">-->
                 <table id="ResultsTable">
                     <tr>
-                        <th>Records ID</th>
+                        <th>Record ID</th>
+                        <th>Item ID</th>
                         <th>Item Label</th>
                         <th>Item Type</th>
                         <th>Borrower</th>
