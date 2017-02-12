@@ -12,6 +12,7 @@ public class Queries {
         super();
     }
     
+    
     public static boolean spec_exists(String spec){
         boolean return_me = false;
         

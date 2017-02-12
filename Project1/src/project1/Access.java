@@ -542,7 +542,7 @@ public class Access {
     public List<String> get_methods_of_access_group(String access_group){
         List<String> methods_of_access_group = new ArrayList<String>();
         // find the id of the required access_group
-        String query = "SELECT methods.name FROM access_groups_methods, methods, access_groups WHERE access_groups.name = '"+ access_group +"' AND access_groups_methods.access_group_id_fk = access_groups.id AND access_groups_methods.method_id_fk = methods.id";
+        String query = "SELECT methods.name FROM access_groups_methods, methods, access_groups WHERE access_groups.name = '"+ access_group +"' AND access_groups_methods.access_group_id = access_groups.id AND access_groups_methods.method_id = methods.id";
         Connection con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
@@ -781,7 +781,7 @@ public class Access {
         // get id of access_group
         String access_group_id = get_id_of_access_group(access_group);
         
-        String query = "DELETE FROM access_groups_methods WHERE access_groups_methods.access_group_id_fk = '"+ access_group_id +"'";
+        String query = "DELETE FROM access_groups_methods WHERE access_groups_methods.access_group_id = '"+ access_group_id +"'";
         try{
             Connection con = connect_to_db();
             Statement stmt = con.createStatement();
@@ -939,7 +939,7 @@ public class Access {
         methods_id_fk = get_ids_of_methods(methods_to_add);
         for(Iterator<String> i = methods_id_fk.iterator(); i.hasNext();){
             String method_id_fk = i.next();
-            String query = "INSERT INTO access_groups_methods (access_group_id_fk, method_id_fk) VALUES('"+ access_group_id_fk +"', '"+ method_id_fk +"')";
+            String query = "INSERT INTO access_groups_methods (access_group_id, method_id) VALUES('"+ access_group_id_fk +"', '"+ method_id_fk +"')";
             Connection con = connect_to_db();
             try{
                 Statement stmt = con.createStatement();
