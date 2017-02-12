@@ -341,17 +341,8 @@ public class Access {
     public boolean has_access(String user, String method){
         
         boolean return_me = false;
-        
-        String column_to_check = "";
-        
-        if(user.contains("@")){
-            column_to_check = "email";
-        }
-        else{
-            column_to_check = "username";
-        }
-        
-        String query = "SELECT * FROM people, access_groups, access_groups_methods, methods WHERE people."+ column_to_check +" = '"+ user +"' AND methods.name = '" + method  + "' AND people.access_group_id_fk = access_groups.id AND access_groups.id = access_groups_methods.access_group_id_fk AND methods.id = access_groups_methods.method_id_fk";
+                
+        String query = "SELECT * FROM admins, access_groups, access_groups_methods, methods WHERE admins.username = '"+ user +"' AND methods.name = '" + method  + "' AND admins.access_group_id = access_groups.id AND access_groups.id = access_groups_methods.access_group_id AND methods.id = access_groups_methods.method_id";
         Connection con = connect_to_db();
         try{
             Statement stmt = con.createStatement();

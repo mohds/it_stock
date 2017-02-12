@@ -22,10 +22,13 @@ public class tester extends HttpServlet {
         out.println("<head><title>tester</title></head>");
         out.println("<body>");
         
-        Connect connect = new Connect();
-        Connection conn = connect.connect();
-        
-        out.println("<h1>Connection successful</h1>");
+        Access access = new Access();
+        if(access.has_access("m.salloum", "search_records")){
+            out.println("Has access");    
+        }
+        else{
+            out.println("no access");
+        }
         
         out.println("</body></html>");
         out.close();
