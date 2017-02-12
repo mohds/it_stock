@@ -88,6 +88,16 @@ public class show_receipt_popup
     
     out.println("<br><br>");
     
+    out.println("<label>Received by: </label><select name = 'receipt_receiver_name' id = 'receipt_receiver_name_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+    for(int i = 0 ; i < clients_list.size() ; i++)
+    {
+      out.println("<option value = '" + clients_list.get(i) + "'>" + clients_list.get(i) + "</option>");
+    }
+    out.println("</select>");
+    
+    
+    out.println("<br><br>");
+    
     out.println("<label>Admin: " + admin +"</label>");
     
     out.println("<br><br>");

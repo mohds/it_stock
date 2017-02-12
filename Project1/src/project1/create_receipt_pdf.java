@@ -80,6 +80,7 @@ public class create_receipt_pdf
     String[] records_returning = null; 
     
     String client_name = request.getParameter("client_name");
+    String receiver_name = request.getParameter("receiver_name");
     String receipt_notes = request.getParameter("receipt_notes");
     String admin_id = request.getParameter("admin_id");
     String global_expected_date = request.getParameter("global_expected_date");
@@ -169,6 +170,7 @@ public class create_receipt_pdf
       paragraph.add(new Paragraph(""));
       paragraph.add(new Paragraph("Received on: " + current_date ,subFont));
       paragraph.add(new Paragraph("Received for: " + client_name ,subFont));
+      paragraph.add(new Paragraph("Received by: " + receiver_name ,subFont));
       paragraph.add(new Paragraph("IT: " + it_name ,subFont));
       paragraph.add(new Paragraph("Expected date of items return: " + global_expected_date ,subFont));
       paragraph.setAlignment(Element.ALIGN_LEFT);
