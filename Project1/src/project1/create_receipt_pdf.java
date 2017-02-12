@@ -281,9 +281,7 @@ public class create_receipt_pdf
       please_note_text.setAlignment(Element.ALIGN_LEFT);
       document.add(please_note_text);
       
-      document.add( Chunk.NEWLINE );
-      
-      Paragraph reception_title_text = new Paragraph("Return",redFont);
+      /*Paragraph reception_title_text = new Paragraph("Return",redFont);
       reception_title_text.setAlignment(Element.ALIGN_CENTER);
       document.add(reception_title_text);
       
@@ -293,7 +291,7 @@ public class create_receipt_pdf
       reception_par.add(new Paragraph("Returned by: " ,subFont));
       reception_par.add(new Paragraph("IT: " ,subFont));
       reception_par.setAlignment(Element.ALIGN_LEFT);
-      document.add(reception_par);           
+      document.add(reception_par);       */    
       
       document.close();
     }

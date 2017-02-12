@@ -168,6 +168,7 @@ public class items_hq extends HttpServlet {
       out.println("<th>Serial Number</th>");
       out.println("<th>Notes</th>");
       out.println("<th>Availability</th>");
+      out.println("<th>Receipt</th>");
       out.println("<th>Details</th>");
       out.println("</table>");
       out.println("</div>");

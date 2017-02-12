@@ -221,6 +221,7 @@ public class generate_items_table
     out.println("<th>Serial Number</th>");
     out.println("<th>Notes</th>");
     out.println("<th>Availability</th>");
+    out.println("<th>Receipt</th>");
     out.println("<th>Details</th>");
     out.println("<th>Action</th>");
     
@@ -280,10 +281,12 @@ public class generate_items_table
           if(rs_final.getString(9).equals("1"))
           {
             out.println("<td>Available</td>");
+            out.println("<td>-</td>");
           }
           else
           {
             out.println("<td>Out</td>");
+            out.println("<td><a href = 'search_records.jsp?item_id=" + item_id +"'><img src = 'images/receipt.png'></td></a>");
           }
           out.println("<td><a class='showAlert' title='View' onclick = 'show_specs(" + item_id + ")'>View</a></td>");  //add View link, when clicked, popup will show with the details of the item. onclick of the link show_specs is called from popup_jquery.js and give it as parameter the item id
           out.println("<td><a + onclick = 'delete_item(" + item_id + ")'><img src = 'images/delete.png'></td></a>");  //to delete an item. onclick calls delete_item() from items_hq_general.js and takes as argument item_id

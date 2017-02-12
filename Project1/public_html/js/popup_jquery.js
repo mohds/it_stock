@@ -222,6 +222,11 @@ function create_receipt()
       {
         //alert("Receipt successfully created.");
       });
+      
+      $.get('finalize_receipt_pdf', {}, function(data)
+      {
+        //alert("Receipt successfully created.");
+      });
     }
     $("#dialog").dialog('close');
     send_specs();
