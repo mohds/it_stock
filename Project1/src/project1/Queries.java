@@ -12,6 +12,102 @@ public class Queries {
         super();
     }
     
+    public static void add_admins_to_notification_group(List<String> admins, String category){        
+        
+        
+        String query = "UPDATE admins SET admins.notification = '"+ category +"' WHERE 1=2 ";
+        if(admins!= null){
+            for(int i = 0 ; i < admins.size() ; i++){
+                query += " OR admins.username='"+ admins.get(i) +"' ";
+            }
+        }
+        // query check
+        // System.out.println(query);              
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+    }
+    
+    public static void remove_all_notifications_of_category(String category){        
+        String query = "UPDATE admins SET admins.notification = 'NO' WHERE admins.notification = '"+ category +"' ";
+        // query check
+        // System.out.println(query);              
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+    }
+    
+    public static List<String> get_usernames(String table){
+        List<String> usernames = new ArrayList<String>();        
+        String query = "SELECT username FROM "+ table +"";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                usernames.add(rs.getString("username"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        return usernames;
+    }
+    
+    public static List<String> get_admins_of_email_cateogry(String notification_type){
+        List<String> emails = new ArrayList<String>();        
+        String query = "SELECT username FROM admins WHERE notification='"+ notification_type +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                emails.add(rs.getString("username"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return emails;
+    }
+    
+    public static List<String> get_emails(String notification_type){
+        List<String> emails = new ArrayList<String>();        
+        String query = "SELECT email FROM admins WHERE notification='"+ notification_type +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                emails.add(rs.getString("email"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return emails;
+    }
+    
     
     public static boolean spec_exists(String spec){
         boolean return_me = false;

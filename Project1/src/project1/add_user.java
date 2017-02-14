@@ -18,10 +18,6 @@ public class add_user extends HttpServlet {
                                                            IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<head><title>add_user</title></head>");
-        out.println("<body>");
-        out.println("</body></html>");
         out.close();
     }
 
@@ -33,10 +29,12 @@ public class add_user extends HttpServlet {
         String name = "";
         String user = "";
         String password = "";
+        String email = "";
         
         name = request.getParameter("name");
         user = request.getParameter("username");
         password = request.getParameter("password");
+        email = request.getParameter("email");
         
         Access access = new Access();
         
@@ -44,11 +42,15 @@ public class add_user extends HttpServlet {
             out.println("Username already exists!");
             request.getRequestDispatcher("new_user.jsp").include(request, response);
         }
+        else if(access.user_exists(email, "email")){
+            out.println("Email already exists!");
+            request.getRequestDispatcher("new_user.jsp").include(request, response);
+        }
         else{
             String password_hash = "-1";
             password_hash = access.password_hash(password);
             
-            access.add_user(name, user, password_hash);
+            access.add_user(name, user, password_hash, email);
             
             HttpSession session = request.getSession(false);
             Log log = new Log();
@@ -71,6 +73,10 @@ public class add_user extends HttpServlet {
                 out.println("<tr>");
                 out.println("<th>Username: </th>");
                 out.println("<td>"+ user +"</td>");
+                out.println("</tr>");
+                out.println("<tr>");
+                out.println("<th>Email: </th>");
+                out.println("<td>"+ email +"</td>");
                 out.println("</tr>");
                 out.println("<tr>");
                 out.println("<th>Password Hash: </th>");

@@ -1077,7 +1077,7 @@ public class Access {
         }
         return access_id;
     }
-    public boolean add_user(String name, String user, String password_hash){
+    public boolean add_user(String name, String user, String password_hash, String email){
         boolean return_me = false;
         
         if(user.isEmpty() || name.isEmpty()){
@@ -1085,7 +1085,7 @@ public class Access {
         }
         
         // now add user with corresponding mailbox
-        String query = "INSERT INTO admins (name, username, password_hash, access_group_id) VALUES('"+ name +"', '"+ user +"','"+ password_hash +"', '4')";
+        String query = "INSERT INTO admins (name, username, password_hash, access_group_id, email, notification) VALUES('"+ name +"', '"+ user +"','"+ password_hash +"', '4', '"+ email +"', 'NO')";
         
         // query check
         //System.out.println("Query: " + query);

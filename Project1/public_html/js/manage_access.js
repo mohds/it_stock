@@ -26,8 +26,12 @@ $(document).ready(function(){
     $("#AddNewMethod").on("click", function() {
         add_new_method();
     });
+    $("#SaveEmails").on("click", function() {
+        save_emails();
+    });
     
     populate_methods_container();
+    populate_user_emails_row();
     
 });
 
@@ -110,6 +114,47 @@ function check_boxes(){
     uncheck_all_boxes();
     var selected_access_group = document.getElementById("access-groups").value;
     $.getJSON('get_methods_of_access_group', {selected_access_group: selected_access_group}, function(returnedData){
+        for(var i = 0 ; i < returnedData.length ; i++){
+            document.getElementById(returnedData[i] + "_id").checked = true;
+        }
+    });
+}
+
+
+function save_emails(){
+    document.getElementById("message-box").innerHTML = "Saving email settings. Please wait.";
+    var email_category = document.getElementById("email-categories").value;
+    var admins = []; 
+    var inputElements = document.getElementsByClassName('emails_checkbox');
+    for(var i=0; inputElements[i]; i++){
+          if(inputElements[i].checked){                
+               admins.push(inputElements[i].value);
+          }
+    }
+    
+    $.post('save_emails', {email_category: email_category, admins: admins }, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+    });
+    
+}
+function populate_user_emails_row(){
+    $.getJSON('get_all_admins', {}, function(returnedData){
+        for(var i = 0 ; i < returnedData.length ; i++){
+            $("#user-emails-row").append("<label>"+ returnedData[i] +" <\/label><input type=\"checkbox\" class=\"emails_checkbox\" id=\""+ returnedData[i] +"_id\" value=\""+ returnedData[i] +"\" ><\/br>");
+        }
+    });
+}
+
+function uncheck_all_email_boxes(){
+    var checkboxes = document.getElementsByClassName("emails_checkbox");
+    for(var i = 0 ; i < checkboxes.length ; i++){
+        checkboxes[i].checked = false;
+    }
+}
+function check_email_boxes(){
+    uncheck_all_email_boxes();
+    var selected_email_category = document.getElementById("email-categories").value;
+    $.getJSON('get_admins_of_category', {selected_email_category: selected_email_category}, function(returnedData){
         for(var i = 0 ; i < returnedData.length ; i++){
             document.getElementById(returnedData[i] + "_id").checked = true;
         }

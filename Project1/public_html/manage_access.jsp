@@ -76,6 +76,22 @@
                     </table>
                     <button id="AddMethod">Add Method</button><button id="SaveMethods">Save</button>
                 </div>
+                <div id="emails-container">
+                    <h1>Manage Emails</h1>
+                    <table id="emails-table">
+                        <tr id="email-category-row">
+                            <label>Category: </label>
+                            <select id="email-categories" onchange="check_email_boxes()">
+                                <option value=""></option>
+                                <option value="TO">TO</option>
+                                <option value="CC">CC</option>
+                            </select>
+                        </tr>
+                        <tr id="user-emails-row">
+                        </tr>                        
+                    </table>
+                    <button id="SaveEmails">Save</button>
+                </div>
             </div>
             <div id="NewMethodDialog" title="New Method">
                 <input type="text" id="NewMethod" />

@@ -14,4 +14,19 @@ $(document).ready(function() {
 		  $("#user-result").html(data);
 		});
 	}
+        
+        $("#email").keyup(function (e){
+		clearTimeout(x_timer);
+		var email = $(this).val();
+		x_timer = setTimeout(function(){
+			check_email_ajax(email);
+		}, 1000);
+	}); 
+
+	function check_email_ajax(email){
+		$("#email-result").html('<img src="images/ajax-loader.gif" />');
+		$.post('email_checker', {'email':email}, function(data) {
+		  $("#email-result").html(data);
+		});
+	}
 });
