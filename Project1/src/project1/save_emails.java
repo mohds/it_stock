@@ -44,6 +44,11 @@ public class save_emails extends HttpServlet {
         
         out.println("Email settings successfully saved.");
         
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Email settings updated.";
+        log.log(description, request, session);
+        
         out.close();
     }
 }

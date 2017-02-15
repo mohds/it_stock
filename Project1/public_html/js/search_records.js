@@ -104,7 +104,7 @@ $(document).ready(function(){
         },
         hide: {
             effect: "slide",
-            duration: 200
+            duration: 300
         }
     });
     $("#NewClientDialog").dialog({
@@ -118,7 +118,32 @@ $(document).ready(function(){
             duration: 200
         }
     });
+    
+    check_item_id_search();
+    
 });
+
+function getQueryParams(qs) {
+    qs = qs.split('+').join(' ');
+    var params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+    return params;
+}
+
+function check_item_id_search(){
+    var query = getQueryParams(document.location.search);
+    if(query.item_id > 0){
+        document.getElementById("ItemId").value = query.item_id;
+        search(lower_bound, upper_bound);
+    }
+}
+
+
 
 // define global variables
 // variables to be used in upper and lower bounds of number of records
@@ -146,13 +171,13 @@ function return_item(record_id, row_id){
     
     var client_returner = document.getElementById("ClientReturner_ReturnDialog").value;
     var new_location = document.getElementById("NewLocation_ReturnDialog").value;
-    
+    $("#ReturnDialog").dialog("close");
     $.get('return_item', {record_id: record_id, client_returner: client_returner, new_location: new_location}, function(returnedData){
         if(returnedData.includes("ERROR")){
             // do nothing
         }
         else{
-            $("#ReturnDialog").dialog("close");
+            
             document.getElementById(row_id).cells[6].innerHTML = returnedData;            
             document.getElementById(row_id).setAttribute("class", "done");
         }

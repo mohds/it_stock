@@ -47,7 +47,7 @@ public class Log {
     }
     
     public void generate_results_table(String username, String ip, String description, String date_before, String date_after, String bottom_limit, String top_limit, PrintWriter out){
-        String query = "SELECT id,username, date_time, ip, description FROM LOGS WHERE 1=1 ";
+        String query = "SELECT id, username, datetime, ip, description FROM IT_STOCK_LOGS WHERE 1=1 ";
         
         if(!(username.length() == 0)){
             query += "AND username LIKE '%"+ username +"%' ";
@@ -60,7 +60,7 @@ public class Log {
         }        
         if(!(date_before.length() == 0)){
             try{
-                query += "AND date_time <  TO_DATE('"+ date_before +"','MM/DD/yyyy') ";
+                query += "AND datetime <  TO_DATE('"+ date_before +"','MM/DD/yyyy') ";
                 
             }
             catch (Exception e){
@@ -69,7 +69,7 @@ public class Log {
         }
         if(!(date_after.length() == 0)){
             try{
-                query += "AND date_time > TO_DATE('"+ date_after +"','MM/DD/yyyy') ";
+                query += "AND datetime > TO_DATE('"+ date_after +"','MM/DD/yyyy') ";
                 
             }
             catch (Exception e){
@@ -79,7 +79,7 @@ public class Log {
         query += " ORDER BY id DESC";
         
         // add limits to query
-        query = "SELECT * FROM(SELECT id,username, date_time, ip, description, ROWNUM rn FROM (" + query + ")) WHERE rn >= "+ bottom_limit +" AND rn < "+ top_limit +"";
+        query = "SELECT * FROM(SELECT id,username, datetime, ip, description, ROWNUM rn FROM (" + query + ")) WHERE rn >= "+ bottom_limit +" AND rn < "+ top_limit +"";
         
         // query check
         // System.out.println(query);        
@@ -100,7 +100,7 @@ public class Log {
             while(rs.next()){
                 String id = rs.getString("id");
                 String username_ = rs.getString("username");
-                String date_time = rs.getString("date_time");
+                String date_time = rs.getString("datetime");
                 String ip_ = rs.getString("ip");
                 String description_ = rs.getString("description");
                 

@@ -28,6 +28,11 @@ public class add_new_method extends HttpServlet {
         access.add_method(method);
         out.println(method);
         
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Added method " + method;
+        log.log(description, request, session);
+        
         out.close();
     }
 }

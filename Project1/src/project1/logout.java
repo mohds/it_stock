@@ -26,7 +26,7 @@ public class logout extends HttpServlet {
         out.println("<body>");
         out.println("<div id='MainContainer'>");
           
-        request.getRequestDispatcher("link.html").include(request, response);  
+        request.getRequestDispatcher("nav_bar.html").include(request, response);  
           
         HttpSession session=request.getSession();
         
@@ -35,8 +35,8 @@ public class logout extends HttpServlet {
         
         session.invalidate();  
           
-        out.print("<h2 style=\"float:left\">You are successfully logged out!</h2><br>");  
-        out.print("<a href='login.jsp'>< login</a>");
+        out.print("<h3 style=\"float:left\">You are successfully logged out.</h3><br>");  
+        out.print("<a href='login.jsp'>login</a>");
         out.println("</div></body></html>");
           
         out.close();
@@ -47,11 +47,6 @@ public class logout extends HttpServlet {
                                                             IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<head><title>logout</title></head>");
-        out.println("<body>");
-        out.println("<p>The servlet has received a POST. This is the reply.</p>");
-        out.println("</body></html>");
         out.close();
     }
 }

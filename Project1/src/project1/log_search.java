@@ -41,7 +41,7 @@ public class log_search extends HttpServlet {
         
         HttpSession session = request.getSession();
         Access access = new Access();
-        String user = (String)session.getAttribute("user-email");
+        String user = (String)session.getAttribute("username");
         String method = "view_logs";
         
         if(user == null){

@@ -19,6 +19,26 @@ public class Access {
     public Access() {
         super();
     }
+    
+    public boolean delete_user(String username){
+        boolean return_me = false;
+                
+        // delete user
+        String query = "DELETE FROM admins WHERE admins.username='"+ username +"'";
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+            return_me = true;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return return_me;
+    }
+    
     public boolean update_access_groups(String[] admins, String[] access_levels){
         boolean return_me = false;
         for(int i = 0 ; i < admins.length ; i++){

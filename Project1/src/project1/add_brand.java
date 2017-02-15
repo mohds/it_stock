@@ -26,6 +26,11 @@ public class add_brand extends HttpServlet {
         String brand = request.getParameter("brand");
         Queries.insert_into_table("brands", brand);
         
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Added brand " + brand;
+        log.log(description, request, session);
+        
         out.close();
     }
 }

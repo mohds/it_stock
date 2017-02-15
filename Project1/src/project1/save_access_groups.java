@@ -34,6 +34,11 @@ public class save_access_groups extends HttpServlet {
             out.println("Failed to save user access levels.");
         }
         
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Access groups updated.";
+        log.log(description, request, session);
+        
         out.close();
     }
 }

@@ -5,6 +5,8 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
 
+import javax.servlet.http.HttpSession;
+
 public class SendEmail {
     public SendEmail() {
         super();
@@ -16,8 +18,7 @@ public class SendEmail {
         List<String> CC = new ArrayList<String>();
         TO = Queries.get_emails("TO");
         CC = Queries.get_emails("CC");
-        
-        
+                
         Properties properties = new Properties();
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.host", "mail.almayadeen.net");
@@ -60,6 +61,7 @@ public class SendEmail {
             transport = session.getTransport();
             transport.connect(username, password);
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+            
         }
         catch(Exception ex){
             System.out.println(ex.toString());

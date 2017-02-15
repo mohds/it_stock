@@ -46,6 +46,11 @@ public class save_methods extends HttpServlet {
         
         out.println("Methods successfully saved.");
         
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Access methods have been updated.";
+        log.log(description, request, session);
+        
         out.close();
     }
 }

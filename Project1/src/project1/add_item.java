@@ -46,6 +46,11 @@ public class add_item extends HttpServlet {
             out.println("Cannot add item "+ label +". Check input.");
         }
         
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Added item " + label + " of type " + type;
+        log.log(description, request, session);
+        
         out.close();
     }
 }

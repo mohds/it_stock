@@ -33,7 +33,12 @@ public class search_records extends HttpServlet {
         String upper_bound = request.getParameter("upper_bound");
         
         Records.generate_results(ReceiptId, item_id, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, ItemStatus, out, lower_bound, upper_bound);
-                
+        
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Records searched";
+        log.log(description, request, session);
+            
         out.close();
     }
 

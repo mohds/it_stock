@@ -14,12 +14,28 @@
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-1.12.4.js"></script>
         <script src="js/jquery-ui.js"></script>
-        <script src="js/add_item.js"></script>        
+        <script src="js/add_item.js"></script>
+        
+        <!-- JAVA -->
+        <%@ page import="project1.Access" %>
         
     </head>
     <body>
         <div id="MainContainer">
-        <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
+            <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
+            <% 
+                Access access = new Access();
+                String user = (String)session.getAttribute("username");
+                String method = "add_item";
+                if(user == null){
+                    out.println("Login first. <a href=\"login.jsp\">login ></a>");
+                }
+                else if(!access.has_access(user, method)){
+                    out.println("You do not have permission to do that.");
+                }
+                else{
+                // closed after form document
+            %>
             <div class="ui-widget">
                 <h2>Add a new Item</h2>
                 <span id="message-box"></span><br>
@@ -50,6 +66,7 @@
                     <button id="AddLocationButton" type="submit">Add</button>                    
                 </div>
             </div>
+            <%}%>
         </div>
     </body>
 </html>

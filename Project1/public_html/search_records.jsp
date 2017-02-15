@@ -15,11 +15,27 @@
         <script src="js/jquery-ui.js"></script>
         <script src="js/jquery.printElement.min.js"></script>
         <script src="js/search_records.js"></script>
-                
+               
+        <!-- JAVA -->
+        <%@ page import="project1.Access" %>
+        
     </head>
     <body>
         <div id="MainContainer">
             <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
+            <% 
+                Access access = new Access();
+                String user = (String)session.getAttribute("username");
+                String method = "search_records";
+                if(user == null){
+                    out.println("Login first. <a href=\"login.jsp\">login ></a>");
+                }
+                else if(!access.has_access(user, method)){
+                    out.println("You do not have permission to do that.");
+                }
+                else{
+                // closed after form document
+            %>
             <h2>Search records</h2>
             <span id="message-box"></span>
             <div class="container" id="LeftContainer">
@@ -99,6 +115,7 @@
                 <label>Client name: </label><input type="text" id="NewClientName"></br>
                 <button id="AddNewClientButton">Add</button>
             </div>
+            <%}%>
         </div>
     </body>
 </html>

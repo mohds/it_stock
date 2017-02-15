@@ -28,6 +28,11 @@ public class add_type extends HttpServlet {
         
         Queries.add_type(type, specs);
         
+        Log log = new Log();
+        HttpSession session = request.getSession();
+        String description = "Added type " + type;
+        log.log(description, request, session);
+        
         out.close();
     }
 }

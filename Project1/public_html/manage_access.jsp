@@ -23,28 +23,39 @@
     </head>
     <body>
         <div id="MainContainer">
-        <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
-            
+            <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
+            <% 
+                Access access = new Access();
+                String user = (String)session.getAttribute("username");
+                String method = "manage_access";
+                if(user == null){
+                    out.println("Login first. <a href=\"login.jsp\"> login ></a>");
+                }
+                else if(!access.has_access(user, method)){
+                    out.println("You do not have permission to do that.");
+                }
+                else{
+                // closed after form document
+            %>            
             <span id="message-box"></span>
             <div id="management-container">
                 <div id="management-table">
                     <h1>Manage Users</h1>
                     <% 
                         List<String> admins = new ArrayList<String>();
-                        Access access = new Access();
                         List<String> access_groups = new ArrayList<String>();
                         
                         access_groups = access.get_access_groups();
                         
                         out.println("<table id=\"management_table\">");
-                        out.println("<th>Admin</th><th>Access Level</th>");
+                        out.println("<th>Admin</th><th>Access Level</th><th>Delete</th>");
                         admins = access.get_admins();
                         for(int i = 0 ; i < admins.size() ; i++){
                             String access_level = "No access level";
                             String admin = admins.get(i);
                             access_level = access.get_access_level(admin);
                             
-                            out.println("<tr>");
+                            out.println("<tr id=\"row_"+ i +"\">");
                             out.println("<td class=\"admins\">"+ admin +"</td>");
                             out.println("<td>");
                             out.println("<select class=\"access_levels\" id=\"admin_"+ admin +"\">");
@@ -58,7 +69,8 @@
                                 }
                             }
                             out.println("</select>");
-                            out.println("</td>");                        
+                            out.println("</td>");
+                            out.println("<td><button onClick=\"delete_user('"+ admin +"','row_"+ i +"')\">Delete</td>");
                             out.println("</tr>");
                         }
                         out.println("</table>");
@@ -97,6 +109,7 @@
                 <input type="text" id="NewMethod" />
                 <button id="AddNewMethod">Add</button>
             </div>
+            <%}%>
         </div>
     </body>
 </html>

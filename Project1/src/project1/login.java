@@ -53,7 +53,7 @@ public class login extends HttpServlet {
             out.println("<h1 style=\"float:left\">Login successful</h1>");
             HttpSession session = request.getSession();
             session.setAttribute("username",user);
-            
+            session.setAttribute("id", Queries.get_id_from_username(user));
             Log log = new Log();
             log.log("Logged in", request, session);            
             

@@ -35,6 +35,16 @@ $(document).ready(function(){
     
 });
 
+function delete_user(username, row_id){
+    document.getElementById("message-box").innerHTML = "Deleting " + username + ". Please wait.";
+    
+    $.post('delete_user', {username: username}, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        $("#"+ row_id +"").remove();
+    });
+    
+}
+
 function add_new_method(){
     var method = document.getElementById("NewMethod").value;
     $.post('add_new_method', {method: method}, function(returnedData){
