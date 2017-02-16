@@ -9,7 +9,8 @@
         <div id='MainContainer'>
         <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
             <div class='login form'>
-                <form action='login' method='POST'>
+                <form class='login' action='login' method='POST'>  
+                    <legend class="legend">Login</legend>
                     <span>Username</span><br>
                     <input type='text' value='' name='username'><br>
                     <span>Passowrd</span><br>

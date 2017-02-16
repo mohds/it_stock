@@ -63,6 +63,9 @@ public class Records {
             catch(Exception e){
                 System.out.println(e.toString());
             }
+            
+            // servlet wassim
+            
         }
         else{
             // do nothing
