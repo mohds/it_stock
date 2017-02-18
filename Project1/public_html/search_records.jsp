@@ -64,9 +64,10 @@
                 </select>
                 <br>
                 <button type="button" id="SearchButton">Search</button>
-                <button onClick="print_table()">Print Table</button><br>Print all Results<input type="checkbox" id="AllResults">
+                <button onClick="print_table()">Print Table</button><br>Print all Results<input type="checkbox" id="AllResults"><br>
+                <button id="ExportButton" onClick="export_table_to_csv()">Export</button>
             </div>
-            <div class="container" id="RightContainer">
+            <div class="container" id="RightContainer">                
                 <!--<img id="LoadingResults" src="images/ajax-loader-2.gif">-->
                 <table id="ResultsTable">
                     <tr>

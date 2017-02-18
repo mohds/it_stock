@@ -1,3 +1,13 @@
+@media print {
+    td{
+        border: 1px solid #999;
+    }
+    th {
+        border: 1px solid #999;
+    }
+}
+
+
 @charset "windows-1256";
 
 #ViewDetailsDialog label{

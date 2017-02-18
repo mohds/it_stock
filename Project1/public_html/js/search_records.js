@@ -45,6 +45,10 @@ $(document).ready(function(){
     });
     
     // buttons
+    $("#ExportButton").on("click", function(){
+        var html = document.getElementById("ResultsTable").outerHTML;
+	export_table_to_csv(html, "Result.csv");
+    });
     $("#NextButton").on("click", function(){
         lower_bound += 15;
         upper_bound += 15;
@@ -145,6 +149,49 @@ $(document).ready(function(){
     
 });
 
+function download_csv(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV FILE
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // We have to create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Make sure that the link is not displayed
+    downloadLink.style.display = "none";
+
+    // Add the link to your DOM
+    document.body.appendChild(downloadLink);
+
+    // Lanzamos
+    downloadLink.click();
+}
+
+function export_table_to_csv(html, filename) {
+	var csv = [];
+	var rows = document.querySelectorAll("table tr");
+	
+    for (var i = 0; i < rows.length; i++) {
+		var row = [], cols = rows[i].querySelectorAll("td, th");
+		
+        for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+        
+        csv.push(row.join(","));		
+    }
+
+    // Download CSV
+    download_csv(csv.join("\n"), filename);
+}
+
 function getQueryParams(qs) {
     qs = qs.split('+').join(' ');
     var params = {},
@@ -192,15 +239,38 @@ function print_table(){
 function PrintElem(elem) {
 
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-    
-    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-    mywindow.document.write("<link href=\"css/print.css\" rel=\"stylesheet\" type=\"text/css\">");
-    mywindow.document.write('</head><body >');
-    mywindow.document.write("<div id='MainContainer'>");
-    mywindow.document.write('<h1>' + document.title  + '</h1>');
-    mywindow.document.write(document.getElementById(elem).innerHTML);
-    mywindow.document.write("</div>");
-    mywindow.document.write('</body></html>');
+        
+    mywindow.document.head.innerHTML = "<title><\/title>" +
+    "<style> " +
+    ".hide_in_print{" +
+    "display:none;" +
+    "} " +
+    ".pending{" +
+    "background-color:#FFC0CB;" +
+    "} " +
+    ".done{" +
+    "background-color:#33CC56;" +
+    "} " +
+    "table td {" +
+    "color: black;" +
+    "text-align: center;" +
+    "text-decoration: none;" +
+    "border: 1px solid #999" +
+    "padding: 2px 2px;" +
+    "} " +
+    "table th {" +
+    "color: black;" +
+    "text-align: center;" +
+    "text-decoration: none;" +
+    "border: 1px solid #999" +
+    "padding: 2px 2px;" +
+    "} " +
+    "table{" +
+    "border:solid 1px;" +
+    "border-collapse: collapse;" +
+    "}" +
+    "<\/style>";
+    mywindow.document.body.innerHTML = document.getElementById(elem).innerHTML;
 
     mywindow.document.close(); // necessary for IE >= 10
     mywindow.focus(); // necessary for IE >= 10*/
