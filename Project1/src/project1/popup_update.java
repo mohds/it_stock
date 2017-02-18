@@ -122,7 +122,6 @@ public class popup_update
             String spec = parts2[0];  //parse spec name from the input text element
             int spec_id = queries.get_spec_id_from_name(spec);  //get spec id
             String sql_insert_new_specs = "INSERT INTO ITEMSPECVALUES (\"VALUE\",\"ITEM_ID\",\"SPEC_ID\") VALUES ('" + popup_new_specs_values[i] + "','" + item_id + "','" + spec_id +"')";  //insert spec value
-            System.out.println(sql_insert_new_specs);
             stat_insert_new_specs.executeUpdate(sql_insert_new_specs);  //execute
           }
         }
@@ -132,5 +131,12 @@ public class popup_update
         System.out.println(e.toString());
       }
     }
+    
+    HttpSession session = request.getSession();
+    
+    Log log = new Log();
+    String description = "Edited item of ID " + item_id;
+    log.log(description, request, session);
+    
   }
 }

@@ -35,8 +35,25 @@ public class generate_items_table
     Connection con = connect.connect();
     
     String item_id = "";
+    boolean authorized_checkout = false;
+    boolean authorized_delete = false;
     
-    boolean authorized_checkout = true;
+    HttpSession session = request.getSession(); //get session
+    Access access = new Access();
+    String user = (String)session.getAttribute("username");
+    
+    String method_checkout = "checkout_item";
+    if(access.has_access(user, method_checkout))  //if logged in user has access to checkout item
+    {
+      authorized_checkout = true;
+    }
+    
+    String method_delete_item = "delete_item";
+    if(access.has_access(user, method_delete_item)) //if logged in user has access to delete item
+    {
+      authorized_delete = true;
+    }
+    
     
     response.setContentType(CONTENT_TYPE);
     PrintWriter out = response.getWriter();
@@ -223,8 +240,10 @@ public class generate_items_table
     out.println("<th>Availability</th>");
     out.println("<th>Receipt</th>");
     out.println("<th>Details</th>");
-    out.println("<th>Action</th>");
-    
+    if(authorized_delete)
+    {
+      out.println("<th>Action</th>");
+    }
     try
     {
       Statement stat_master = con.createStatement();
@@ -289,10 +308,17 @@ public class generate_items_table
             out.println("<td><a href = 'search_records.jsp?item_id=" + item_id +"'><img src = 'images/receipt.png'></td></a>");
           }
           out.println("<td><a class='showAlert' title='View' onclick = 'show_specs(" + item_id + ")'>View</a></td>");  //add View link, when clicked, popup will show with the details of the item. onclick of the link show_specs is called from popup_jquery.js and give it as parameter the item id
-          out.println("<td><a + onclick = 'delete_item(" + item_id + ")'><img src = 'images/delete.png'></td></a>");  //to delete an item. onclick calls delete_item() from items_hq_general.js and takes as argument item_id
+          if(authorized_delete)
+          {
+            out.println("<td><a + onclick = 'delete_item(" + item_id + ")'><img src = 'images/delete.png'></td></a>");  //to delete an item. onclick calls delete_item() from items_hq_general.js and takes as argument item_id
+          }
           out.println("</tr>");
         }
       }
+      Log log = new Log();  //create log
+      String description = "Conducted items search";
+      log.log(description, request, session);
+
     }
     catch(Exception e)
     {

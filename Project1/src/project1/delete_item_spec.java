@@ -29,6 +29,8 @@ public class delete_item_spec
     connect_to_db connect = new connect_to_db();
     Connection con = connect.connect();
     
+    db_queries queries = new db_queries();
+    
     String item_id = request.getParameter("item_id");
     String spec_id = request.getParameter("spec_id");
     
@@ -37,6 +39,12 @@ public class delete_item_spec
     {
       Statement stat_delete_item_spec = con.createStatement();
       stat_delete_item_spec.executeUpdate(sql_delete_item_spec);
+      
+      HttpSession session = request.getSession();
+      
+      Log log = new Log();
+      String description = "Deleted spec: " + queries.get_spec_name_from_id(spec_id) + " of item of ID " + item_id;
+      log.log(description, request, session);
     }
     catch(Exception e)
     {

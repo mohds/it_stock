@@ -32,20 +32,17 @@ public class show_receipt_popup
     response.setContentType(CONTENT_TYPE);
     PrintWriter out = response.getWriter();
     
-    String[] ids_array = null;
+    String[] ids_array = null;  //array of item ids in cart
     
-    List<String> list_ids = new ArrayList<String>();
-    
-    connect_to_db connect = new connect_to_db();
-    Connection con = connect.connect();
+    List<String> list_ids = new ArrayList<String>();  //list of item ids in cart
     
     out.println("<script src='js/popup_jquery.js'></script>");
     
     db_queries queries = new db_queries();
     
-    List<String> clients_list = queries.get_clients_names();
+    List<String> clients_list = queries.get_clients_names();  //list contains all clients names
     
-    if(request.getParameterValues("ids_array[]") != null)
+    if(request.getParameterValues("ids_array[]") != null) //create the list of item ids in cart from the array WITHOUT null or empty array entries
     {
       ids_array = request.getParameterValues("ids_array[]");
       for(int k = 0 ; k < ids_array.length ; k++)
@@ -56,9 +53,10 @@ public class show_receipt_popup
         }
       }
     }
+    HttpSession session = request.getSession();
     
-    String admin = "Wassim El Ahmar - ãÌáÓ ÇáäæÇÈ ";
-    String admin_id = "1";
+    String admin = (String)session.getAttribute("username");
+    String admin_id = (String)session.getAttribute("id");
     String current_date = "";
     String current_time = "";
     
@@ -73,8 +71,9 @@ public class show_receipt_popup
     
     String current_date_time = current_date + " " + current_time;
     
-    out.println("<input type = 'hidden' id = 'current_date_time_id' value = '" + current_date_time +"'>");
-    out.println("<input type = 'hidden' id = 'admin_id_id' value = '" + admin_id +"'>");
+    out.println("<input type = 'hidden' id = 'current_date_time_id' value = '" + current_date_time +"'>");  //used to send parameter current_date_time
+    out.println("<input type = 'hidden' id = 'admin_id_id' value = '" + admin_id +"'>");  //used to send parameter admin_id
+    out.println("<input type = 'hidden' id = 'admin_name_id' value = '" + admin +"'>"); //used to send parameter admin name
     
     out.println("<h3>Items Checkout</h3>");
     
@@ -112,19 +111,20 @@ public class show_receipt_popup
     
     out.println("<label>Expected date of Return: </label>");
     out.println("<input type = 'text' class = 'datepicker' id = 'global_expected_date_id' readonly = 'true'>");
-    out.println("<input type = 'button' value = 'Set all' onclick = 'set_expected_return_date()'>");
+    out.println("<input type = 'button' value = 'Set all' onclick = 'set_expected_return_date()'>");  //calls set_expected_return_date that sets the return date of all items in receipt to the global expected return date
     out.println("<br><br>");
     
     out.println("<label>Country: </label>");
     out.println("<input type = 'text' id = 'receipt_country_id'>");
     out.println("<br><br>");
     
-    out.println("<table border = '1'>");
+    out.println("<table border = '1'>");  //generate table of records
     out.println("<th>Item ID</th>");
     out.println("<th>Expected date of return</th>");
     out.println("<th>Notes</th>");
     out.println("<th>Will be returned?</th>");
-    for(int i = 0 ; i < list_ids.size() ; i++)
+    
+    for(int i = 0 ; i < list_ids.size() ; i++)  //for every item, add a record in the records table
     {
       out.println("<tr>");
       out.println("<td class = 'item_ids_class' id = 'item_" + list_ids.get(i) + "_id'>" + list_ids.get(i) + "</td>");
@@ -151,8 +151,16 @@ public class show_receipt_popup
     
     out.println("<br><br>");
     
-    out.println("<input type = 'button' value = 'Check Out' onclick = create_receipt()>");
+    out.println("<input type = 'button' value = 'Check Out and Print' onclick = create_receipt()>");
     
     out.close();
+    
+    Log log = new Log();  //for every added record, create a log
+    
+    for(int i = 0 ; i < list_ids.size() ; i++)
+    {
+      String description = "Started checkout process of item of ID: " + list_ids.get(i);
+      log.log(description, request, session);
+    }
   }
 }

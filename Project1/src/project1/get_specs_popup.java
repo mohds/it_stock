@@ -59,8 +59,17 @@ public class get_specs_popup
       Statement stat_specs = con.createStatement();
       ResultSet rs_specs = stat_specs.executeQuery(sql_get_specs);
       
-      boolean authorized = true;  //if authorized to edit items
-      boolean authorized_add = true;  //if authorized to add new specs
+      boolean authorized_edit = false;  //if authorized to edit items
+      
+      HttpSession session = request.getSession();
+      Access access = new Access();
+      String user = (String)session.getAttribute("username");
+      
+      String method_edit_item = "edit_item";
+      if(access.has_access(user, method_edit_item)) //if logged in user is authorized to edit items
+      {
+        authorized_edit = true;
+      }
       
       out.println("<h3>General Info: </h3>");
       
@@ -79,7 +88,7 @@ public class get_specs_popup
       {
         type = rs_general_info.getString(2);
         out.println("<tr>");
-        if(authorized)  //if authorized to edit item
+        if(authorized_edit)  //if authorized to edit item
         {
           out.println("<td>" + rs_general_info.getString(1) + "</td>"); //item id can't be changed
           out.println("<td>" + rs_general_info.getString(2) + "</td>"); //item type can't be changed
@@ -161,14 +170,14 @@ public class get_specs_popup
       out.println("<table border = '1'>");
       out.println("<th>Spec</th>");
       out.println("<th>Value</th>");
-      if(authorized)
+      if(authorized_edit)
       {
         out.println("<th>Action</th>");
       }
       while(rs_specs.next())
       {
         out.println("<tr>");
-        if(authorized)  //if authorized to edit item
+        if(authorized_edit)  //if authorized to edit item
         {
           if(!rs_specs.getString(2).equals(""))
           {
@@ -191,7 +200,7 @@ public class get_specs_popup
       }
       
       out.println("</table>");
-      if(authorized_add)  //if authorized to add new specs to an item
+      if(authorized_edit)  //if authorized to edit current specs of an item
       {
         List<String> item_specs_list = queries.get_type_specs_for_item(type,item_id);  //list contains specs relevant to item type
         
@@ -214,11 +223,15 @@ public class get_specs_popup
         out.println("<div id = 'popup_specs_values_region'>");  //div where new specs are added
         out.println("</div>");
       }
-      if(authorized)
+      if(authorized_edit)
       {
         out.println("<br>");
         out.println("<input type = 'button' value = 'Update' onclick = 'update_popup(" + item_id + ")'>");  //update button will update all information related to specific item. onclick calls update_popup from popup_jquery.js and takes item_id as argument
       }
+      
+      Log log = new Log();
+      String description = "Viewed details of item of ID " + item_id;
+      log.log(description, request, session);
     }
     catch(Exception e)
     {

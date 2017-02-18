@@ -76,8 +76,8 @@ function update_popup(item_id)  //function to update item information
       {
       $.get('popup_update', {'popup_specs_names':popup_specs_names, 'popup_specs_values':popup_specs_values,'popup_new_specs_names':popup_new_specs_names, 'popup_new_specs_values':popup_new_specs_values, 'popup_brand':popup_brand, 'popup_location':popup_location,'popup_condition':popup_condition, 'popup_label':popup_label,'popup_sn':popup_sn,'popup_notes':popup_notes, 'item_id':item_id}, function(data)
       {
-        show_specs(item_id);
-        send_specs();
+        show_specs(item_id);  //update item popup view
+        send_specs(); //update search results
         alert("Item successfully updated.");
       });
       }
@@ -164,7 +164,7 @@ function show_receipt()  //show popup containing receipt details
   });
 }
 
-function set_expected_return_date()
+function set_expected_return_date() //function to set all records expected date of return the same as the receipt expected date of return (global)
 {
   var global_return_date = document.getElementById('global_expected_date_id').value;
   var receipt_item_return_dates = document.getElementsByClassName("records_expected_date_class");
@@ -174,28 +174,34 @@ function set_expected_return_date()
   }
 }
 
-function create_receipt()
+function create_receipt() //function to create receipt after checkout is complete
 {
   if(confirm('Create receipt?'))
   {
     var x_timer;   
+    
+    //get parameter values
+    //
+    //
+    
     var client_name = document.getElementById('receipt_client_name_id').value;
     var receiver_name = document.getElementById('receipt_receiver_name_id').value;
     var receipt_notes = document.getElementById('receipt_notes_id').value;
     var current_date_time = document.getElementById('current_date_time_id').value;
     var admin_id = document.getElementById('admin_id_id').value;
+    var admin = document.getElementById('admin_name_id').value;
     var global_expected_date = document.getElementById('global_expected_date_id').value;
     var receipt_country = document.getElementById('receipt_country_id').value;
     
-    var records_items_ids = document.getElementsByClassName('item_ids_class');
+    var records_items_ids = document.getElementsByClassName('item_ids_class');  
     var records_expected_dates_of_return = document.getElementsByClassName('records_expected_date_class');
-    var records_notes = document.getElementsByClassName('records_notes_class');
+    var records_notes = document.getElementsByClassName('records_notes_class'); 
     var records_returning = document.getElementsByClassName('records_returning_class');
     
-    var array_records_items_ids = new Array();
-    var array_records_expected_dates_of_return = new Array();
-    var array_records_notes = new Array();
-    var array_records_returning = new Array();
+    var array_records_items_ids = new Array();  //will contain records item ids
+    var array_records_expected_dates_of_return = new Array(); //will contain records expected dates of return
+    var array_records_notes = new Array();  //will contain record notes
+    var array_records_returning = new Array();   //will contain whether or not an item from record will be returned
     
     for(var k = 0 ; k < records_items_ids.length ; ++k)
     {
@@ -208,28 +214,30 @@ function create_receipt()
     clearTimeout(x_timer);		        
     x_timer = setTimeout(function()
     {
-      send_to_servlet(array_records_items_ids,array_records_expected_dates_of_return,array_records_notes,array_records_returning,client_name,receiver_name,receipt_notes,current_date_time,admin_id,global_expected_date,receipt_country);
+      //send parameters to 2 servlets
+      //create_receipt_and_records to create the receipt and records in the database
+      //create_receipt_form to create a pdf file from the receipt and also a printable form of the receipt in the browser
+      
+      send_to_servlet(array_records_items_ids,array_records_expected_dates_of_return,array_records_notes,array_records_returning,client_name,receiver_name,receipt_notes,current_date_time,admin_id,admin,global_expected_date,receipt_country);
     }, 1000);
     
-    function send_to_servlet(get_array_records_items_ids,get_array_records_expected_dates_of_return,get_array_records_notes,get_array_records_returning,get_client_name,get_receiver_name,get_receipt_notes,get_current_date_time,get_admin_id,get_global_expected_date,get_receipt_country)
+    function send_to_servlet(get_array_records_items_ids,get_array_records_expected_dates_of_return,get_array_records_notes,get_array_records_returning,get_client_name,get_receiver_name,get_receipt_notes,get_current_date_time,get_admin_id,get_admin,get_global_expected_date,get_receipt_country)
     {
       $.get('create_receipt_and_records', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receiver_name':get_receiver_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
       {
         //alert("Receipt successfully created.");
       });
       
-      $.get('create_receipt_pdf', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receiver_name':get_receiver_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
+      $.get('create_receipt_form', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receiver_name':get_receiver_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'admin':get_admin, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
       {
-        //alert("Receipt successfully created.");
-      });
-      
-      $.get('finalize_receipt_pdf', {}, function(data)
-      {
-        //alert("Receipt successfully created.");
+        myWindow = window.open(); //create new tab
+        myWindow.document.body.innerHTML = data;  //generated html from create_receipt_form will make up the new tab
+        myWindow.print(); //print the opened tab
       });
     }
-    $("#dialog").dialog('close');
-    send_specs();
+    $("#dialog").dialog('close'); //close receipt popup
+    send_specs(); //update search results
+    $("#items_in_cart_table td").remove();  //empty all entries in the items cart table
   }
 }
 $( function() {
@@ -237,7 +245,7 @@ $( function() {
   } );
   
   
-function delete_item_spec(item_id, spec_id)
+function delete_item_spec(item_id, spec_id) //function to delete existing spec from item
 {
   $(document).ready(function()
     {
@@ -251,8 +259,8 @@ function delete_item_spec(item_id, spec_id)
       {
       $.get('delete_item_spec', {'item_id':get_item_id, 'spec_id':get_spec_id}, function(data)
       {
-        show_specs(get_item_id);
-        send_specs();
+        show_specs(get_item_id);  //update item popup view
+        send_specs(); //update search results
       });
       }
     });

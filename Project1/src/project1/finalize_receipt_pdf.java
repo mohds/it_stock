@@ -95,7 +95,6 @@ public class finalize_receipt_pdf
       reader.close();
       
       File source_to_delete = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + "29" + ".pdf");
-      System.out.println(source_to_delete);
       if(source_to_delete.delete())
         System.out.println("JA");
       

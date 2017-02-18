@@ -29,6 +29,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.List;
 import com.itextpdf.text.ListItem;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
@@ -53,7 +54,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class create_receipt_pdf
+public class create_receipt_form
 
 
   extends HttpServlet
@@ -70,22 +71,28 @@ public class create_receipt_pdf
     throws ServletException, IOException
   {
     response.setContentType(CONTENT_TYPE);
+    PrintWriter out = response.getWriter();
+    
+    //Creation of the PDF file and the printable html form will be done simultanuously
+    //Whenever data is written in the pdf form, it will be followed up by an addition in the html page
+    //
+    
+    out.println("<html><body>"); 
     
     connect_to_db connect= new connect_to_db();
     Connection con = connect.connect();
     
-    String[] records_items_id = null; 
-    String[] records_expected_date_of_return = null; 
-    String[] records_notes = null;
-    String[] records_returning = null; 
+    String[] records_items_id = null; //contains ids of items in the receipt
+    String[] records_expected_date_of_return = null;  //expected dates of return of items
+    String[] records_notes = null;  //notes of each item 
+    String[] records_returning = null;  //whether or not item is returning
     
     String client_name = request.getParameter("client_name");
     String receiver_name = request.getParameter("receiver_name");
     String receipt_notes = request.getParameter("receipt_notes");
-    String admin_id = request.getParameter("admin_id");
     String global_expected_date = request.getParameter("global_expected_date");
     String receipt_country = request.getParameter("receipt_country");
-    String it_name = "Wassim";
+    String it_name = request.getParameter("admin");
     int receipt_id = 0;
     
     if(request.getParameterValues("records_items_id[]") != null)
@@ -109,7 +116,7 @@ public class create_receipt_pdf
     }
     
     
-    String sql_get_receipt_id = "SELECT max(ID) from RECEIPTS";
+    String sql_get_receipt_id = "SELECT max(ID) from RECEIPTS"; //get latest receipt ID (receipt that was just created)
     try
     {
       Statement stat_get_receipt_id = con.createStatement();
@@ -127,24 +134,26 @@ public class create_receipt_pdf
     String current_date = String.valueOf(c.get(Calendar.DATE) + "-" + String.valueOf(today_date.getMonth() + 1) + "-" + String.valueOf(c.get(Calendar.YEAR)));
      
     
-    Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,Font.BOLD);
+    Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,Font.BOLD); //fonts to be used when creating pdf file
     Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,Font.BOLD);
     Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,Font.BOLD, BaseColor.RED);
     
     try
     {
-      File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");
+      File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
       FileOutputStream fileout = new FileOutputStream(file);
       Document document = new Document();
       PdfWriter.getInstance(document, fileout);
       
-      document.addAuthor("Me");
-      document.addTitle("My iText Test");
+      document.addAuthor("Wassim El Ahmar");
+      document.addTitle("Stock Receipt");
       document.open();
       
       Paragraph receipt_id_par = new Paragraph("Receipt ID: " + receipt_id ,catFont);
       receipt_id_par.setAlignment(Element.ALIGN_LEFT);
       document.add(receipt_id_par);
+      
+      out.println("<h3>Receipt ID: " + receipt_id + "</h3>");
       
       Image image;
       try 
@@ -152,6 +161,7 @@ public class create_receipt_pdf
         image = Image.getInstance("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\mayadeen.png");
         image.setAlignment(Image.ALIGN_RIGHT);
         document.add(image);
+        out.println("<img align='right' src = 'images/mayadeen.png'>");
       } 
       catch (MalformedURLException e) 
       {
@@ -161,6 +171,8 @@ public class create_receipt_pdf
       {
         e.printStackTrace();
       }
+      
+      out.println("<h2 style = 'color: red; text-align: center;'>Al Mayadeen IT Department</h2>");
       
       Paragraph receipt_text = new Paragraph("Receipt",catFont);
       receipt_text.setAlignment(Element.ALIGN_CENTER);
@@ -176,11 +188,26 @@ public class create_receipt_pdf
       paragraph.setAlignment(Element.ALIGN_LEFT);
       document.add(paragraph);
       
-      document.add( Chunk.NEWLINE );
+      out.println("<p>Received on: " + current_date + "</p>");
+      out.println("<p>Received for: " + client_name + "</p>");
+      out.println("<p>Received by: " + receiver_name + "</p>");
+      out.println("<p>IT: " + it_name + "</p>");
+      out.println("<p>Expected date of items return: " + global_expected_date + "</p>");
       
-      PdfPTable table = new PdfPTable(6);
+      document.add( Chunk.NEWLINE );  //empty line
       
-      PdfPCell c1 = new PdfPCell(new Phrase("Item ID"));
+      PdfPTable table = new PdfPTable(8); //create table with 8 columns
+      table.setTotalWidth(PageSize.A4.getWidth());
+      
+      PdfPCell c1 = new PdfPCell(new Phrase("Item ID"));  //Column headers
+      c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+      table.addCell(c1);
+      
+      c1 = new PdfPCell(new Phrase("Type"));
+      c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+      table.addCell(c1);
+      
+      c1 = new PdfPCell(new Phrase("Brand"));
       c1.setHorizontalAlignment(Element.ALIGN_CENTER);
       table.addCell(c1);
 
@@ -206,49 +233,93 @@ public class create_receipt_pdf
       
       table.setHeaderRows(1);
       
+      out.println("<table border = '1'>");
+      
+      out.println("<th>Item ID</th>");
+      out.println("<th>Type</th>");
+      out.println("<th>Brand</th>");
+      out.println("<th>Label</th>");
+      out.println("<th>Serial Number</th>");
+      out.println("<th>Expected date of return</th>");
+      out.println("<th>Notes</th>");
+      out.println("<th>Item Returning</th>");
+      
       for(int i = 0 ; i < records_items_id.length ; i++)
       {
-        String sql_get_item_info = "SELECT LABEL, SERIAL_NUMBER FROM ITEMS WHERE ID = '" + records_items_id[i] + "'";
+        String sql_get_item_info = "SELECT TYPES.NAME, BRANDS.NAME, ITEMS.LABEL, ITEMS.SERIAL_NUMBER FROM TYPES,BRANDS,ITEMS WHERE TYPES.ID = ITEMS.TYPE_ID AND BRANDS.ID = ITEMS.BRAND_ID AND ITEMS.ID = '" + records_items_id[i] + "'";
         Statement stat_get_item_info = con.createStatement();
         ResultSet rs_get_item_info = stat_get_item_info.executeQuery(sql_get_item_info);
         rs_get_item_info.next();
         
+        out.println("<tr>");
+        
         table.addCell(records_items_id[i]);
+        out.println("<td>" + records_items_id[i] + "</td>");
         
         if(rs_get_item_info.getString(1) != null)
         {
           table.addCell(rs_get_item_info.getString(1));
+          out.println("<td>" + rs_get_item_info.getString(1) + "</td>");
         }
         else
         {
           table.addCell("-");
+          out.println("<td>-</td>");
         }
         
         if(rs_get_item_info.getString(2) != null)
         {
           table.addCell(rs_get_item_info.getString(2));
+          out.println("<td>" + rs_get_item_info.getString(2) + "</td>");
         }
         else
         {
           table.addCell("-");
+          out.println("<td>-</td>");
+        }
+        
+        if(rs_get_item_info.getString(3) != null)
+        {
+          table.addCell(rs_get_item_info.getString(3));
+          out.println("<td>" + rs_get_item_info.getString(3) + "</td>");
+        }
+        else
+        {
+          table.addCell("-");
+          out.println("<td>-</td>");
+        }
+        
+        if(rs_get_item_info.getString(4) != null)
+        {
+          table.addCell(rs_get_item_info.getString(4));
+          out.println("<td>" + rs_get_item_info.getString(4) + "</td>");
+        }
+        else
+        {
+          table.addCell("-");
+          out.println("<td>-</td>");
         }
         
         if(records_expected_date_of_return[i] != null)
         {
           table.addCell(records_expected_date_of_return[i]);
+          out.println("<td>" + records_expected_date_of_return[i] + "</td>");
         }
         else
         {
           table.addCell("-");
+          out.println("<td>-</td>");
         }
         
         if(records_notes[i] != null)
         {
           table.addCell(records_notes[i]);
+          out.println("<td>" + records_notes[i] + "</td>");
         }
         else
         {
           table.addCell("-");
+          out.println("<td>-</td>");
         }
         
         if(records_returning[i] != null)
@@ -256,44 +327,44 @@ public class create_receipt_pdf
           if(records_returning[i].equals("1"))
           {
             table.addCell("Yes");
+            out.println("<td>Yes</td>");
           }
           else
           {
             table.addCell("No");
+            out.println("<td>No</td>");
           }
         }
         else
         {
           table.addCell("-");
+          out.println("<td>-</td>");
         }
+        out.println("</tr>");
       }
       
       document.add(table);
+      out.println("</table>");
       
       Paragraph receipt_notes_par = new Paragraph();
       receipt_notes_par.add(new Paragraph(""));
       receipt_notes_par.add(new Paragraph("Country: " + receipt_country ,subFont));
       receipt_notes_par.add(new Paragraph("Receipt notes: " + receipt_notes,subFont));
       receipt_notes_par.setAlignment(Element.ALIGN_LEFT);
-      document.add(receipt_notes_par);           
+      document.add(receipt_notes_par);
+      
+      out.println("<p>Country: " + receipt_country + "</p>");
+      out.println("<p>Receipt notes: " + receipt_notes + "</p>");
       
       Paragraph please_note_text = new Paragraph("Kindly note that the return of any of the items listed in this receipt is not considered official unless signed by bot the receiver and the IT employee.",redFont);
       please_note_text.setAlignment(Element.ALIGN_LEFT);
       document.add(please_note_text);
       
-      /*Paragraph reception_title_text = new Paragraph("Return",redFont);
-      reception_title_text.setAlignment(Element.ALIGN_CENTER);
-      document.add(reception_title_text);
+      out.println("<h4 style = 'color: red; text-align: center;'>Kindly note that the return of any of the items listed in this receipt is not considered official unless signed by bot the receiver and the IT employee</h4>");
       
-      Paragraph reception_par = new Paragraph();
-      reception_par.add(new Paragraph(""));
-      reception_par.add(new Paragraph("Returned on: " ,subFont));
-      reception_par.add(new Paragraph("Returned by: " ,subFont));
-      reception_par.add(new Paragraph("IT: " ,subFont));
-      reception_par.setAlignment(Element.ALIGN_LEFT);
-      document.add(reception_par);       */    
       
       document.close();
+      out.println("</body></html>");
     }
     catch(Exception e)
     {
