@@ -196,7 +196,7 @@ public class items_hq extends HttpServlet {
         out.println("<h3 id = 'h3_search_results_id'>Search Results</h3><br>");
         
         out.println("<div id = 'results_region'>"); //results table
-        out.println("<table border = '1'>");
+        out.println("<table id = 'ayre' border = '1'>");
         out.println("<th>ID</th>");
         out.println("<th>Type</th>");
         out.println("<th>Brand</th>");
