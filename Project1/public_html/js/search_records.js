@@ -63,11 +63,22 @@ $(document).ready(function(){
     $("#AddNewClientButton").on("click", function(){
         add_client();
     });
+    $("#AddNewLocationButton").on("click", function(){
+        add_location();
+    });
     $("#AddClient_ReturnDialog").on("click", function(){        
         document.getElementById("NewClientName").value = "";
         $("#NewClientDialog").dialog("open");        
         $("#NewClientName").autocomplete({
             source: "get_clients",
+            minLength: 1
+        });
+    });
+    $("#AddLocation_ReturnDialog").on("click", function(){        
+        document.getElementById("NewLocationName").value = "";
+        $("#NewLocationDialog").dialog("open");        
+        $("#NewLocationName").autocomplete({
+            source: "get_locations",
             minLength: 1
         });
     });
@@ -118,6 +129,17 @@ $(document).ready(function(){
             duration: 200
         }
     });
+    $("#NewLocationDialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    });
     
     check_item_id_search();
     
@@ -138,12 +160,15 @@ function getQueryParams(qs) {
 function check_item_id_search(){
     var query = getQueryParams(document.location.search);
     if(query.item_id > 0){
-        document.getElementById("ItemId").value = query.item_id;
-        search(lower_bound, upper_bound);
+    
+        $.post('get_receipt_id_of_item_id', {item_id: query.item_id}, function(returnedData){
+            document.getElementById("ReceiptId").value = returnedData;
+            search(lower_bound, upper_bound);
+        });
+        
+        
     }
 }
-
-
 
 // define global variables
 // variables to be used in upper and lower bounds of number of records
@@ -151,9 +176,53 @@ var upper_bound = 15;
 var lower_bound = 0;
 
 function print_table(){
-    $("MainContainer").printElement();
+    if(document.getElementById("AllResults").checked){
+        search(0, 10000);
+        
+        setTimeout(function (){
+            PrintElem("RightContainer");
+        }, 1000);
+        
+        search(lower_bound, upper_bound);
+    }
+    else{
+        PrintElem("RightContainer");
+    }
+}
+function PrintElem(elem) {
+
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+    
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write("<link href=\"css/print.css\" rel=\"stylesheet\" type=\"text/css\">");
+    mywindow.document.write('</head><body >');
+    mywindow.document.write("<div id='MainContainer'>");
+    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(document.getElementById(elem).innerHTML);
+    mywindow.document.write("</div>");
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+
 }
 
+function add_location(){
+    var location = document.getElementById("NewLocationName").value;
+    
+    $.post('add_location', {location: location}, 
+        function(returnedData){
+            
+    }, 'json');
+    
+    $("#NewLocationDialog").dialog("close");
+    document.getElementById("NewLocationName").value = "";
+}
 function add_client(){
     var client = document.getElementById("NewClientName").value;
     
@@ -321,10 +390,10 @@ function search(lower_bound, upper_bound){
             var html_code = "";
             for(var i = 0 ; i < returnedData.length ; i++){
                 if(returnedData[i].return_date == "Pending"){
-                    html_code += "<tr id=\"row_"+ i +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ i +"')\">Return<\/button><\/td><td><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    html_code += "<tr id=\"row_"+ i +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ i +"')\">Return<\/button><\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
                 }
                 else{
-                    html_code += "<tr id=\"row_"+ i +"\" class=\"done\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].return_date +"<\/td><td><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    html_code += "<tr id=\"row_"+ i +"\" class=\"done\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].return_date +"<\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
                 }
             }
             $("#ResultsTable").append(html_code);

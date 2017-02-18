@@ -74,6 +74,7 @@ public class Records {
         // update item as available
         String item_id = "";
         query = "SELECT items.id FROM items, records WHERE records.item_id = items.id AND records.id = '"+ record_id +"' ";
+        // System.out.println(query);
         con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
@@ -88,6 +89,7 @@ public class Records {
         }
         
         query = "UPDATE items SET items.availability = '1', items.location_id = '"+ location_id +"' WHERE items.id = '"+ item_id +"' ";
+        // System.out.println(query);
         con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
@@ -280,10 +282,10 @@ public class Records {
             query += "AND types.name LIKE '%"+ ItemType +"%' ";
         }
         if(!(ReceiptStatus.length() == 0)){
-            query += "AND receipts.status LIKE '%"+ ReceiptStatus +"%' ";
+            query += "AND receipts.status = '"+ ReceiptStatus +"' ";
         }
         if(!(ItemStatus.length() == 0)){
-            query += "AND items.availability LIKE '%"+ ItemStatus +"%' ";
+            query += "AND items.availability = '"+ ItemStatus +"' ";
         }
         
         // add foreign keys

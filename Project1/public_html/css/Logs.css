@@ -25,6 +25,7 @@ ul {
   position:relative;
 }
 #SearchResult {
+  display: inline-block;
   position:relative;
   
 }

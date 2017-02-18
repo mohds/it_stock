@@ -64,6 +64,7 @@
                 </select>
                 <br>
                 <button type="button" id="SearchButton">Search</button>
+                <button onClick="print_table()">Print Table</button><br>Print all Results<input type="checkbox" id="AllResults">
             </div>
             <div class="container" id="RightContainer">
                 <!--<img id="LoadingResults" src="images/ajax-loader-2.gif">-->
@@ -76,14 +77,14 @@
                         <th>Borrower</th>
                         <th>Borrow Date</th>
                         <th>Return Date</th>
-                        <th>Details</th>
+                        <th class="hide_in_print">Details</th>
                     </tr>
                 </table>
                 </br>
-                <button id="PreviousButton">< Previous</button><button id="NextButton">Next ></button>
+                <button id="PreviousButton" class="hide_in_print">< Previous</button><button id="NextButton" class="hide_in_print">Next ></button>
             </div>
-            <!--<button onClick="print_table()">Print Table</button>-->
-            <div id="ViewDetailsDialog">
+            
+            <div id="ViewDetailsDialog" title="Item Details">
                 <label>Item ID:</label><span id="ItemId_dialog"></span><br>
                 <label>Item Label:</label><span id="ItemLabel_dialog"></span><br>
                 <label>Item Type:</label><span id="ItemType_dialog"></span><br>
@@ -93,7 +94,7 @@
                 <label>Returned On:</label><span id="ReturnDate_dialog"></span><br>
                 <label>Receipt ID:</label><span id="ReceiptId_dialog"></span><br>
             </div>
-            <div id="ItemDetailsDialog">
+            <div id="ItemDetailsDialog" title="Item Details">
                 <label>ID:</label><span id="ItemId_ItemDialog"></span><br>
                 <label>Label:</label><span id="ItemLabel_ItemDialog"></span><br>
                 <label>Type:</label><span id="ItemType_ItemDialog"></span><br>
@@ -104,16 +105,19 @@
                 <label>Availability:</label><span id="ReceiptId_ItemDialog"></span><br>
                 <div id="ItemSpecs"></div>
             </div>
-            <div id="ReturnDialog">
+            <div id="ReturnDialog" title="Return Item">
                 <span id="ReturnTitle"></span></br>
                 <label>Returned By: </label><input type="text" id="ClientReturner_ReturnDialog"><button id="AddClient_ReturnDialog">New</button></br>
                 <label>To Location: </label><input type="text" id="NewLocation_ReturnDialog"><button id="AddLocation_ReturnDialog">New</button></br>
                 <span id="ConfirmReturnButton"></span>
             </div>
-            <div id="NewClientDialog">
-                <span id="">New client</span></br>
+            <div id="NewClientDialog" title="New Client">
                 <label>Client name: </label><input type="text" id="NewClientName"></br>
                 <button id="AddNewClientButton">Add</button>
+            </div>
+            <div id="NewLocationDialog" title="New Location">
+                <label>Location name: </label><input type="text" id="NewLocationName"></br>
+                <button id="AddNewLocationButton">Add</button>
             </div>
             <%}%>
         </div>

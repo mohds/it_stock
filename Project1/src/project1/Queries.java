@@ -12,8 +12,28 @@ public class Queries {
         super();
     }
     
-    public static void add_admins_to_notification_group(List<String> admins, String category){        
+    public static String get_receipt_id_of_item_id(String item_id){
+        String receipt_id = "";
         
+        String query = "SELECT records.receipt_id FROM records, receipts WHERE records.item_id = '"+ item_id +"' AND receipts.status = '0' AND records.receipt_id = receipts.id ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                receipt_id = rs.getString("receipt_id");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return receipt_id;
+    }
+    
+    public static void add_admins_to_notification_group(List<String> admins, String category){
         
         String query = "UPDATE admins SET admins.notification = '"+ category +"' WHERE 1=2 ";
         if(admins!= null){
@@ -171,7 +191,10 @@ public class Queries {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
-                labels.add(rs.getString("label"));
+                String label = rs.getString("label");
+                if(!(label.contains("!$#"))){
+                    labels.add(rs.getString("label"));
+                }
             }
             con.close();
         }
@@ -350,6 +373,7 @@ public class Queries {
             Statement stmt = con.createStatement();
             stmt.executeUpdate(query);
             con.close();
+            return_me = true; // at this point the item have been added
         }
         catch(Exception e){
             System.out.println(query);
@@ -388,19 +412,22 @@ public class Queries {
         
             // now add specs and their values
             for(int i = 0 ; i < specs_names.length ; i++){
-                String spec_id = get_id_from_name("specs", specs_names[i]);
-                query = "INSERT INTO itemspecvalues (value, spec_id, item_id) VALUES('"+ specs_values[i] +"','"+ spec_id +"','"+ item_id +"')";  
-                // query check
-                // System.out.println(query);              
-                con = connect_to_db();
-                try{
-                    Statement stmt = con.createStatement();
-                    stmt.executeUpdate(query);
-                    return_me = true;
-                    con.close();
-                }
-                catch(Exception e){
-                    System.out.println(e.toString());
+                if(specs_names[i] != null && specs_values[i] != null){
+                    if(specs_values[i].length() > 0){ // not to add empty fields
+                        String spec_id = get_id_from_name("specs", specs_names[i]);
+                        query = "INSERT INTO itemspecvalues (value, spec_id, item_id) VALUES('"+ specs_values[i] +"','"+ spec_id +"','"+ item_id +"')";  
+                        // query check
+                        // System.out.println(query);
+                        con = connect_to_db();
+                        try{
+                            Statement stmt = con.createStatement();
+                            stmt.executeUpdate(query);                            
+                            con.close();
+                        }
+                        catch(Exception e){
+                            System.out.println(e.toString());
+                        }
+                    }
                 }
             }
         }

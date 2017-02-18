@@ -18,10 +18,6 @@ public class login extends HttpServlet {
                                                            IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<head><title>login</title></head>");
-        out.println("<body>");
-        out.println("</body></html>");
         out.close();
     }
 
@@ -30,13 +26,6 @@ public class login extends HttpServlet {
                                                             IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();        
-        
-        out.println("<html>");
-        out.println("<head><title>login</title>");
-        out.println("<link type='text/css' rel='stylesheet' href='css/main.css'>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<div id='MainContainer'>");
         String user = "";
         String password = "";
         Access access = new Access();
@@ -59,15 +48,14 @@ public class login extends HttpServlet {
             
         }
         else{
-            out.println("Login failed");
+            out.println("login failed.");
             request.getRequestDispatcher("login.jsp").include(request, response);
             
             HttpSession session = request.getSession();
             Log log = new Log();
             log.log("Unsuccessful login for: "+user, request, session);
         }
-        out.println("</div>");
-        out.println("</body></html>");
+        
         out.close();
     }
 }
