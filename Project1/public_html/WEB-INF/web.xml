@@ -161,8 +161,8 @@
     <servlet-class>project1.save_specs_names</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>create_receipt_pdf</servlet-name>
-    <servlet-class>project1.create_receipt_pdf</servlet-class>
+    <servlet-name>create_receipt_form</servlet-name>
+    <servlet-class>project1.create_receipt_form</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>get_access_groups</servlet-name>
@@ -371,8 +371,8 @@
     <url-pattern>/save_specs_names</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>create_receipt_pdf</servlet-name>
-    <url-pattern>/create_receipt_pdf</url-pattern>
+    <servlet-name>create_receipt_form</servlet-name>
+    <url-pattern>/create_receipt_form</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>get_access_groups</servlet-name>

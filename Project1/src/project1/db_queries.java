@@ -108,7 +108,6 @@ public class db_queries
     Connection con = connect.connect();
     List<String> type_specs_list = new ArrayList<String>();
     String sql_get_type_specs = "SELECT SPECS.NAME FROM SPECS,SPECS_TYPES,TYPES WHERE SPECS.ID = SPECS_TYPES.SPEC_ID AND SPECS_TYPES.TYPE_ID = TYPES.ID AND TYPES.NAME = '" + type_name +"'";
-    System.out.println(sql_get_type_specs);
     try
     {
       Statement stat = con.createStatement();
@@ -240,6 +239,27 @@ public class db_queries
       return returned;
     }
   }
+  
+  public String get_spec_name_from_id(String id)
+  {
+    connect_to_db connect = new connect_to_db();
+    Connection con = connect.connect();
+    String sql_get_spec= "SELECT NAME FROM SPECS WHERE ID = '" + id +"'";
+    try
+    {
+      Statement stat = con.createStatement();
+      ResultSet rs_spec_name= stat.executeQuery(sql_get_spec);
+      rs_spec_name.next();
+      return rs_spec_name.getString(1);
+    }
+    catch(Exception e)
+    {
+      System.out.println(e.toString());
+      String returned = "0";
+      return returned;
+    }
+  }
+  
   public String get_brand_name_from_id(String id)
   {
     connect_to_db connect = new connect_to_db();
@@ -350,7 +370,6 @@ public class db_queries
     List<String> return_list  = new ArrayList<String>();
     List<String> item_specs_list = new ArrayList<String>();
     String sql_get_type_specs = "SELECT SPECS.ID,SPECS.NAME FROM SPECS,SPECS_TYPES,TYPES WHERE SPECS.ID = SPECS_TYPES.SPEC_ID AND SPECS_TYPES.TYPE_ID = TYPES.ID AND TYPES.NAME = '" + type_name +"'";
-    System.out.println(sql_get_type_specs);
     String sql_get_item_specs = "SELECT ITEMSPECVALUES.SPEC_ID FROM ITEMSPECVALUES WHERE ITEMSPECVALUES.ITEM_ID = '" + item_id +"'";
     try
     {

@@ -111,7 +111,6 @@ public class Access {
         out.println("</tr>");
         for(int i = 0 ; i < user_ids.size() ; i++){
             String query = "SELECT applications.id, people.first_name, people.last_name,courses.name, applications.status FROM applications,students,people,courses WHERE students.person_id_fk = '"+user_ids.get(i)+"' AND applications.status != 'Deleted' AND people.id = students.person_id_fk AND applications.student_id_fk = students.id AND courses.id = applications.course_id_fk";
-            System.out.println(query);
             Connection con = connect_to_db();
             try{
                 Statement stmt = con.createStatement();
@@ -474,8 +473,6 @@ public class Access {
     
     public boolean add_access_group(String access_group){
         boolean return_me = false;
-        
-        System.out.println("access_group: " + access_group);
         
         // find the id of the required access_group
         String query = "INSERT INTO access_groups (name) VALUES ('"+ access_group +"')";

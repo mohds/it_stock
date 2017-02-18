@@ -16,7 +16,6 @@
 
 #results_region
 {
-  top: 10%;
   position:absolute;
   left: 50%;
 }
@@ -41,4 +40,11 @@
   top: 55%;
   position: absolute;
   left: 65%;
+}
+#sticky
+{
+  position: fixed;
+}
+#items_in_cart_region
+{
 }

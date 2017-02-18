@@ -50,10 +50,10 @@ function view_specs()
   window.open ('add_item.jsp',false)
 }
 
-function delete_item(item_id)
+function delete_item(item_id) //function to delete item
 {
   $(document).ready(function() {
-        if(confirm('Are you sure you want to delete item of ID ' + item_id + ' ?'))
+        if(confirm('Are you sure you want to delete item of ID ' + item_id + ' ?')) //confirmation alert
         {
             var x_timer;    
               
@@ -64,36 +64,37 @@ function delete_item(item_id)
 
             function deleteit()
             {
-                $.get('delete_item', {'item_id':item_id }, function(data) 
+                $.get('delete_item', {'item_id':item_id }, function(data)   //send to delete item servlet the item id to be deleted
                 {
                 });	 
             }
           }
 	  });
-          send_specs();
+          send_specs(); //update search results
 }
 
-function add_to_cart()
+function add_to_cart()  //function to add selected items to cart
 {
-  var checkboxes = document.getElementsByClassName("items_checkboxes_class");
-  var selected_ids_array = [];
-  var ids_in_cart_array = [];
-  for(var i = 0 ; i < checkboxes.length; ++i)
+  var checkboxes = document.getElementsByClassName("items_checkboxes_class"); //get all items checkboxed
+  var selected_ids_array = [];  //will contain ids of selected items
+  var ids_in_cart_array = []; //will contain ids of items already in cart
+  
+  for(var i = 0 ; i < checkboxes.length; ++i) //loop through all checkboxed
   {
-    if(checkboxes[i].checked == true)
+    if(checkboxes[i].checked == true) //if checkbox is checked
     {
-      var checkbox_id = checkboxes[i].id;
+      var checkbox_id = checkboxes[i].id; 
       var fields = checkbox_id.split('_');
-      var item_id = fields[1];
-      selected_ids_array.push(item_id);
+      var item_id = fields[1];  //extract item id that is checked
+      selected_ids_array.push(item_id); //add item id to array of selected items ids
     }
   }
     $("#items_in_cart_table tr").each(function(){
-        ids_in_cart_array.push($(this).find("td:first").text()); //put elements into array
+        ids_in_cart_array.push($(this).find("td:first").text()); //get ids of items already in cart
     });
-    for(var k = 0 ; k < selected_ids_array.length ; k++)
+    for(var k = 0 ; k < selected_ids_array.length ; k++)  //loop through ids of items selected to be added in cart
     {
-      if(ids_in_cart_array.indexOf(selected_ids_array[k]) == -1)
+      if(ids_in_cart_array.indexOf(selected_ids_array[k]) == -1)  //if not already in cart, add it to the cart table 
       {
         var type_id = document.getElementById('item_'+ selected_ids_array[k] + '_type');
         var type = type_id.innerText;
@@ -110,7 +111,7 @@ function add_to_cart()
     }
 
     }
-function deleteRow(btn) {
+function deleteRow(btn) { //function to delete row from table
   var row = btn.parentNode.parentNode;
   row.parentNode.removeChild(row);
 }
