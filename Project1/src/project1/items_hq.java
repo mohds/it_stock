@@ -183,20 +183,21 @@ public class items_hq extends HttpServlet {
           out.println("</div>");
         }
         
-        out.println("</div>");
+        
         //send_specs() sends all search parameters to generate_items_table
       
         out.println("<h3 id = 'h3_specs_values_region'>Specs</h3><br>");
         
         out.println("<div id = 'specs_values_region'>");  //div for the added specs input text elements
         out.println("</div>");
-        
+        out.println("</div>");
         out.println("<br><br>");
         
         out.println("<h3 id = 'h3_search_results_id'>Search Results</h3><br>");
         
         out.println("<div id = 'results_region'>"); //results table
-        out.println("<table id = 'ayre' border = '1'>");
+        out.println("<a href=\"#\" class=\"export\">Export Table data into Excel</a>");
+        out.println("<table border = '1'  style=\"background-color:#FFFFCC\" width=\"0%\" cellpadding=\"3\" cellspacing=\"3\">");
         out.println("<th>ID</th>");
         out.println("<th>Type</th>");
         out.println("<th>Brand</th>");

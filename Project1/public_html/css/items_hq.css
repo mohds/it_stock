@@ -1,17 +1,10 @@
 @charset "windows-1256";
 
-#specs_values_region,#h3_specs_values_region
+#h3_specs_values_region,#specs_values_region
 {
-  top: 10%;
-  position: absolute;
-  left: 25%;
-}
-
-#h3_specs_values_region
-{
-  top: 5%;
-  position: absolute;
-  left: 25%;
+  top: -28.5em;
+  position: relative;
+  left: 22em;
 }
 
 #results_region
@@ -45,6 +38,16 @@
 {
   position: fixed;
 }
+
 #items_in_cart_region
 {
+}
+
+a.export,a.export:visited,a.hrefprintclass,a.hrefprintclass:visited {
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+  background-color: #ddd;
+  border: 1px solid #ccc;
+  padding: 8px;
 }

@@ -220,30 +220,6 @@ public class generate_items_table
     out.println("<script src='js/items_hq_general.js'></script>");  
     out.println("<script src='js/popup_jquery.js'></script>");
     
-    //generate the results table
-    //
-    //
-    
-    out.println("<table border = '1'>");
-    if(authorized_checkout)
-    {
-      out.println("<th>Select</th>");
-    }
-    out.println("<th>ID</th>");
-    out.println("<th>Type</th>");
-    out.println("<th>Brand</th>");
-    out.println("<th>Location</th>");
-    out.println("<th>Condition</th>");
-    out.println("<th>Label</th>");
-    out.println("<th>Serial Number</th>");
-    out.println("<th>Notes</th>");
-    out.println("<th>Availability</th>");
-    out.println("<th>Receipt</th>");
-    out.println("<th>Details</th>");
-    if(authorized_delete)
-    {
-      out.println("<th>Action</th>");
-    }
     try
     {
       Statement stat_master = con.createStatement();
@@ -258,6 +234,33 @@ public class generate_items_table
         result_ids.add(rs_master.getString(1));
       }
       
+      //generate the results table
+      //
+      //
+      Object[] test = null;
+      test = result_ids.toArray();
+      out.println("<a class=\"export\">Export Table data into Excel</a>");
+      out.println("<a class=\"hrefprintclass\" target=\"_blank\"\" onclick = \"print_results_table()\">Print table</a>");
+      out.println("<table border = '1'  style=\"background-color:#FFFFCC\" width=\"0%\" cellpadding=\"3\" cellspacing=\"3\">");
+      if(authorized_checkout)
+      {
+        out.println("<th>Select</th>");
+      }
+      out.println("<th>ID</th>");
+      out.println("<th>Type</th>");
+      out.println("<th>Brand</th>");
+      out.println("<th>Location</th>");
+      out.println("<th>Condition</th>");
+      out.println("<th>Label</th>");
+      out.println("<th>Serial Number</th>");
+      out.println("<th>Notes</th>");
+      out.println("<th>Availability</th>");
+      out.println("<th>Receipt</th>");
+      out.println("<th>Details</th>");
+      if(authorized_delete)
+      {
+        out.println("<th>Action</th>");
+      }
       Statement stat_final = con.createStatement();
       
       //Below we are generating results of information of the resulting items
@@ -267,54 +270,67 @@ public class generate_items_table
       {
         String sql_final = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME, LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.SERIAL_NUMBER, ITEMS.NOTES, ITEMS.AVAILABILITY FROM ITEMS, TYPES, BRANDS, LOCATIONS, ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND ITEMS.ID = '" + result_ids.get(k) + "'";
         ResultSet rs_final = stat_final.executeQuery(sql_final);
-        while(rs_final.next())
+        rs_final.next();
+        item_id = rs_final.getString(1);
+        out.println("<tr>");
+        if(authorized_checkout)
         {
-          item_id = rs_final.getString(1);
-          out.println("<tr>");
-          if(authorized_checkout)
-          {
-            if(rs_final.getString(9).equals("1"))
-            {
-              out.println("<td><input type = 'checkbox' class = 'items_checkboxes_class' id = 'checkbox_" + item_id + "'></td>");
-            }
-            else
-            {
-              out.println("<td>-</td>");
-            }
-          }
-          out.println("<td>" + rs_final.getString(1) + "</td>");
-          out.println("<td id = 'item_" + item_id +"_type'>" + rs_final.getString(2) + "</td>");
-          out.println("<td>" + rs_final.getString(3) + "</td>");
-          out.println("<td>" + rs_final.getString(4) + "</td>");
-          out.println("<td>" + rs_final.getString(5) + "</td>");
-          out.println("<td>" + rs_final.getString(6) + "</td>");
-          out.println("<td>" + rs_final.getString(7) + "</td>");
-          if(rs_final.getString(8) != null && !rs_final.getString(8).equals("null"))
-          {  
-            out.println("<td>" + rs_final.getString(8) + "</td>");
-          }
-          else
-          {
-            out.println("<td>-</td>");
-          }
           if(rs_final.getString(9).equals("1"))
           {
-            out.println("<td>Available</td>");
-            out.println("<td>-</td>");
+            out.println("<td align = 'center'><input type = 'checkbox' class = 'items_checkboxes_class' id = 'checkbox_" + item_id + "'></td>");
           }
           else
           {
-            out.println("<td>Out</td>");
-            out.println("<td><a href = 'search_records.jsp?item_id=" + item_id +"'><img src = 'images/receipt.png'></td></a>");
+            out.println("<td align = 'center'>-</td>");
           }
-          out.println("<td><a class='showAlert' title='View' onclick = 'show_specs(" + item_id + ")'>View</a></td>");  //add View link, when clicked, popup will show with the details of the item. onclick of the link show_specs is called from popup_jquery.js and give it as parameter the item id
-          if(authorized_delete)
-          {
-            out.println("<td><a + onclick = 'delete_item(" + item_id + ")'><img src = 'images/delete.png'></td></a>");  //to delete an item. onclick calls delete_item() from items_hq_general.js and takes as argument item_id
-          }
-          out.println("</tr>");
         }
+        out.println("<td class = 'search_results_item_ids_class' align = 'center'>" + rs_final.getString(1) + "</td>");
+        out.println("<td align = 'center' id = 'item_" + item_id +"_type'>" + rs_final.getString(2) + "</td>");
+        out.println("<td align = 'center'>" + rs_final.getString(3) + "</td>");
+        out.println("<td align = 'center'>" + rs_final.getString(4) + "</td>");
+        out.println("<td align = 'center'>" + rs_final.getString(5) + "</td>");
+        if(rs_final.getString(6) != null && !rs_final.getString(6).equals("null"))
+        {
+          out.println("<td align = 'center'>" + rs_final.getString(6) + "</td>");
+        }
+        else
+        {
+          out.println("<td align = 'center'>-</td>");
+        }
+        if(rs_final.getString(7) != null && !rs_final.getString(7).equals("null"))
+        {
+          out.println("<td align = 'center'>" + rs_final.getString(7) + "</td>");
+        }
+        else
+        {
+          out.println("<td align = 'center'>-</td>");
+        }
+        if(rs_final.getString(8) != null && !rs_final.getString(8).equals("null"))
+        {  
+          out.println("<td align = 'center'>" + rs_final.getString(8) + "</td>");
+        }
+        else
+        {
+          out.println("<td align = 'center'>-</td>");
+        }
+        if(rs_final.getString(9).equals("1"))
+        {
+          out.println("<td align = 'center'>Available</td>");
+          out.println("<td align = 'center'>-</td>");
+        }
+        else
+        {
+          out.println("<td align = 'center'>Out</td>");
+          out.println("<td align = 'center'><a href = 'search_records.jsp?item_id=" + item_id +"'><img src = 'images/receipt.png'></td></a>");
+        }
+        out.println("<td align = 'center'><a class='showAlert' title='View' onclick = 'show_specs(" + item_id + ")'>View</a></td>");  //add View link, when clicked, popup will show with the details of the item. onclick of the link show_specs is called from popup_jquery.js and give it as parameter the item id
+        if(authorized_delete)
+        {
+          out.println("<td align = 'center'><a + onclick = 'delete_item(" + item_id + ")'><img src = 'images/delete.png'></td></a>");  //to delete an item. onclick calls delete_item() from items_hq_general.js and takes as argument item_id
+        }
+        out.println("</tr>");
       }
+      
       Log log = new Log();  //create log
       String description = "Conducted items search";
       log.log(description, request, session);
@@ -325,7 +341,6 @@ public class generate_items_table
       System.out.println(e.toString());
     }
     out.println("</table>");
-    
     if(authorized_checkout)
     {
       out.println("<br><input id = 'add_to_cart_button' type = 'button' value = 'Add to cart' onclick = 'add_to_cart();' />");
