@@ -28,11 +28,12 @@ public class search_records extends HttpServlet {
         String ReturnAfterDate = request.getParameter("ReturnAfterDate");
         String ItemType = request.getParameter("ItemType");
         String ReceiptStatus = request.getParameter("ReceiptStatus");
+        String RecordStatus = request.getParameter("RecordStatus");
         String ItemStatus = request.getParameter("ItemStatus");
         String lower_bound = request.getParameter("lower_bound");
         String upper_bound = request.getParameter("upper_bound");
         
-        Records.generate_results(ReceiptId, item_id, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, ItemStatus, out, lower_bound, upper_bound);
+        Records.generate_results(ReceiptId, item_id, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, RecordStatus, ItemStatus, out, lower_bound, upper_bound);
         
         Log log = new Log();
         HttpSession session = request.getSession();

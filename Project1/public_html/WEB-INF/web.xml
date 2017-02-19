@@ -185,10 +185,6 @@
     <servlet-class>project1.add_new_method</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>finalize_receipt_pdf</servlet-name>
-    <servlet-class>project1.finalize_receipt_pdf</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>email_checker</servlet-name>
     <servlet-class>project1.email_checker</servlet-class>
   </servlet>
@@ -219,6 +215,14 @@
   <servlet>
     <servlet-name>print_item_search_results</servlet-name>
     <servlet-class>project1.print_item_search_results</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>return_receipt_from_record_id</servlet-name>
+    <servlet-class>project1.return_receipt_from_record_id</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>get_records_ids_of_receipt</servlet-name>
+    <servlet-class>project1.get_records_ids_of_receipt</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>login</servlet-name>
@@ -403,10 +407,6 @@
     <url-pattern>/add_new_method</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>finalize_receipt_pdf</servlet-name>
-    <url-pattern>/finalize_receipt_pdf</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>email_checker</servlet-name>
     <url-pattern>/email_checker</url-pattern>
   </servlet-mapping>
@@ -437,5 +437,13 @@
   <servlet-mapping>
     <servlet-name>print_item_search_results</servlet-name>
     <url-pattern>/print_item_search_results</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>return_receipt_from_record_id</servlet-name>
+    <url-pattern>/return_receipt_from_record_id</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>get_records_ids_of_receipt</servlet-name>
+    <url-pattern>/get_records_ids_of_receipt</url-pattern>
   </servlet-mapping>
 </web-app>

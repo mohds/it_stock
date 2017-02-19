@@ -21,6 +21,28 @@ public class Records {
         super();
     }
     
+    public static List<String> get_record_ids_from_receipt(String receipt_id){
+        List<String> record_ids = new ArrayList<String>();
+        
+        String query = "SELECT records.id FROM records WHERE records.receipt_id='"+ receipt_id +"' ";
+        // System.out.println(query);
+        
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                record_ids.add(rs.getString("id"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return record_ids;
+    }
+    
     public static boolean return_item(String record_id, String client_returner, PrintWriter out, String admin_receiver, String new_location){
                 
         String current_datetime = "";
@@ -64,8 +86,8 @@ public class Records {
                 System.out.println(e.toString());
             }
             
-            // servlet wassim
-            
+            // class wassim
+            finalize_receipt_pdf.finalize_receipt(admin_receiver, client_returner, receipt_id);
         }
         else{
             // do nothing
@@ -228,7 +250,7 @@ public class Records {
         out.println(gson.toJson(record));
     }
     
-    public static void generate_results(String ReceiptId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
+    public static void generate_results(String ReceiptId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String RecordStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
         String query = "SELECT records.id, items.id AS item_id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
         
         if(!(ReceiptId.length() == 0)){
@@ -283,6 +305,17 @@ public class Records {
         }
         if(!(ReceiptStatus.length() == 0)){
             query += "AND receipts.status = '"+ ReceiptStatus +"' ";
+        }
+        if(!(RecordStatus.length() == 0)){
+            if(RecordStatus.contains("1")){
+                query += "AND return_datetime IS NOT NULL ";
+            }
+            else if(RecordStatus.contains("0")){
+                query += "AND return_datetime IS NULL ";
+            }
+            else{
+                // do nothing
+            }
         }
         if(!(ItemStatus.length() == 0)){
             query += "AND items.availability = '"+ ItemStatus +"' ";

@@ -37,7 +37,7 @@
                 // closed after form document
             %>
             <h2>Search records</h2>
-            <span id="message-box"></span>
+            <span id="message-box"></span></br>
             <div class="container" id="LeftContainer">
                 <label>Receipt ID: </label><input type="text" id="ReceiptId" /><br>
                 <label>Item ID: </label><input type="text" id="ItemId"/></br>
@@ -56,16 +56,24 @@
                     <option value="1">Closed</option>
                 </select>
                 <br>
+                <label>Record Status: </label>
+                <select id="RecordStatus" >
+                    <option value="" selected>All</option>
+                    <option value="0">Open</option>
+                    <option value="1">Closed</option>
+                </select>
+                <br>
                 <label>Item availability: </label>
                 <select id="ItemStatus" >
                     <option value="" selected>All</option>
                     <option value="1">Available</option>
                     <option value="0">Not available</option>
-                </select>
+                </select>                
                 <br>
-                <button type="button" id="SearchButton">Search</button>
+                <button onclick="clear_all_input()">Clear</button>
+                <button type="button" id="SearchButton">Search</button></br>
                 <button onClick="print_table()">Print Table</button><br>Print all Results<input type="checkbox" id="AllResults"><br>
-                <button id="ExportButton" onClick="export_table_to_csv()">Export</button>
+                <button id="ExportButton">Export</button>
             </div>
             <div class="container" id="RightContainer">                
                 <!--<img id="LoadingResults" src="images/ajax-loader-2.gif">-->
@@ -110,6 +118,7 @@
                 <span id="ReturnTitle"></span></br>
                 <label>Returned By: </label><input type="text" id="ClientReturner_ReturnDialog"><button id="AddClient_ReturnDialog">New</button></br>
                 <label>To Location: </label><input type="text" id="NewLocation_ReturnDialog"><button id="AddLocation_ReturnDialog">New</button></br>
+                <label>Return Receipt: </label><input type="checkbox" id="ReturnReceipt"></br>
                 <span id="ConfirmReturnButton"></span>
             </div>
             <div id="NewClientDialog" title="New Client">
