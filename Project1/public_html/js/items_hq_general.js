@@ -6,6 +6,7 @@ function send_specs() //sends items_hq search parameters to generate_items_table
     var specs_input_elements = document.getElementsByClassName("specs_inputs_class"); //inputs_class is the class of all input text elements of added specs, specs_input_elements is array containing all input text elemets of added specs
     var specs_input_names = new Array();  //will contain ids of added specs input text elements(to parse the spec name for the id)
     var specs_input_values = new Array(); ////will contain values of added specs input text elements
+    var input_id = document.getElementById('input_item_id').value;
     var select_type = document.getElementById('select_item_type_id').value;
     var select_brand = document.getElementById('select_item_brand_id').value;
     var select_location = document.getElementById('select_item_location_id').value;
@@ -32,11 +33,11 @@ function send_specs() //sends items_hq search parameters to generate_items_table
     clearTimeout(x_timer);		        
     x_timer = setTimeout(function()
     {
-    send_to_servlet(specs_input_names,specs_input_values,select_type,select_brand,select_location,select_condition,input_label,input_sn,bool_availability_available,bool_availability_out);}, 1000);
+    send_to_servlet(input_id,specs_input_names,specs_input_values,select_type,select_brand,select_location,select_condition,input_label,input_sn,bool_availability_available,bool_availability_out);}, 1000);
     
-    function send_to_servlet(specs_names,specs_values,type,brand,location,condition,label,sn,availability_available,availability_out) //send to generate_items_table all search parameters
+    function send_to_servlet(item_id,specs_names,specs_values,type,brand,location,condition,label,sn,availability_available,availability_out) //send to generate_items_table all search parameters
     {
-      $.get('generate_items_table', {'specs_names':specs_names, 'specs_values':specs_values, 'type':type, 'brand':brand, 'location':location,'condition':condition, 'label':label,'sn':sn,'availability_available':availability_available, 'availability_out':availability_out}, function(data)
+      $.get('generate_items_table', {'item_id':item_id,'specs_names':specs_names, 'specs_values':specs_values, 'type':type, 'brand':brand, 'location':location,'condition':condition, 'label':label,'sn':sn,'availability_available':availability_available, 'availability_out':availability_out}, function(data)
       {
         $("#results_region").html('');
         $("#results_region").html(data);

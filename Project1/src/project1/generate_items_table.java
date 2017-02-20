@@ -62,8 +62,9 @@ public class generate_items_table
     
     //get search parameters from request
     //
-    //
     
+    //
+    String search_item_id = request.getParameter("item_id");
     String type = request.getParameter("type");
     String brand = request.getParameter("brand");
     String location = request.getParameter("location");
@@ -124,6 +125,11 @@ public class generate_items_table
     if(list_specs_names.size() > 0)
     {
       sql_master = sql_master + " AND ITEMSPECVALUES.ITEM_ID = ITEMS.ID AND ITEMSPECVALUES.SPEC_ID = SPECS.ID";
+    }
+    
+    if(!search_item_id.equals("")) //if type is selected, add type id in query
+    {
+      sql_master = sql_master + " AND ITEMS.ID = '" + search_item_id + "'";
     }
     
     if(!type.equals("any")) //if type is selected, add type id in query

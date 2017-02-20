@@ -324,7 +324,7 @@ function return_item(record_id, row_id){
                     
                     for(var i = 0 ; i < returnedData.length ; i++){
                         document.getElementById("row_" + returnedData[i]).cells[6].innerHTML = "today's date";            
-                        document.getElementById("row_" + returnedData[i).setAttribute("class", "done");
+                        document.getElementById("row_" + returnedData[i]).setAttribute("class", "done");
                         document.getElementById("message-box").innerHTML = "Receipt has been successfully returned."; 
                     }
                     

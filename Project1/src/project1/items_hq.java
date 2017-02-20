@@ -86,6 +86,9 @@ public class items_hq extends HttpServlet {
         out.println("<h2>Search for an item</h2>");
         out.println("<br><br>");
         
+        out.println("<label>Item ID: </label><input type = 'text' id = 'input_item_id'>");  //input text element for item ID
+        out.println("<br><br>");
+        
         //Select element for type
         //onchange, call type_value() from get_type_specs.js
         //once type is selected, a select element containing relevant specs of selected type is generated along with a 'Add' Button
