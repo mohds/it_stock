@@ -46,7 +46,7 @@ public class generate_specs_select
     }
     out.println("</select>");
     
-    out.println("<input id = 'add_spec_button' type = 'button' value = 'Add' onclick = 'add_spec();' />");  //add button, onclick, call add_spec() from get_type_specs.js
+    out.println("<input id = 'add_spec_button' type = 'button' value = 'Add' onclick = 'add_spec();' /><br><br>");  //add button, onclick, call add_spec() from get_type_specs.js
     out.close();
   }
 }

@@ -90,33 +90,34 @@ function popup_add_spec()
 {
   var popup_specs_select = document.getElementById("select_item_specs_popup_id"); //select element that contains type relevant spec names (in popup)
   var selected_spec = popup_specs_select.value;
-  var div = document.getElementById("popup_specs_values_region")  //all new elements will be added in div (in popup) 
-  
-  var spec_label = document.createElement('label'); //label for the added in spec
-  spec_label.innerHTML = selected_spec + ": ";
-  spec_label.id = "popup_label_" + selected_spec;
-  div.appendChild(spec_label);  //add in div
-  
-  var input = document.createElement('input');  //input text element for added spec
-  input.name = "popup_spec_" + selected_spec + "_value_input";  //give relevant name
-  input.id = "popup_spec_" + selected_spec + "_value_input";  //give relevant id
-  input.type = "text";
-  input.className = "popup_new_specs_inputs_class"; //give all specs input elements same class name so that it is possible to retrieve all popup spec inputs by class
-  div.appendChild(input);
-  
-  var span = document.createElement('span');  //will contain the remove button of this added spec in popup (to remove the label, input text element, the remove button, and br)
-  var test = "<input type = 'button' id = '" + selected_spec + "' value = 'Remove' onclick = popup_remove_spec('" + selected_spec + "');>"; //on button click call popup_remove_spec in popup_jquery.js and give it as parameter the name of the selected spec
-  span.innerHTML = test;
-  div.appendChild(span);  //add in div
-  
-  var br1 = document.createElement('br'); //br for design purposes
-  br1.id = "popup_br1_" + selected_spec;
-  var br2 = document.createElement('br'); //br for design purposes
-  br2.id = "popup_br2_" + selected_spec;
-  div.appendChild(br1); //add in div
-  div.appendChild(br2); //add in div
-  
-  $("#select_item_specs_popup_id option[value='" + selected_spec + "']").remove();
+  if(selected_spec != 'Please select')
+  {
+    var div = document.getElementById("popup_specs_values_region")  //all new elements will be added in div (in popup) 
+    var spec_label = document.createElement('label'); //label for the added in spec
+    spec_label.innerHTML = selected_spec + ": ";
+    spec_label.id = "popup_label_" + selected_spec;
+    div.appendChild(spec_label);  //add in div
+    
+    var input = document.createElement('input');  //input text element for added spec
+    input.name = "popup_spec_" + selected_spec + "_value_input";  //give relevant name
+    input.id = "popup_spec_" + selected_spec + "_value_input";  //give relevant id
+    input.type = "text";
+    input.className = "popup_new_specs_inputs_class"; //give all specs input elements same class name so that it is possible to retrieve all popup spec inputs by class
+    div.appendChild(input);
+    
+    var span = document.createElement('span');  //will contain the remove button of this added spec in popup (to remove the label, input text element, the remove button, and br)
+    var test = "<input type = 'button' id = '" + selected_spec + "' value = 'Remove' onclick = popup_remove_spec('" + selected_spec + "');>"; //on button click call popup_remove_spec in popup_jquery.js and give it as parameter the name of the selected spec
+    span.innerHTML = test;
+    div.appendChild(span);  //add in div
+    
+    var br1 = document.createElement('br'); //br for design purposes
+    br1.id = "popup_br1_" + selected_spec;
+    var br2 = document.createElement('br'); //br for design purposes
+    br2.id = "popup_br2_" + selected_spec;
+    div.appendChild(br1); //add in div
+    div.appendChild(br2); //add in div
+    $("#select_item_specs_popup_id option[value='" + selected_spec + "']").remove();
+  }
 }
 
 function popup_remove_spec(removed_spec)  //function to remove the label, input text element, the remove button, and br of an added spec (in popup)

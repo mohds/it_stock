@@ -82,9 +82,23 @@ public class items_hq extends HttpServlet {
         {
           authorized_checkout = true;
         }
-        out.println("<div id = 'sticky'>");
+        
+        if(authorized_checkout)
+        {
+          out.println("<div id = 'items_in_cart_region'>"); //items in cart
+          out.println("<h3>Items in cart</h3>");
+          out.println("<table border = '1' id = 'items_in_cart_table'>");
+          out.println("<th>Item ID</th>");
+          out.println("<th>Type</th>");
+          out.println("<th>Action</th>");
+          out.println("</table>");
+          out.println("<br><input id = 'checkout_button' type = 'button' value = 'Checkout' onclick = 'show_receipt();' />");
+          out.println("</div>");  //items in cart
+        }
+        
+        out.println("<div id = 'sticky'>"); //STICKY
         out.println("<h2>Search for an item</h2>");
-        out.println("<br><br>");
+        out.println("<br>");
         
         out.println("<label>Item ID: </label><input type = 'text' id = 'input_item_id'>");  //input text element for item ID
         out.println("<br><br>");
@@ -152,48 +166,30 @@ public class items_hq extends HttpServlet {
         out.println("<label>Serial Number: </label><input type = 'text' id = 'input_item_sn'>");  //input text element for serial number
       
         out.println("<br><br>");   
-        
-        out.println("<h3>Search Options</h3>");
-        
+
         //radio buttons to choose availability option (all/only available items, only out items
         //
         //
         
-        out.println("<div id = 'div_availability_radios'>");
+        out.println("<div id = 'div_availability_radios'>");  //radios
         out.println("<label>Availability: </label>");
         out.println("<input type = 'radio' name = 'availability_option' id = 'availability_option_all_id' value = 'all' checked>All");
         out.println("<input type = 'radio' name = 'availability_option' id = 'availability_option_available_id' value = 'available'>Available");
         out.println("<input type = 'radio' name = 'availability_option' id = 'availability_option_out_id' value = 'out'>Out");
-        out.println("</div>");
+        out.println("</div>");  //radios
         
-        out.println("<br><br>");
+        out.println("<br>");
         
-        out.println("<div id = specs_region>"); //div for the select element that contains the specs of selected type
-        out.println("</div>");
-        
-        out.println("<br><input id = 'search_button' type = 'button' value = 'Search' onclick = 'send_specs();' />"); //search button calls send_specs() from items_hq_general.js
-        
-        if(authorized_checkout)
-        {
-          out.println("<div id = 'items_in_cart_region'>");
-          out.println("<h3>Items in cart</h3>");
-          out.println("<table border = '1' id = 'items_in_cart_table'>");
-          out.println("<th>Item ID</th>");
-          out.println("<th>Type</th>");
-          out.println("<th>Action</th>");
-          out.println("</table>");
-          out.println("<br><input id = 'checkout_button' type = 'button' value = 'Checkout' onclick = 'show_receipt();' />");
-          out.println("</div>");
-        }
-        
-        
-        //send_specs() sends all search parameters to generate_items_table
-      
         out.println("<h3 id = 'h3_specs_values_region'>Specs</h3><br>");
         
+        out.println("<div id = specs_region>"); //div for the select element that contains the specs of selected type
+        out.println("</div>");  //select element that contains specs of element
+        
         out.println("<div id = 'specs_values_region'>");  //div for the added specs input text elements
-        out.println("</div>");
-        out.println("</div>");
+        out.println("</div>");  //div for the added specs input text elements
+      
+        out.println("<br><input id = 'search_button' type = 'button' value = 'Search' onclick = 'send_specs();' />"); //search button calls send_specs() from items_hq_general.js  
+        out.println("</div>");  //sticky
         out.println("<br><br>");
         
         out.println("<h3 id = 'h3_search_results_id'>Search Results</h3><br>");
@@ -213,7 +209,7 @@ public class items_hq extends HttpServlet {
         out.println("<th>Receipt</th>");
         out.println("<th>Details</th>");
         out.println("</table>");
-        out.println("</div>");
+        out.println("</div>");  //results table
         
         out.println("<div id = 'dialog' title = 'Specs'>"); //IMPORTANT FOR JQUERY POPUP
         out.println("<div id = 'specs_content_region' title = 'Specs'>"); //FOR POPUP CONTENT

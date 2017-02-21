@@ -2,9 +2,7 @@
 
 #h3_specs_values_region,#specs_values_region
 {
-  top: -28.5em;
-  position: relative;
-  left: 22em;
+  
 }
 
 #results_region
@@ -41,6 +39,8 @@
 
 #items_in_cart_region
 {
+  position: absolute;
+  left: 30%;
 }
 
 a.export,a.export:visited,a.hrefprintclass,a.hrefprintclass:visited {
