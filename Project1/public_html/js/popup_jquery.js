@@ -115,6 +115,8 @@ function popup_add_spec()
   br2.id = "popup_br2_" + selected_spec;
   div.appendChild(br1); //add in div
   div.appendChild(br2); //add in div
+  
+  $("#select_item_specs_popup_id option[value='" + selected_spec + "']").remove();
 }
 
 function popup_remove_spec(removed_spec)  //function to remove the label, input text element, the remove button, and br of an added spec (in popup)
@@ -138,6 +140,8 @@ function popup_remove_spec(removed_spec)  //function to remove the label, input 
     var removed_br2 = document.getElementById("popup_br2_" + removed_spec); //get br2 to be removed
     removed_br2.outerHTML = "";
     delete removed_br2; //remove
+    
+    $("#select_item_specs_popup_id").append("<option value='" + removed_spec + "'>" + removed_spec + "</option>");
 }
 
 function show_receipt()  //show popup containing receipt details

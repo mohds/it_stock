@@ -53,6 +53,8 @@ function add_spec()
   br2.id = "br2_" + selected_spec;
   div.appendChild(br1); //add in div
   div.appendChild(br2); //add in div
+  
+  $("#select_item_specs option[value='" + selected_spec + "']").remove();
 }
 
 function remove_spec(removed_spec)  //function to remove the label, input text element, the remove button, and br of an added spec 
@@ -76,4 +78,6 @@ function remove_spec(removed_spec)  //function to remove the label, input text e
     var removed_br2 = document.getElementById("br2_" + removed_spec); //get br2 to be removed
     removed_br2.outerHTML = "";
     delete removed_br2; //remove
+    
+    $("#select_item_specs").append("<option value='" + removed_spec + "'>" + removed_spec + "</option>");
 }
