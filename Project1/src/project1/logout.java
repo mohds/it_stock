@@ -17,27 +17,15 @@ public class logout extends HttpServlet {
                       HttpServletResponse response) throws ServletException,
                                                            IOException {
         response.setContentType("text/html");  
-        PrintWriter out=response.getWriter();  
-        
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<link type='text/css' rel='stylesheet' href='css/main.css'>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<div id='MainContainer'>");
-          
-        request.getRequestDispatcher("nav_bar.html").include(request, response);  
-          
+        PrintWriter out=response.getWriter();
         HttpSession session=request.getSession();
         
         Log log = new Log();
         log.log("Logged out", request, session);
         
         session.invalidate();  
-          
-        out.print("<h3 style=\"float:left\">You are successfully logged out.</h3><br>");  
-        out.print("<a href='login.jsp'>login</a>");
-        out.println("</div></body></html>");
+        
+        request.getRequestDispatcher("login.jsp").include(request, response);  
           
         out.close();
     }

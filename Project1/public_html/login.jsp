@@ -1,25 +1,29 @@
 <!DOCTYPE html>
-<%@ page contentType="text/html;charset=windows-1256"%>
-<html>
     <head>
+        <%@ page contentType="text/html;charset=windows-1256"%>
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1256"/>
+        <link href="css/main.css" rel="stylesheet" type="text/css">
         <title>login</title>
+        <link href='http://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     </head>
     <body>
+        <div id="background">
+            <img src="images/login_background_logo.jpg" class="stretch" alt="" />
+        </div>
         <div id='MainContainer'>
-        <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
-            <div class='login form'>
-                <form class='login' action='login' method='POST'>  
-                    <legend class="legend">Login</legend>
+            <div id='login-form'>
+                <img src="images/logo.png">
+                <form class='' action='login' method='POST'>
                     <span>Username</span><br>
-                    <input type='text' value='' name='username'><br>
-                    <span>Passowrd</span><br>
-                    <input type='password' value='' name='password'><br>
-                    <input type='submit' value='Submit'><br>
+                    <input class="login-input-text" type='text' value='' name='username'><br>
+                    <span>Password</span><br>
+                    <input class="login-input-text" type='password' value='' name='password'><br>
+                    <input class="login-button" type='submit' value='Login'><br>
                     <a href='#'>Forgot your password?</a><br>
                     <a href='new_user.jsp'>New User?</a>
                 </form>
             </div>
         </div>
     </body>
+    
 </html>
