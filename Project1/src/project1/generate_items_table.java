@@ -247,22 +247,23 @@ public class generate_items_table
       test = result_ids.toArray();
       out.println("<a class=\"export\">Export Table data into Excel</a>");
       out.println("<a class=\"hrefprintclass\" target=\"_blank\"\" onclick = \"print_results_table()\">Print table</a>");
-      out.println("<table border = '1'  style=\"background-color:#FFFFCC\">");
+      out.println("<div id = 'results_table_div'>");
+      out.println("<table class=\"fixed_headers\" id = 'items_search_results_table'>");
       if(authorized_checkout)
       {
         out.println("<th>Select</th>");
       }
-      out.println("<th class = 'th_id'>ID</th>");
-      out.println("<th class = 'th_normal'>Type</th>");
-      out.println("<th class = 'th_normal'>Brand</th>");
-      out.println("<th class = 'th_normal'>Location</th>");
-      out.println("<th class = 'th_normal'>Condition</th>");
-      out.println("<th class = 'th_normal'>Label</th>");
-      out.println("<th class = 'th_normal'>Serial Number</th>");
-      out.println("<th class = 'th_notes'>Notes</th>");
-      out.println("<th class = 'th_normal'>Availability</th>");
-      out.println("<th class = 'th_normal'>Receipt</th>");
-      out.println("<th class = 'th_normal'>Details</th>");
+      out.println("<th>ID</th>");
+      out.println("<th>Type</th>");
+      out.println("<th>Brand</th>");
+      out.println("<th>Location</th>");
+      out.println("<th>Condition</th>");
+      out.println("<th>Label</th>");
+      out.println("<th>Serial Number</th>");
+      out.println("<th>Availability</th>");
+      out.println("<th>Receipt</th>");
+      out.println("<th>Details</th>");
+      out.println("</div>");
       if(authorized_delete)
       {
         out.println("<th>Action</th>");
@@ -278,7 +279,14 @@ public class generate_items_table
         ResultSet rs_final = stat_final.executeQuery(sql_final);
         rs_final.next();
         item_id = rs_final.getString(1);
-        out.println("<tr>");
+        if(rs_final.getString(9).equals("1"))
+        {
+          out.println("<tr class = 'item_available_row'>");
+        }
+        else
+        {
+          out.println("<tr class = 'item_out_row'>");
+        }
         if(authorized_checkout)
         {
           if(rs_final.getString(9).equals("1"))
@@ -311,14 +319,6 @@ public class generate_items_table
         {
           out.println("<td class = 'td_normal' align = 'center'>-</td>");
         }
-        if(rs_final.getString(8) != null && !rs_final.getString(8).equals("null"))
-        {  
-          out.println("<td class = 'td_notes' align = 'center'>" + rs_final.getString(8) + "</td>");
-        }
-        else
-        {
-          out.println("<td class = 'td_notes' align = 'center'>-</td>");
-        }
         if(rs_final.getString(9).equals("1"))
         {
           out.println("<td class = 'td_normal' align = 'center'>Available</td>");
@@ -347,9 +347,10 @@ public class generate_items_table
       System.out.println(e.toString());
     }
     out.println("</table>");
+    out.println("</div>");
     if(authorized_checkout)
     {
-      out.println("<br><input id = 'add_to_cart_button' type = 'button' value = 'Add to cart' onclick = 'add_to_cart();' />");
+      out.println("<br><button id = 'add_to_cart_button' onclick = 'add_to_cart();'>Add to cart</button>");
     }
     out.close();
   }

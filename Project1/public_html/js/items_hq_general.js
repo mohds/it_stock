@@ -107,7 +107,7 @@ function add_to_cart()  //function to add selected items to cart
         var cell3 = row.insertCell(2);
         cell1.innerHTML = selected_ids_array[k];
         cell2.innerHTML = "<a class='showAlert' title='View' onclick = 'show_specs(" + selected_ids_array[k] + ")'>" + type + "</a>";
-        cell3.innerHTML = "<input type='button' value='Remove' onclick='deleteRow(this)'/>";
+        cell3.innerHTML = "<button onclick='deleteRow(this)'>Remove</button>";
       }
     }
 
@@ -192,7 +192,7 @@ $(document).ready(function() {
   // This must be a hyperlink
   $(".export").on('click', function(event) {
     // CSV
-    var args = [$('#results_region>table'), 'export.csv'];
+    var args = [$('#items_search_results_table'), 'export.csv'];
 
     exportTableToCSV.apply(this, args);
 
@@ -217,4 +217,26 @@ function print_results_table()
         myWindow.document.body.innerHTML = data;  //generated html from create_receipt_form will make up the new tab
         myWindow.print(); //print the opened tab
      });
+}
+
+function reset_search_options()
+{
+  var id = document.getElementById("input_item_id");
+  id.value = '';
+  var type = document.getElementById("select_item_type_id");
+  type.selectedIndex = 0;
+  var brand = document.getElementById("select_item_brand_id");
+  brand.selectedIndex = 0;
+  var location = document.getElementById("select_item_location_id");
+  location.selectedIndex = 0;
+  var condition = document.getElementById("select_item_condition_id");
+  condition.selectedIndex = 0;
+  var label = document.getElementById("input_item_label");
+  label.value = '';
+  var sn = document.getElementById("input_item_sn");
+  sn.value = '';
+  var radio_all = document.getElementById("availability_option_all_id");
+  radio_all.checked = true;
+  document.getElementById("specs_region").innerHTML = "";
+  document.getElementById("specs_values_region").innerHTML = "";
 }

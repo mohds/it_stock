@@ -111,14 +111,14 @@ public class show_receipt_popup
     
     out.println("<label>Expected date of Return: </label>");
     out.println("<input type = 'text' class = 'datepicker' id = 'global_expected_date_id' readonly = 'true'>");
-    out.println("<input type = 'button' value = 'Set all' onclick = 'set_expected_return_date()'>");  //calls set_expected_return_date that sets the return date of all items in receipt to the global expected return date
+    out.println("<button onclick = 'set_expected_return_date()'>Set all</button>");  //calls set_expected_return_date that sets the return date of all items in receipt to the global expected return date
     out.println("<br><br>");
     
     out.println("<label>Country: </label>");
     out.println("<input type = 'text' id = 'receipt_country_id'>");
     out.println("<br><br>");
     
-    out.println("<table border = '1'>");  //generate table of records
+    out.println("<table id = 'receipt_table_id'>");  //generate table of records
     out.println("<th>Item ID</th>");
     out.println("<th>Expected date of return</th>");
     out.println("<th>Notes</th>");

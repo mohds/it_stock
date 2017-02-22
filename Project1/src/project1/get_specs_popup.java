@@ -75,7 +75,7 @@ public class get_specs_popup
       
       //generate general info table
       //
-      out.println("<table border = '1'>");
+      out.println("<table id = 'table_item_details_popup' border = '1'>");
       out.println("<th>ID</th>");
       out.println("<th>Type</th>");
       out.println("<th>Brand</th>");
@@ -83,7 +83,6 @@ public class get_specs_popup
       out.println("<th>Condition</th>");
       out.println("<th>Label</th>");
       out.println("<th>Serial Number</th>");
-      out.println("<th>Notes</th>");
       while(rs_general_info.next())
       {
         type = rs_general_info.getString(2);
@@ -143,7 +142,11 @@ public class get_specs_popup
           
           out.println("<td><input type = 'text' id = 'popup_label_input_id' value = '" + rs_general_info.getString(6) + "'></td>"); //create an input text element for item label and make the current value the default value
           out.println("<td><input type = 'text' id = 'popup_sn_input_id' value = '" + rs_general_info.getString(7) + "'></td>");  //create an input text element for item serial number and make the current value the default value
-          out.println("<td><input type = 'text' id = 'popup_notes_input_id' value = '" + rs_general_info.getString(8) + "'></td>"); //create an input text element for item notes and make the current value the default value
+          //out.println("<td><input type = 'text' id = 'popup_notes_input_id' value = '" + rs_general_info.getString(8) + "'></td>"); //create an input text element for item notes and make the current value the default value
+          out.println("</tr>");
+          out.println("</table>");
+          out.println("</br>");
+          out.println("<label>Notes: <input type = 'text' id = 'popup_notes_input_id' value = '" + rs_general_info.getString(8) + "'></label>");
         }
         else  //if not authorized to edit item
         {
@@ -156,18 +159,17 @@ public class get_specs_popup
           out.println("<td>" + rs_general_info.getString(5) + "</td>");
           out.println("<td>" + rs_general_info.getString(6) + "</td>");
           out.println("<td>" + rs_general_info.getString(7) + "</td>");
-          out.println("<td>" + rs_general_info.getString(8) + "</td>");
+          out.println("</tr>");
+          out.println("</table>");
+          out.println("</br>");
+          out.println("<p>Notes: " + rs_general_info.getString(8) + ".</p>");
         }
-        out.println("</tr>");
-      }
-      
-      out.println("</table>");
-      
+      } 
       out.println("<h3>Specifications: </h3>");
       
       //create specs table
       //
-      out.println("<table border = '1'>");
+      out.println("<table id = 'table_item_specs_popup' border = '1'>");
       out.println("<th>Spec</th>");
       out.println("<th>Value</th>");
       if(authorized_edit)
@@ -217,7 +219,7 @@ public class get_specs_popup
         }
         out.println("</select>");
         
-        out.println("<input id = 'popup_add_spec_button' type = 'button' value = 'Add' onclick = 'popup_add_spec();' />");  //Add button for new specs. onclick calls popup_add_spec() from popup_jquery.js
+        out.println("<button id = 'popup_add_spec_button' onclick = 'popup_add_spec();'>Add</button>");  //Add button for new specs. onclick calls popup_add_spec() from popup_jquery.js
         out.println("</div>");
         
         out.println("<div id = 'popup_specs_values_region'>");  //div where new specs are added
@@ -226,7 +228,7 @@ public class get_specs_popup
       if(authorized_edit)
       {
         out.println("<br>");
-        out.println("<input type = 'button' value = 'Update' onclick = 'update_popup(" + item_id + ")'>");  //update button will update all information related to specific item. onclick calls update_popup from popup_jquery.js and takes item_id as argument
+        out.println("<button onclick = 'update_popup(" + item_id + ")'>Update</button>");  //update button will update all information related to specific item. onclick calls update_popup from popup_jquery.js and takes item_id as argument
       }
       
       Log log = new Log();
