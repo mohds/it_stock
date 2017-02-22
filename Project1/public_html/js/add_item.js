@@ -136,12 +136,6 @@ function add_spec(){
             minLength: 1
         });
     });
-    
-    //$("#spec_input_"+ spec_id +"").autocomplete({
-    //  source: "get_all_specs",
-    //  minLength: 1
-    //});
-    
     $("#specs_list").append(html_code);
     spec_id++;
 }
@@ -258,10 +252,12 @@ function save_specs_names(){
 
 function generate_extra_specs(type_selected){
     $("#ExtraSpecs").html('');
+    
     $.post('get_specs', {type_selected: type_selected}, 
         function(returnedData){
+                document.getElementById("ExtraSpecs").innerHTML = "<strong>Extra specs<\/strong><br>";
                 for( i = 0 ; i < returnedData.length ; i++ ){
-                    $("#ExtraSpecs").append("<input type=\"hidden\" value=\""+ returnedData[i].spec_id +"\" class=\"spec_id\" ><label class=\"spec_name\" contenteditable=\"true\" onblur=\"save_specs_names()\" >" + returnedData[i].spec_name + "<\/label><input type=\"text\" class=\"spec\" name=\"" + returnedData[i].spec_name + "\">&nbsp&nbsp&nbsp&nbsp&nbsp");
+                    $("#ExtraSpecs").append("<input type=\"hidden\" value=\""+ returnedData[i].spec_id +"\" class=\"spec_id\" ><label class=\"spec_name\" contenteditable=\"true\" onblur=\"save_specs_names()\" >" + returnedData[i].spec_name + "<\/label><div class=\"add-row\"><input type=\"text\" class=\"spec\" name=\"" + returnedData[i].spec_name + "\"><\/div><br>");
                 }
     }, 'json');
     

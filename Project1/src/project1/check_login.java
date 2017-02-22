@@ -27,10 +27,10 @@ public class check_login extends HttpServlet {
         String user = (String)session.getAttribute("username");
         
         if(user == null){
-            out.println("<a href=\"login.jsp\"><img class=\"nav-images\" src=\"images/lock.png\">Login</a>");
+            out.println("<a href=\"login.jsp\"><img class=\"nav-images\" src=\"images/log-in_smal.png\">Login</a>");
         }
         else{
-            out.println("<a href=\"logout\"><img class=\"nav-images\" src=\"images/lock.png\">Logout</a>");
+            out.println("<a href=\"logout\"><img class=\"nav-images\" src=\"images/red-logout-256.png\">Logout</a>");
         }
         
         out.close();

@@ -49,31 +49,31 @@
                 <label>Returned Before: </label><input type="text" id="ReturnBeforeDate" /><br>
                 <label>Returned After: </label><input type="text" id="ReturnAfterDate" /><br>
                 <label>Item type: </label><input type="text" id="ItemType" /><br>
-                <label>Receipt status: </label>
+                <label>Receipt status:</label>
                 <select id="ReceiptStatus">
                     <option value="" selected>All</option>
                     <option value="0">Open</option>
                     <option value="1">Closed</option>
                 </select>
                 <br>
-                <label>Record Status: </label>
+                <label>Record Status:</label>
                 <select id="RecordStatus" >
                     <option value="" selected>All</option>
                     <option value="0">Open</option>
                     <option value="1">Closed</option>
                 </select>
                 <br>
-                <label>Item availability: </label>
+                <label>Item availability:</label>
                 <select id="ItemStatus" >
                     <option value="" selected>All</option>
                     <option value="1">Available</option>
                     <option value="0">Not available</option>
                 </select>                
                 <br>
-                <button onclick="clear_all_input()">Clear</button>
-                <button type="button" id="SearchButton">Search</button></br>
-                <button onClick="print_table()">Print Table</button><br>Print all Results<input type="checkbox" id="AllResults"><br>
-                <button id="ExportButton">Export</button>
+                <div id="control-buttons">
+                    <button onclick="clear_all_input()">Clear</button>
+                    <button type="button" id="SearchButton">Search</button></br>
+                </div>
             </div>
             <div class="container" id="RightContainer">                
                 <!--<img id="LoadingResults" src="images/ajax-loader-2.gif">-->
@@ -91,6 +91,11 @@
                 </table>
                 </br>
                 <button id="PreviousButton" class="hide_in_print">< Previous</button><button id="NextButton" class="hide_in_print">Next ></button>
+                <div class="hide_in_print" id="export-buttons">
+                    Print all Results<input type="checkbox" id="AllResults">
+                    <button onClick="print_table()">Print Table</button>
+                    <button id="ExportButton">Export</button>
+                </div>
             </div>
             
             <div id="ViewDetailsDialog" title="Item Details">

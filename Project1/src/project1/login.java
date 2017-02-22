@@ -38,8 +38,7 @@ public class login extends HttpServlet {
         password = access.filter_sql_injection(password);
         
         if(access.login(user, password)){
-            request.getRequestDispatcher("nav_bar.html").include(request, response);
-            out.println("<h1 style=\"float:left\">Login successful</h1>");
+            request.getRequestDispatcher("index.jsp").include(request, response);
             HttpSession session = request.getSession();
             session.setAttribute("username",user);
             session.setAttribute("id", Queries.get_id_from_username(user));

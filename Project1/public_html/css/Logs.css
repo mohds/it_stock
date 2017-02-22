@@ -18,15 +18,20 @@ ul {
   float: left;
 }
 #SearchContainer {
-  position: relative;
   width: 800px;
 }
+#SearchControls button{
+  float: right;
+}
 #SearchControls {
+  width: 400px;
   position:relative;
 }
 #SearchResult {
   display: inline-block;
   position:relative;
+  top: -180px;
+  left:500px;
   
 }
 table {

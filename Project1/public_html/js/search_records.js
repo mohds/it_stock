@@ -306,7 +306,23 @@ function add_client(){
     document.getElementById("NewClientName").value = "";
     
 }
-
+function get_date(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    
+    if(dd<10) {
+        dd='0'+dd
+    } 
+    
+    if(mm<10) {
+        mm='0'+mm
+    } 
+    
+    today = dd+'/'+mm+'/'+yyyy;
+    return today;
+}
 function return_item(record_id, row_id){
 
     var client_returner = document.getElementById("ClientReturner_ReturnDialog").value;
@@ -317,13 +333,13 @@ function return_item(record_id, row_id){
         $("#ReturnDialog").dialog("close");
         $.get('return_receipt_from_record_id', {record_id: record_id, client_returner: client_returner, new_location: new_location}, function(returnedData){
             if(returnedData.includes("ERROR")){
-                // do nothing
+                document.getElementById("message-box").innerHTML = "Failed to return receipt.";
             }
             else{
                 $.getJSON('get_records_ids_of_receipt', {record_id: record_id}, function(returnedData){
                     
                     for(var i = 0 ; i < returnedData.length ; i++){
-                        document.getElementById("row_" + returnedData[i]).cells[6].innerHTML = "today's date";            
+                        document.getElementById("row_" + returnedData[i]).cells[6].innerHTML = get_date();            
                         document.getElementById("row_" + returnedData[i]).setAttribute("class", "done");
                         document.getElementById("message-box").innerHTML = "Receipt has been successfully returned."; 
                     }

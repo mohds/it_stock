@@ -1,3 +1,61 @@
+.new-user {
+    width: 200px;
+}
+.new-user div{
+    float: right;
+}
+#management-container input{
+    float: right;
+}
+#management-container div{
+    box-shadow: 0px 2px 5px 0px #888;
+    width: 400px;
+    float: left;
+    margin:10px;
+    padding: 10px;
+}
+#add-page{
+    width: 600px;
+}
+#ExtraSpecs{
+    position: relative;
+    top: -410px;
+    float: right;
+}
+#add-panel {
+    width: 500px;
+}
+#add-panel .add-row{
+    width: 100%;
+    float: right;
+}
+body{
+    background-color:#EEE;
+}
+#MainContainer #export-buttons {
+    float: right;
+}
+#MainContainer #control-buttons {
+    float: right;
+}
+#MainContainer input{
+    background: none repeat scroll 0 0 #FAFAFA;
+    border: 1px solid #888;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 2px;
+    padding: 3px;
+}
+#MainContainer select{
+    width: 190px; 
+    background: none repeat scroll 0 0 #FAFAFA;
+    border: 1px solid #888;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 2px;
+    padding: 3px;
+}
+
 #background {
     width: 100%; 
     height: 100%; 
@@ -17,6 +75,22 @@
     th {
         border: 1px solid #999;
     }
+}
+button:hover{
+    color:brown;
+    cursor: pointer;
+}
+button{
+    border: white;
+    position: relative;
+    padding:1px;
+    margin: 2px;
+    border-radius: 20px;
+    width:90px;
+    font-weight: 600;
+    font-family: 'Open Sans';
+    background-color: whitesmoke ;
+    box-shadow: 0px 1px 5px 0px #888;
 }
 .login-button{
     border: white;
@@ -72,10 +146,20 @@
 }
 
 #MainContainer .pending{
-    background-color: #FFc0cb;
+    background-color: #ed6d64;
+    background-image: linear-gradient(to bottom, #ed6d64, #ed574c);
+    border: 1px solid #ba3329;
+    box-shadow: inset 0 1px 0 #ffb0aa, inset 0 -1px 0 #d44d44, inset 0 0 0 1px #ed837b, 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 #MainContainer .done{
-    background-color: #33CC56;
+    background-color: #75aa54;
+    background-image: linear-gradient(to bottom, #75aa54, #69aa40);
+    border: 1px solid #5f993a;
+    box-shadow: inset 0 1px 0 #c6e6b3, inset 0 -1px 0 #79b356, inset 0 0 0 1px #a4cc8b, 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #LeftContainer label{
@@ -91,7 +175,7 @@
 
 #MainContainer {
     width: 100%;
-	font-family: 'Open Sans';
+	font-family: 'Open Sans' !important;
 }
 #SearchButton {
 
@@ -100,7 +184,7 @@
 
 #MainContainer a {
     text-decoration: none;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans' !important;
     font-size: 14px;
     color:#0066BC;
     
@@ -128,22 +212,27 @@
 }
 
 #ResultsTable td{
-    color: black;
+    width:120px;
     text-align: center;
     padding: 2px 2px;
     text-decoration: none;
     border: 1px solid #999;
 }
 #ResultsTable th{
-    color: black;
-    text-align: center;
-    padding: 2px 2px;
-    text-decoration: none;
-    border: 1px solid #999;
+    width:120px;
+    background-color: #f58a38;
+    background-image: linear-gradient(to bottom, #f58a38, #f57c20);
+    border: 1px solid #c25706;
+    box-shadow: inset 0 1px 0 #ffb984, inset 0 -1px 0 #db6f1d, inset 0 0 0 1px #f59851, 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 #ResultsTable table{    
     border-collapse: collapse;
 }
 #LoadingResults {
     position: absolute;
+}
+#RightContainer{
+    width: auto;
 }

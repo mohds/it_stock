@@ -44,9 +44,10 @@
                 }, 1000);
             }); 
             function search_log(username, ip, description, date_before, date_after, bottom_limit, top_limit){
-                $("#SearchResult").html('<img src="images/ajax-loader.gif">');
+                $("#gif-loading").html('<img src="images/ajax-loader.gif">');
                 $.post('log_search', {'username': username,'ip':ip,'description':description,'date_before':date_before,'date_after':date_after,'bottom_limit':bottom_limit,'top_limit':top_limit}, function(data) {
                   $("#SearchResult").html(data);
+                  $("#gif-loading").html('');
                 });
             }
             
@@ -103,19 +104,21 @@
                 <label>Description:</label><input type='text' id='description' name='description'>
                 <label>Before Date:</label><input type='text' name='date_before' id='date_before'>
                 <label>After Date:</label><input type='text' name='date_after' id='date_after'>
-                
-                <input type='button' name='search' onclick='' value='Search' id='search'>
-                <input type='button' value='< Previous' id='PreviousButton' name='PreviousButton'></input>
-                <input type='button' value='Next >' id='NextButton' name='NextButton'></input>
-            <br><br>
-            <!-- 
-                We will save record limits in hidden attributes
-                to keep track of what records to show for each page.
-                Starting pages will be ranged from 0 to 100
-            -->
-            <input type='hidden' value='0' name='BottomLimit' id='BottomLimit'>        
-            <input type='hidden' value='50' name='TopLimit' id='TopLimit'>
-            <div id='SearchResult'></div>            
+                <br><br>
+                <button type='button' name='search' onclick='' id='search'>Search</button>
+                <button type='button' id='NextButton' name='NextButton'>Next ></button>
+                <button type='button' id='PreviousButton' name='PreviousButton'>< Previous</button>
+                <div id="gif-loading"></div>
+            
+                <!-- 
+                    We will save record limits in hidden attributes
+                    to keep track of what records to show for each page.
+                    Starting pages will be ranged from 0 to 100
+                -->
+                <input type='hidden' value='0' name='BottomLimit' id='BottomLimit'>        
+                <input type='hidden' value='50' name='TopLimit' id='TopLimit'>
+            </div>
+            <div id='SearchResult'></div> 
         </div>
     </div>
 </body>
