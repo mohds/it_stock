@@ -122,7 +122,7 @@ public class create_receipt_form
       Statement stat_get_receipt_id = con.createStatement();
       ResultSet rs_get_receipt_id = stat_get_receipt_id.executeQuery(sql_get_receipt_id);
       rs_get_receipt_id.next();
-      receipt_id = rs_get_receipt_id.getInt(1) + 1;
+      receipt_id = rs_get_receipt_id.getInt(1);
     }
     catch(Exception e)
     {

@@ -332,7 +332,7 @@ public class generate_items_table
         out.println("<td class = 'td_normal' align = 'center'><a class='showAlert' title='View' onclick = 'show_specs(" + item_id + ")'>View</a></td>");  //add View link, when clicked, popup will show with the details of the item. onclick of the link show_specs is called from popup_jquery.js and give it as parameter the item id
         if(authorized_delete)
         {
-          out.println("<td class = 'td_normal' align = 'center'><a + onclick = 'delete_item(" + item_id + ")'><img src = 'images/delete.png'></td></a>");  //to delete an item. onclick calls delete_item() from items_hq_general.js and takes as argument item_id
+          out.println("<td class = 'td_normal' align = 'center'><a + onclick = 'delete_item(" + item_id + ")'><img class = 'delete_images_class' src = 'images/delete.png'></td></a>");  //to delete an item. onclick calls delete_item() from items_hq_general.js and takes as argument item_id
         }
         out.println("</tr>");
       }

@@ -1,5 +1,6 @@
 function send_specs() //sends items_hq search parameters to generate_items_table
 {
+start_loading();
   $(document).ready(function()
   {
     var x_timer;    
@@ -41,6 +42,7 @@ function send_specs() //sends items_hq search parameters to generate_items_table
       {
         $("#results_region").html('');
         $("#results_region").html(data);
+        stop_loading();
       });
     }
   });
@@ -53,9 +55,11 @@ function view_specs()
 
 function delete_item(item_id) //function to delete item
 {
-  $(document).ready(function() {
+  $(document).ready(function()
+  {
         if(confirm('Are you sure you want to delete item of ID ' + item_id + ' ?')) //confirmation alert
         {
+          start_loading();
             var x_timer;    
               
                 clearTimeout(x_timer);		        
@@ -67,11 +71,16 @@ function delete_item(item_id) //function to delete item
             {
                 $.get('delete_item', {'item_id':item_id }, function(data)   //send to delete item servlet the item id to be deleted
                 {
+                  stop_loading();
                 });	 
             }
-          }
-	  });
-          send_specs(); //update search results
+            send_specs(); //update search results
+        }
+        else
+        {
+          stop_loading();
+        }
+  });
 }
 
 function add_to_cart()  //function to add selected items to cart
@@ -239,4 +248,13 @@ function reset_search_options()
   radio_all.checked = true;
   document.getElementById("specs_region").innerHTML = "";
   document.getElementById("specs_values_region").innerHTML = "";
+}
+
+function start_loading()
+{
+  document.getElementById("div_loading").style.display = "block";
+}
+function stop_loading()
+{
+  document.getElementById("div_loading").style.display = "none";
 }

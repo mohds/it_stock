@@ -1,6 +1,7 @@
 
 function show_specs(item_id)  //show popup containing item details
 {
+start_loading();
   $(function() {
       $("#dialog").dialog({ //settings for the dialog box
               autoOpen: false,
@@ -22,12 +23,14 @@ function show_specs(item_id)  //show popup containing item details
         $("#receipt_content_region").html('');
         $("#specs_content_region").html(data);
         $('#dialog').dialog("open"); 
+        stop_loading();
       });
   });
 }
 
 function update_popup(item_id)  //function to update item information
 {
+start_loading();
   $(document).ready(function()
     {
       var x_timer;    
@@ -78,6 +81,7 @@ function update_popup(item_id)  //function to update item information
       {
         show_specs(item_id);  //update item popup view
         send_specs(); //update search results
+        stop_loading();
         alert("Item successfully updated.");
       });
       }
@@ -147,6 +151,7 @@ function popup_remove_spec(removed_spec)  //function to remove the label, input 
 
 function show_receipt()  //show popup containing receipt details
 {
+start_loading();
   $(function()
   {
           $("#dialog").dialog({ //settings for the dialog box
@@ -165,6 +170,7 @@ function show_receipt()  //show popup containing receipt details
             $("#receipt_content_region").html('');
             $("#receipt_content_region").html(data);
             $('#dialog').dialog("open"); 
+            stop_loading();
           });
   });
 }
@@ -183,6 +189,7 @@ function create_receipt() //function to create receipt after checkout is complet
 {
   if(confirm('Create receipt?'))
   {
+    start_loading();
     var x_timer;   
     
     //get parameter values
@@ -235,6 +242,7 @@ function create_receipt() //function to create receipt after checkout is complet
       
       $.get('create_receipt_form', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receiver_name':get_receiver_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'admin':get_admin, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
       {
+        stop_loading();
         myWindow = window.open(); //create new tab
         myWindow.document.body.innerHTML = data;  //generated html from create_receipt_form will make up the new tab
         myWindow.print(); //print the opened tab
@@ -243,6 +251,7 @@ function create_receipt() //function to create receipt after checkout is complet
     $("#dialog").dialog('close'); //close receipt popup
     send_specs(); //update search results
     $("#items_in_cart_table td").remove();  //empty all entries in the items cart table
+    
   }
 }
 $( function() {
@@ -252,6 +261,7 @@ $( function() {
   
 function delete_item_spec(item_id, spec_id) //function to delete existing spec from item
 {
+start_loading();
   $(document).ready(function()
     {
       var x_timer;
@@ -269,4 +279,13 @@ function delete_item_spec(item_id, spec_id) //function to delete existing spec f
       });
       }
     });
+}
+
+function start_loading()
+{
+  document.getElementById("div_loading").style.display = "block";
+}
+function stop_loading()
+{
+  document.getElementById("div_loading").style.display = "none";
 }

@@ -151,7 +151,7 @@ public class show_receipt_popup
     
     out.println("<br><br>");
     
-    out.println("<input type = 'button' value = 'Check Out and Print' onclick = create_receipt()>");
+    out.println("<button onclick = create_receipt()>Check out and print</button>");
     
     out.close();
     

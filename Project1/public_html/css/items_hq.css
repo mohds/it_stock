@@ -5,6 +5,7 @@
 {
   position:absolute;
   left: 37%;
+  top: 11%;
 }
 #h3_search_results_id
 {
@@ -86,6 +87,10 @@ a.export,a.export:visited,a.hrefprintclass,a.hrefprintclass:visited
   border: 1px solid #ccc;
   padding: 5px;
 }
+a.export:hover, a.hrefprintclass:hover
+{
+  cursor:pointer;
+}
 
 #items_search_results_table
 {
@@ -119,7 +124,7 @@ a.export,a.export:visited,a.hrefprintclass,a.hrefprintclass:visited
 #results_table_div
 {
   overflow-y:scroll;
-  height: 800px;
+  height: 700;
 }
 
 .item_available_row
@@ -157,4 +162,25 @@ a.export,a.export:visited,a.hrefprintclass,a.hrefprintclass:visited
 #search_button
 {
   float: right;
+}
+.showAlert
+{
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+  background-color: #ddd;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+.showAlert
+{
+  cursor: pointer
+}
+.delete_images_class
+{
+  cursor: pointer
+}
+p a
+{
+  font-family: 'Open Sans';
 }

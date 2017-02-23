@@ -203,9 +203,26 @@ button{
     padding: 20px 22px;
     text-decoration: none;
     border: 1px solid #ddd;
+    height: 100px;
+    text-align:center;
 }
-#index-table table{    
+#index-table td a{
+    font-size: 18px;
+}
+#index-table table
+{    
     border-collapse: collapse;
+    width: 1000px;
+    position:absolute;
+    left:22%;
+    top:25%;
+    box-shadow: 0px 2px 5px 0px #888;
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    margin-top: 2em;
+    border-radius: 7px;
+    font-family: 'Open Sans';
 }
 .container{
     float:left;
@@ -235,4 +252,18 @@ button{
 }
 #RightContainer{
     width: auto;
+}
+
+.index_images
+{
+  width: 150px;
+  height: 150px;
+  margin-top: 15px;
+}
+#index_logo
+{
+    width:600px;
+    position: absolute;
+    left: 32%;
+    top: 14%;
 }

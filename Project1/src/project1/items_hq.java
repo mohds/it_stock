@@ -58,7 +58,7 @@ public class items_hq extends HttpServlet {
       String method_search = "view_items_hq";
       if(user == null)
       {
-        out.println("Login first");
+        out.println("<p>Login first >>> <a href='login.jsp'>Login</a></p>");
       }
       else if(!access.has_access(user, method_search))
       {
