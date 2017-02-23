@@ -54,7 +54,6 @@ public class print_item_search_results
     out.println("<th>Condition</th>");
     out.println("<th>Label</th>");
     out.println("<th>Serial Number</th>");
-    out.println("<th>Notes</th>");
     out.println("<th>Availability</th>");
     
     try
@@ -62,7 +61,7 @@ public class print_item_search_results
       Statement stat = con.createStatement();
       for(int k = 0; k < result_ids.length ; k++)
       {
-        String sql= "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME, LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.SERIAL_NUMBER, ITEMS.NOTES, ITEMS.AVAILABILITY FROM ITEMS, TYPES, BRANDS, LOCATIONS, ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND ITEMS.ID = '" + result_ids[k] + "'";
+        String sql= "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME, LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.SERIAL_NUMBER, ITEMS.AVAILABILITY FROM ITEMS, TYPES, BRANDS, LOCATIONS, ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND ITEMS.ID = '" + result_ids[k] + "'";
         ResultSet rs = stat.executeQuery(sql);
         rs.next();
         out.println("<tr>");
@@ -87,15 +86,7 @@ public class print_item_search_results
         {
           out.println("<td align = 'center'>-</td>");
         }
-        if(rs.getString(8) != null && !rs.getString(8).equals("null"))
-        {  
-          out.println("<td align = 'center'>" + rs.getString(8) + "</td>");
-        }
-        else
-        {
-          out.println("<td align = 'center'>-</td>");
-        }
-        if(rs.getString(9).equals("1"))
+        if(rs.getString(8).equals("1"))
         {
           out.println("<td align = 'center'>Available</td>");
         }
