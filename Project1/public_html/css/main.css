@@ -271,6 +271,7 @@ button{
     
 }
 .scrollable-table{
+    width: 800px;
     overflow-y: scroll;
     height:520px;
 }

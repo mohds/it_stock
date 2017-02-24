@@ -164,8 +164,8 @@
    </hash>
    <hash n="oracle.jdeveloper.maven.compiler.MavenConfiguration"/>
    <hash n="oracle.jdeveloper.model.J2eeSettings">
-      <value n="j2eeWebAppName" v="Application1-Project1-webapp"/>
-      <value n="j2eeWebContextRoot" v="Application1-Project1-context-root"/>
+      <value n="j2eeWebAppName" v="it_stock"/>
+      <value n="j2eeWebContextRoot" v="it_stock"/>
    </hash>
    <hash n="oracle.jdeveloper.model.PathsConfiguration">
       <hash n="javaContentSet">
