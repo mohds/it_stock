@@ -20,6 +20,7 @@ $(document).ready(function(){
         
     // popups
     $("#NewTypeDialog").dialog({
+        width: "350px",
         autoOpen: false,
         show: {
             effect: "slide",
@@ -85,6 +86,9 @@ $(document).ready(function(){
     $("#AddTypeButton").on("click", function(){
         add_type();
     });
+    $("#clear-button").on("click", function(){
+        clear_input();
+    });
     
     
     
@@ -120,6 +124,15 @@ $(document).ready(function(){
     }
     
 });
+
+function clear_input(){
+    document.getElementById("TypeCombo").value = "";
+    document.getElementById("label").value = "";
+    document.getElementById("brand").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("serial_number").value = "";
+    
+}
 
 // populate conditions select box
 get_conditions();

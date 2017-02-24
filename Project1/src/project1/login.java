@@ -18,6 +18,8 @@ public class login extends HttpServlet {
                                                            IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
+        request.getRequestDispatcher("login.jsp").include(request, response);
+        
         out.close();
     }
 

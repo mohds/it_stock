@@ -11,7 +11,7 @@
     <body>
         <div id="MainContainer">
         <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
-        <img id = 'index_logo' src="images/logo_stock.png">
+        <div id="index_logo"><img id = 'index_logo' src="images/logo_stock.png"></div>
         <div id="index-table">
             <table>
                 <tr>

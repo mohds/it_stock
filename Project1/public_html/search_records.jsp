@@ -76,19 +76,21 @@
                 </div>
             </div>
             <div class="container" id="RightContainer">                
-                <!--<img id="LoadingResults" src="images/ajax-loader-2.gif">-->
-                <table id="ResultsTable">
-                    <tr>
-                        <th>Record ID</th>
-                        <th>Item ID</th>
-                        <th>Item Label</th>
-                        <th>Item Type</th>
-                        <th>Borrower</th>
-                        <th>Borrow Date</th>
-                        <th>Return Date</th>
-                        <th class="hide_in_print">Details</th>
-                    </tr>
-                </table>
+                <!--<img id="div_loading" src="images/ajax-loader-2.gif">-->
+                <div class="scrollable-table">
+                    <table id="ResultsTable">
+                        <tr>
+                            <th>Record ID</th>
+                            <th>Item ID</th>
+                            <th>Item Label</th>
+                            <th>Item Type</th>
+                            <th>Borrower</th>
+                            <th>Borrow Date</th>
+                            <th>Return Date</th>
+                            <th class="hide_in_print">Details</th>
+                        </tr>
+                    </table>
+                </div>
                 </br>
                 <button id="PreviousButton" class="hide_in_print">< Previous</button><button id="NextButton" class="hide_in_print">Next ></button>
                 <div class="hide_in_print" id="export-buttons">

@@ -1,3 +1,17 @@
+a:hover{
+    cursor: pointer;
+}
+#NewPasswordForm{
+    box-shadow: 0px 2px 5px 0px #888;
+    width: 300px;
+    float: left;
+    margin:10px;
+    padding: 15px;
+    border-radius: 15px;
+}
+#NewPasswordForm .NewPasswordRow{
+    float: right;
+}
 .new-user {
     width: 200px;
 }
@@ -12,7 +26,8 @@
     width: 400px;
     float: left;
     margin:10px;
-    padding: 10px;
+    padding: 15px;
+    border-radius: 15px;
 }
 #add-page{
     width: 600px;
@@ -246,12 +261,18 @@ button{
 }
 #ResultsTable table{    
     border-collapse: collapse;
+    
 }
 #LoadingResults {
     position: absolute;
 }
 #RightContainer{
     width: auto;
+    
+}
+.scrollable-table{
+    overflow-y: scroll;
+    height:520px;
 }
 
 .index_images
@@ -264,6 +285,6 @@ button{
 {
     width:600px;
     position: absolute;
-    left: 32%;
+    left: 28%;
     top: 14%;
 }

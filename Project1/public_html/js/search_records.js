@@ -324,7 +324,9 @@ function get_date(){
     return today;
 }
 function return_item(record_id, row_id){
-
+    
+    start_loading();
+    
     var client_returner = document.getElementById("ClientReturner_ReturnDialog").value;
     var new_location = document.getElementById("NewLocation_ReturnDialog").value;
     
@@ -337,13 +339,12 @@ function return_item(record_id, row_id){
             }
             else{
                 $.getJSON('get_records_ids_of_receipt', {record_id: record_id}, function(returnedData){
-                    
                     for(var i = 0 ; i < returnedData.length ; i++){
                         document.getElementById("row_" + returnedData[i]).cells[6].innerHTML = get_date();            
                         document.getElementById("row_" + returnedData[i]).setAttribute("class", "done");
                         document.getElementById("message-box").innerHTML = "Receipt has been successfully returned."; 
                     }
-                    
+                    stop_loading();
                 });
             }
         });
@@ -360,10 +361,9 @@ function return_item(record_id, row_id){
                 document.getElementById(row_id).cells[6].innerHTML = returnedData;            
                 document.getElementById(row_id).setAttribute("class", "done");
             }
+            stop_loading();
         });
     }
-    
-    
 }
 function view_return(record_id, item_label, row_id){
     
@@ -484,6 +484,9 @@ function view_more(record_id){
 }
 
 function search(lower_bound, upper_bound){
+    
+    start_loading();
+    
     var ReceiptId = document.getElementById("ReceiptId").value;
     var item_id = document.getElementById("ItemId").value;
     var item_label = document.getElementById("ItemLabel").value;
@@ -512,6 +515,14 @@ function search(lower_bound, upper_bound){
                 }
             }
             $("#ResultsTable").append(html_code);
+            stop_loading();
         }
     );
+    
+}
+function start_loading(){
+  document.getElementById("div_loading").style.display = "block";
+}
+function stop_loading(){
+  document.getElementById("div_loading").style.display = "none";
 }

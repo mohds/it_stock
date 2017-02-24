@@ -20,6 +20,27 @@ public class Access {
         super();
     }
     
+    public void update_password(String user, String new_password){
+        Hash hash = new Hash();
+        String new_password_hash = "";
+        try{
+            new_password_hash = hash.hash(new_password);
+        }
+        catch(Exception ex){
+            System.out.println(ex.toString());
+        }
+        String query = "UPDATE admins SET admins.password_hash='"+ new_password_hash +"' WHERE admins.username = '"+ user +"'";
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+    }
+    
     public boolean delete_user(String username){
         boolean return_me = false;
                 

@@ -49,23 +49,23 @@
                         <label>Serial Number: </label><div class="add-row"><input type="text" id="serial_number" name="serial_number"/><span id='serial-result'></span></div><br>
                         <label>Condition: </label><div class="ui-widget"><div id="condition_options"></div></div><br>
                         
-                        <button type="button" id="AddItemButton">Add Item</button>
+                        <button id="clear-button">Clear</button><button type="button" id="AddItemButton">Add Item</button>
                         <div id="NewTypeDialog" title="Add a new type">
                             <label>Name: </label><input type="text" name="type_name" id="type_name"/><br>                   
                             <label>Specs: </label><button id="add_spec">Add</button><br>
                             <div id="specs_list" ></div>
                             <br>
-                            <button id="AddTypeButton" type="button">Add</button>                    
+                            <button id="AddTypeButton" type="button">Save</button>                    
                         </div>
                         <div id="NewBrandDialog" title="Add a new brand">
                             <label>Name: </label><input type="text" id="brand_to_add" name="brand_to_add" /><br>                   
                             <br>
-                            <button id="AddBrandButton" type="submit">Add</button>                    
+                            <button id="AddBrandButton" type="submit">Save</button>                    
                         </div>
                         <div id="NewLocationDialog" title="Add a new location">
                             <label>Name: </label><input type="text" id="location_to_add" name="location_to_add" /><br>                   
                             <br>
-                            <button id="AddLocationButton" type="submit">Add</button>                    
+                            <button id="AddLocationButton" type="submit">Save</button>                    
                         </div>
                     </div>
                     <div id="ExtraSpecs"></div>
