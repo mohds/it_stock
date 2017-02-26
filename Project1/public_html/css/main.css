@@ -190,7 +190,7 @@ button{
 
 #MainContainer {
     width: 100%;
-	font-family: 'Open Sans' !important;
+    font-family: 'Open Sans' !important;
 }
 #SearchButton {
 
@@ -227,15 +227,9 @@ button{
 #index-table table
 {    
     border-collapse: collapse;
-    width: 1000px;
-    position:absolute;
-    left:22%;
-    top:25%;
+    width: 100%;
+    position:relative;
     box-shadow: 0px 2px 5px 0px #888;
-    float: left;
-    margin: 10px;
-    padding: 10px;
-    margin-top: 2em;
     border-radius: 7px;
     font-family: 'Open Sans';
 }
@@ -275,7 +269,14 @@ button{
     overflow-y: scroll;
     height:520px;
 }
-
+#MainContainer #IndexContent {
+    
+}
+#MainContainer #index-table {
+    width: 80%;
+    position: relative;
+    margin: 0 auto;
+}
 .index_images
 {
   width: 150px;
@@ -284,8 +285,9 @@ button{
 }
 #index_logo
 {
+    margin: 0 auto;
     width:600px;
-    position: absolute;
-    left: 28%;
-    top: 14%;
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

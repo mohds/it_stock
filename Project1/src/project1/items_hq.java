@@ -78,6 +78,7 @@ public class items_hq extends HttpServlet {
         
         boolean authorized_checkout = false;
         
+        out.println("<div id=\"search_items_container\">"); // div to wrap page's panels        
         
         String method_checkout = "checkout_item";
         if(access.has_access(user, method_checkout))
@@ -85,19 +86,7 @@ public class items_hq extends HttpServlet {
           authorized_checkout = true;
         }
         
-        if(authorized_checkout)
-        {
-          out.println("<div id = 'items_in_cart_region'>"); //items in cart
-          out.println("<h3>Items in cart</h3>");
-          out.println("<table border = '1' id = 'items_in_cart_table'>");
-          out.println("<th>Item ID</th>");
-          out.println("<th>Type</th>");
-          out.println("<th>Action</th>");
-          out.println("</table>");
-          out.println("<br><button id = 'checkout_button' onclick = 'show_receipt();'>Checkout</button>");
-          out.println("</div>");  //items in cart
-        }
-        
+        out.println("<div class='MainPanel' id='search_input_and_buttons'>"); // search_input_and_button
         out.println("<div id = 'sticky'>"); //STICKY
         out.println("<h2>Search for an item</h2>");
         out.println("<br>");
@@ -189,15 +178,34 @@ public class items_hq extends HttpServlet {
         out.println("</div>");  //div for the added specs input text elements
         
         out.println("</div>");  //sticky
-        
+        out.println("<br>"); // nazel el buttons
         out.println("<div id = 'search_buttons'>");
         out.println("<button id = 'search_button' onclick = 'send_specs();'>Search</button>"); //search button calls send_specs() from items_hq_general.js  
         out.println("<button id = 'reset_button' onclick = 'reset_search_options();'>Reset</button>"); 
         out.println("</div>");
         
-        out.println("<h3 id = 'h3_search_results_id'>Search Results</h3><br>");
+        out.println("<br>"); // nazel el cart
+          
+        if(authorized_checkout)
+        {
+            out.println("<div id = 'items_in_cart_region'>"); //items in cart
+            out.println("<h3>Items in cart</h3>");
+            out.println("<table border = '1' id = 'items_in_cart_table'>");
+            out.println("<th>Item ID</th>");
+            out.println("<th>Type</th>");
+            out.println("<th>Action</th>");
+            out.println("</table>");
+            out.println("<br><button id = 'checkout_button' onclick = 'show_receipt();'>Checkout</button>");
+            out.println("</div>");  //items in cart
+        }
+          
+        out.println("</div>"); // search_input_and_buttons (search items input and buttons wrap)
         
-        out.println("<div id = 'results_region'>"); //results table
+        
+        
+        //out.println("<h3 id = 'h3_search_results_id'>Search Results</h3><br>");
+        
+        out.println("<div class='MainPanel' id = 'results_region'>"); //results table
         out.println("<div id = 'results_table_div'>");
         out.println("<table class=\"fixed_headers\" id = 'items_search_results_table'>");
         out.println("<th>ID</th>");
@@ -211,8 +219,9 @@ public class items_hq extends HttpServlet {
         out.println("<th>Receipt</th>");
         out.println("<th>Details</th>");
         out.println("</table>");
-        out.println("</div>");
+        out.println("</div>");  
         out.println("</div>");  //results table
+        out.println("</div>");  // search_items_container (panels wrapping div)
         
         out.println("<div id = 'dialog' title = 'Specs'>"); //IMPORTANT FOR JQUERY POPUP
         out.println("<div id = 'specs_content_region' title = 'Specs'>"); //FOR POPUP CONTENT

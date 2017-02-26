@@ -1,45 +1,32 @@
-ul {
-  list-style-type: none;
-}
+@charset "windows-1256";
 
-#SearchControls label{
-    display: inline-block;
-    float: left;
-    clear: left;
-    width: 200px;
-    text-align: right;
-}
-#SearchControls button {
-  display: inline-block;
+#MainContainer #SearchContainer div {
   float: left;
 }
-#SearchControls input {
-  display: inline-block;
-  float: left;
+#MainContainer #SearchResult table{
+  border-collapse: collapse;
 }
-#SearchContainer {
-  width: 800px;
+#MainContainer #SearchResult table, th, td {
+  border: 1px solid grey;
 }
-#SearchControls button{
-  float: right;
+#MainContainer #SearchResult th, td{
+  padding: 5px;
 }
-#SearchControls {
-  width: 400px;
-  position:relative;
-}
-#SearchResult {
-  display: inline-block;
-  position:relative;
-  top: -180px;
-  left:500px;
-  
-}
-table {
-  width: 100%;
+#MainContainer #SearchControls {
+  width: 350px;
+  box-shadow: 0px 2px 5px 0px #888;
+  margin:10px;
+  padding: 15px;
+  border-radius: 15px;
 }
 
-td, th {
-  padding: 10px 20px;
-  text-align: left;
-  border: 1px solid #ccc;
+#MainContainer #SearchControls input{
+  float:right;
+}
+#MainContainer #SearchControls label {
+  float: left;
+}
+#MainContainer #SearchControls .search-row{
+  width: 340px;
+  float:right;
 }

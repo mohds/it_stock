@@ -1,0 +1,45 @@
+ul {
+  list-style-type: none;
+}
+
+#SearchControls label{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 200px;
+    text-align: right;
+}
+#SearchControls button {
+  display: inline-block;
+  float: left;
+}
+#SearchControls input {
+  display: inline-block;
+  float: left;
+}
+#SearchContainer {
+  width: 800px;
+}
+#SearchControls button{
+  float: right;
+}
+#SearchControls {
+  width: 400px;
+  position:relative;
+}
+#SearchResult {
+  display: inline-block;
+  position:relative;
+  top: -180px;
+  left:500px;
+  
+}
+table {
+  width: 100%;
+}
+
+td, th {
+  padding: 10px 20px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
