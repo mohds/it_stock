@@ -3,11 +3,13 @@ a:hover{
 }
 #NewPasswordForm{
     box-shadow: 0px 2px 5px 0px #888;
-    width: 300px;
-    float: left;
-    margin:10px;
-    padding: 15px;
-    border-radius: 15px;
+margin: 0 auto;
+padding: 10px;
+margin-top: 13em;
+border-radius: 7px;
+font-family: 'Open Sans';
+width: 300px;
+height: 200px;
 }
 #NewPasswordForm .NewPasswordRow{
     float: right;
