@@ -91,7 +91,7 @@
                 });
             });
         </script>
-        
+        <link rel="icon" href="images/logo_image.png">
     </head>
     <body>
         <div id='MainContainer'>

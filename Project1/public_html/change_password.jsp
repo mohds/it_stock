@@ -14,7 +14,7 @@
         <script src="js/jquery-1.12.4.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/change_password.js"></script>
-        
+        <link rel="icon" href="images/logo_image.png">
     </head>
     <body>
         <div id="MainContainer">

@@ -725,7 +725,7 @@ public class Access {
         try{
         out = response.getWriter();
         out.println("<html>");
-        out.println("<head><title>PERMISSIONS</title></head>");
+        out.println("<head><title>PERMISSIONS</title><link rel='icon' href='images/logo_image.png'></head>");
         out.println("<body>");
         out.println("<form action=\"change_permissions\" method=\"POST\">");
         out.println("<h2>Change Access Group</h2>");

@@ -32,8 +32,8 @@ public class items_hq extends HttpServlet {
       
       
       out.println("<html>");
-      out.println("<head><title>items_hq</title></head>");
-      
+      out.println("<head><title>items_hq</title>");
+      out.println("<link rel='icon' href='images/logo_image.png'></head>");
       request.getRequestDispatcher("nav_bar.html").include(request,response);
       
       //javascript and css links
@@ -89,7 +89,6 @@ public class items_hq extends HttpServlet {
         out.println("<div class='MainPanel' id='search_input_and_buttons'>"); // search_input_and_button
         out.println("<div id = 'sticky'>"); //STICKY
         out.println("<h2>Search for an item</h2>");
-        out.println("<br>");
         
         out.println("<label>Item ID: </label><input class = 'search_inputs' type = 'text' id = 'input_item_id'>");  //input text element for item ID
         out.println("<br><br>");

@@ -72,13 +72,19 @@ public class finalize_receipt_pdf
           reader.close();
           
           File source_to_delete = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf"); // replaced receipt_id
-            
-            if(source_to_delete.delete()) {}
-            // System.out.println("JA");
+          try
+          {
+            source_to_delete.delete();
+          }
+          catch(Exception e)
+          {
+            System.out.println("Failed to delete receipt.");
+          }
         }
         catch(Exception e)
         {
           System.out.println(e.toString());
+          System.out.println(e.getStackTrace());
         }
     }
 }

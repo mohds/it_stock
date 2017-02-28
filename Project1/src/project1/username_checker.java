@@ -30,7 +30,7 @@ public class username_checker extends HttpServlet {
         }
         
         out.println("<html>");
-        out.println("<head><title>username_checker</title></head>");
+        out.println("<head><link rel='icon' href='images/logo_image.png'><title>username_checker</title></head>");
         out.println("<body>");
         out.println("</body></html>");
         out.close();
@@ -52,7 +52,7 @@ public class username_checker extends HttpServlet {
         }
         
         out.println("<html>");
-        out.println("<head><title>username_checker</title></head>");
+        out.println("<head><link rel='icon' href='images/logo_image.png'><title>username_checker</title></head>");
         out.println("<body>");
         out.println("</body></html>");
         out.close();

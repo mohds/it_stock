@@ -19,6 +19,7 @@
         <%@ page import="java.util.ArrayList" %>
         <%@ page import="java.util.List" %>
         <%@ page import="project1.Access" %>
+        <link rel="icon" href="images/logo_image.png">
         
     </head>
     <body>

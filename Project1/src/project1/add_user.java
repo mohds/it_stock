@@ -57,7 +57,7 @@ public class add_user extends HttpServlet {
             log.log("New user added ("+user+")", request, session);
             
             out.println("<html>");
-            out.println("<head><title>User added</title>");
+            out.println("<head><link rel='icon' href='images/logo_image.png'><title>User added</title>");
             out.println("<link rel='stylesheet' type='text/css' href='css/main.css'>");
             out.println("</head>");            
             out.println("<body>");

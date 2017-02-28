@@ -19,7 +19,7 @@ public class tester extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         out.println("<html>");
-        out.println("<head><title>tester</title></head>");
+        out.println("<head><link rel='icon' href='images/logo_image.png'><title>tester</title></head>");
         out.println("<body>");
         
         out.println("Testing Emails");
@@ -34,7 +34,7 @@ public class tester extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         out.println("<html>");
-        out.println("<head><title>tester</title></head>");
+        out.println("<head><link rel='icon' href='images/logo_image.png'><title>tester</title></head>");
         out.println("<body>");
         
         

@@ -41,7 +41,7 @@ public class print_item_search_results
       result_ids = request.getParameterValues("items_ids[]");
     }
     out.println("<html>");
-    out.println("<head><title>print_item_search_results</title></head>");
+    out.println("<head><link rel='icon' href='images/logo_image.png'><title>print_item_search_results</title></head>");
     out.println("<body>");
     out.println("<h3>" + title + "</h3>");
     

@@ -62,7 +62,7 @@ public class create_receipt_and_records
     String email_content = "";
     String email_subject = "IT STOCK - CHECK OUT";
     
-    email_content = email_content + "Admin " + user + " has checked out the following item/s to the favor of " + client_name + " and received by " + receiver_name + ".<br><br>";
+    email_content = email_content + "Admin " + user + " has checked out the following item/s to the favor of " + client_name + " and handed to " + receiver_name + ".<br><br>";
     
     
     if(request.getParameterValues("records_items_id[]") != null)
@@ -178,7 +178,7 @@ public class create_receipt_and_records
     out.close();
     
     Log log = new Log();  //create log
-    String description = "Created receipt of ID " + receipt_id + " for " + client_name + " and received by " + receiver_name;
+    String description = "Created receipt of ID " + receipt_id + " for " + client_name + " and handed to " + receiver_name;
     log.log(description, request, session);
   }
 }

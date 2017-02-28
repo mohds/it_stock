@@ -19,7 +19,7 @@ public class log_search extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         out.println("<html>");
-        out.println("<head><title>log_search</title></head>");
+        out.println("<head><link rel='icon' href='images/logo_image.png'><title>log_search</title></head>");
         out.println("<body>");
         out.println("</body></html>");
         out.close();

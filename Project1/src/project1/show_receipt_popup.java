@@ -77,7 +77,8 @@ public class show_receipt_popup
     
     out.println("<h3>Items Checkout</h3>");
     
-    out.println("<label>Client: </label><select name = 'receipt_client_name' id = 'receipt_client_name_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+    out.println("<label class = 'class_asterisks'>*  </label><label>Client: </label><select name = 'receipt_client_name' id = 'receipt_client_name_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+    out.println("<option value = ''></option>");
     for(int i = 0 ; i < clients_list.size() ; i++)
     {
       out.println("<option value = '" + clients_list.get(i) + "'>" + clients_list.get(i) + "</option>");
@@ -87,7 +88,8 @@ public class show_receipt_popup
     
     out.println("<br><br>");
     
-    out.println("<label>Received by: </label><select name = 'receipt_receiver_name' id = 'receipt_receiver_name_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+    out.println("<label class = 'class_asterisks'>*  </label><label>Handed to: </label><select name = 'receipt_receiver_name' id = 'receipt_receiver_name_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+    out.println("<option value = ''></option>");
     for(int i = 0 ; i < clients_list.size() ; i++)
     {
       out.println("<option value = '" + clients_list.get(i) + "'>" + clients_list.get(i) + "</option>");
@@ -151,7 +153,8 @@ public class show_receipt_popup
     
     out.println("<br><br>");
     
-    out.println("<button onclick = create_receipt()>Check out and print</button>");
+    out.println("<button onclick = create_receipt()>Check out</button>");
+    out.println("<input type='checkbox' id = 'print_checkbox_id'> Print receipt<br>");
     
     out.close();
     

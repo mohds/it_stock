@@ -5,6 +5,7 @@
         <link href="css/main.css" rel="stylesheet" type="text/css">
         <title>login</title>
         <link href='http://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+        <link rel="icon" href="images/logo_image.png">
     </head>
     <body>
         <div id="background">

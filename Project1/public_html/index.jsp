@@ -2,6 +2,7 @@
     <head>
         <!-- CSS -->
         <link type="text/css" rel="stylesheet" href="css/main.css">
+        <link rel="icon" href="images/logo_image.png">
     </head>
     <body>
         <div id="MainContainer">

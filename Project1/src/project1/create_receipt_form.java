@@ -182,7 +182,7 @@ public class create_receipt_form
       paragraph.add(new Paragraph(""));
       paragraph.add(new Paragraph("Received on: " + current_date ,subFont));
       paragraph.add(new Paragraph("Received for: " + client_name ,subFont));
-      paragraph.add(new Paragraph("Received by: " + receiver_name ,subFont));
+      paragraph.add(new Paragraph("Handed to: " + receiver_name ,subFont));
       paragraph.add(new Paragraph("IT: " + it_name ,subFont));
       paragraph.add(new Paragraph("Expected date of items return: " + global_expected_date ,subFont));
       paragraph.setAlignment(Element.ALIGN_LEFT);
@@ -190,7 +190,7 @@ public class create_receipt_form
       
       out.println("<p>Received on: " + current_date + "</p>");
       out.println("<p>Received for: " + client_name + "</p>");
-      out.println("<p>Received by: " + receiver_name + "</p>");
+      out.println("<p>Handed to: " + receiver_name + "</p>");
       out.println("<p>IT: " + it_name + "</p>");
       out.println("<p>Expected date of items return: " + global_expected_date + "</p>");
       
