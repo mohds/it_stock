@@ -17,7 +17,7 @@
     <body>
         <div id='MainContainer'>
         <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
-            <div class='new-user form'>
+            <div id='new-user-form'>
                 <h1>New User</h1>
                 <form action='add_user' method='POST'>
                     <div id="new-user-row"><span>Name:</span><input type='text' name='name'></div><br>

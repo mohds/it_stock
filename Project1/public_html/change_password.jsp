@@ -15,10 +15,22 @@
         <script src="js/jquery-ui.js"></script>
         <script src="js/change_password.js"></script>
         <link rel="icon" href="images/logo_image.png">
+        <%@ page import="project1.Access" %>
     </head>
     <body>
-        <div id="MainContainer">
+    <div id="MainContainer">
             <% request.getRequestDispatcher("nav_bar.html").include(request,response);%>
+    <% 
+        Access access = new Access();
+        String user = (String)session.getAttribute("username");
+        String method = "manage_access";
+        if(user == null)
+        {
+            out.println("Login first. <a href=\"login.jsp\"> login ></a>");
+        }
+        else
+        {
+    %>    
             <div id="message-box"></div>
             <div id="NewPasswordForm">
                 <div class="NewPasswordRow"><label>Old password: </label><input id="old_password" type="password"></div>
@@ -27,5 +39,6 @@
                 <div class="NewPasswordRow"><button id="save_password_button">Save</button></div>
             </div>
         </div>
+        <%}%>
     </body>
 </html>
