@@ -215,7 +215,7 @@ public class generate_items_table
           sql_master = sql_master + " AND ";
         }
         
-        sql_master = sql_master + spec + " = " + "'" + list_specs_values.get(i) + "'";
+        sql_master = sql_master + "\"" + spec + "\"" + " = " + "'" + list_specs_values.get(i) + "'";
       }
     }
     
@@ -228,6 +228,7 @@ public class generate_items_table
     
     try
     {
+      System.out.println(sql_master);
       Statement stat_master = con.createStatement();
       ResultSet rs_master = stat_master.executeQuery(sql_master); //execute query
       
@@ -336,7 +337,6 @@ public class generate_items_table
         }
         out.println("</tr>");
       }
-      
       Log log = new Log();  //create log
       String description = "Conducted items search";
       log.log(description, request, session);

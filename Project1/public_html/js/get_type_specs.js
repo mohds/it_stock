@@ -44,7 +44,7 @@ function add_spec()
     div.appendChild(input);   //add in div
     
     var span = document.createElement('span');  //will contain the remove button of this added spec(to remove the label, input text element, the remove button, and br)
-    var test = "<button id = '" + selected_spec + "' onclick = remove_spec('" + selected_spec + "');>Remove</button>"; //on button click call remove_spec in get_type_specs.js and give it as parameter the name of the selected spec
+    var test = "<button id = '" + selected_spec + "' onclick = remove_spec('" + encodeURIComponent(selected_spec) + "');>Remove</button>"; //on button click call remove_spec in get_type_specs.js and give it as parameter the name of the selected spec
     span.innerHTML = test;
     div.appendChild(span);  //add in div
     
@@ -60,6 +60,7 @@ function add_spec()
 
 function remove_spec(removed_spec)  //function to remove the label, input text element, the remove button, and br of an added spec 
 {
+    removed_spec = removed_spec.replace(/%20/g," ");
     var removed_label = document.getElementById("label_" + removed_spec); //get label to be removed 
     removed_label.outerHTML = "";
     delete removed_label; //remove

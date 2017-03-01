@@ -110,7 +110,7 @@ function popup_add_spec()
     div.appendChild(input);
     
     var span = document.createElement('span');  //will contain the remove button of this added spec in popup (to remove the label, input text element, the remove button, and br)
-    var test = "<button id = '" + selected_spec + "' onclick = popup_remove_spec('" + selected_spec + "');>Remove</button>"; //on button click call popup_remove_spec in popup_jquery.js and give it as parameter the name of the selected spec
+    var test = "<button id = '" + selected_spec + "' onclick = popup_remove_spec('" + encodeURIComponent(selected_spec) + "');>Remove</button>"; //on button click call popup_remove_spec in popup_jquery.js and give it as parameter the name of the selected spec
     span.innerHTML = test;
     div.appendChild(span);  //add in div
     
@@ -126,6 +126,7 @@ function popup_add_spec()
 
 function popup_remove_spec(removed_spec)  //function to remove the label, input text element, the remove button, and br of an added spec (in popup)
 {
+    removed_spec = removed_spec.replace(/%20/g," ");
     var removed_label = document.getElementById("popup_label_" + removed_spec); //get label to be removed
     removed_label.outerHTML = "";
     delete removed_label; //remove
