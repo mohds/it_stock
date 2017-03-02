@@ -112,7 +112,7 @@ $(document).ready(function(){
     });
     $("#ReturnDialog").dialog({
         autoOpen: false,
-        width: 400,
+        width: "450 px",
         show: {
             effect: "slide",
             duration: 200
