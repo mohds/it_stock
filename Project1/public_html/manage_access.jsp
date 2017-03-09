@@ -49,7 +49,7 @@
                         access_groups = access.get_access_groups();
                         
                         out.println("<table id=\"management_table\">");
-                        out.println("<th>Admin</th><th>Access Level</th><th>Delete</th>");
+                        out.println("<th>User</th><th>Access Level</th><th>Edit Password</th><th>Delete</th>");
                         admins = access.get_admins();
                         for(int i = 0 ; i < admins.size() ; i++){
                             String access_level = "No access level";
@@ -71,7 +71,8 @@
                             }
                             out.println("</select>");
                             out.println("</td>");
-                            out.println("<td><button onClick=\"delete_user('"+ admin +"','row_"+ i +"')\">Delete</td>");
+                            out.println("<td><button onClick=\"\">Edit</button></td>");
+                            out.println("<td><img src=\"images/remove.png\" onClick=\"delete_user('"+ admin +"','row_"+ i +"')\"></td>");                            
                             out.println("</tr>");
                         }
                         out.println("</table>");

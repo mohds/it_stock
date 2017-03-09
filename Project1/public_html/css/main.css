@@ -1,15 +1,40 @@
+.class_asterisks {
+    color: red;
+    font-weight: bold;
+}
+.icon{
+    height: 15px;
+    width: auto;
+}
+#EditTypeDialog img{
+    cursor: pointer;
+}
+#specs_to_edit{
+    height: 250px;
+    overflow: auto;
+}
+.spec_in_edit {
+    margin-bottom: 10px;
+}
+.spec_in_edit img{
+    float: right;
+    cursor: pointer;
+}
+#DeleteTypeButton{
+    width: auto;
+}
 a:hover{
     cursor: pointer;
 }
 #NewPasswordForm{
     box-shadow: 0px 2px 5px 0px #888;
-margin: 0 auto;
-padding: 10px;
-margin-top: 13em;
-border-radius: 7px;
-font-family: 'Open Sans';
-width: 300px;
-height: 200px;
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 13em;
+    border-radius: 7px;
+    font-family: 'Open Sans';
+    width: 300px;
+    height: 200px;
 }
 #new-user-form
 {
@@ -40,11 +65,14 @@ height: 200px;
 }
 #management-container div{
     box-shadow: 0px 2px 5px 0px #888;
-    width: 400px;
+    width: auto;
     float: left;
     margin:10px;
     padding: 15px;
     border-radius: 15px;
+}
+#management-container div img{
+    cursor: pointer;
 }
 #add-page{
     width: 600px;

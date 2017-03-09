@@ -12,6 +12,107 @@ public class Queries {
         super();
     }
     
+    public static boolean update_type_name(String old_type_name, String new_type_name){
+        boolean return_me = false;
+        
+        if(new_type_name == null){
+            return return_me;
+        }
+        else if(new_type_name.length() <= 0){
+            return return_me;
+        }        
+        
+        String query = "UPDATE types SET name = '"+ new_type_name +"' WHERE name = '"+ old_type_name +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+            return_me = true;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return return_me;
+        }
+        
+        return return_me;
+    }
+    
+    public static boolean remove_spec_from_type(String spec_id, String type){
+        boolean return_me = false;
+        String type_id = get_id_from_name("types", type);
+        String query = "DELETE FROM specs_types WHERE spec_id = '"+ spec_id +"' AND type_id = '"+ type_id +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+            return_me = true;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return return_me;
+        }        
+        return return_me;
+    }
+    
+    public static boolean delete_spec(String spec_id){
+        // deletion of a spec is a 3 step process
+        // first we delete the itemspecvalues entries
+        // second we delete the specs_types entries
+        // last we delete the specs entry
+        
+        boolean return_me = false;
+        
+        // itemspecvalues
+        String query = "DELETE FROM itemspecvalues WHERE spec_id = '"+ spec_id +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return return_me;
+        }
+        
+        // specs_types
+        query = "DELETE FROM specs_types WHERE spec_id = '"+ spec_id +"' ";
+        // System.out.println(query);
+        con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return return_me;
+        }
+        
+        // specs
+        query = "DELETE FROM specs WHERE id = '"+ spec_id +"' ";
+        // System.out.println(query);
+        con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+            // after this point, deletion was successful
+            return_me = true;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return return_me;
+        }
+        
+        return return_me;
+    }
+    
     public static String get_receipt_id_of_item_id(String item_id){
         String receipt_id = "";
         

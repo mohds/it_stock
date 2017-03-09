@@ -41,11 +41,11 @@
                     <div id="add-panel">
                         <h2>Add a new Item</h2>
                         <span id="message-box"></span><br>
-                        <label>Add Item of type: </label><div class="add-row"><input id="TypeCombo" name="type"/><button id="NewTypeButton">New</button></div><br><br><br><br>
+                        <label class="class_asterisks">*</label><label>Add Item of type: </label><div class="add-row"><input id="TypeCombo" name="type"/><button id="NewTypeButton">New</button><button id="EditTypeButton">Edit</button></div><br><br><br><br>
                         <strong>Enter Specs:</strong><br>
                         <label>Label: </label><div class="add-row"><input type="text" id="label" name="label"/><span id='label-result'></span></div><br>
-                        <label>Brand: </label><div class="add-row"><input type="text" id="brand" name="brand"/><button id="NewBrandButton">New</button></div><br>
-                        <label>Location: </label><div class="add-row"><input type="text" id="location" name="location"/><button id="NewLocationButton">New</button></div><br>
+                        <label class="class_asterisks">*</label><label>Brand: </label><div class="add-row"><input type="text" id="brand" name="brand"/><button id="NewBrandButton">New</button></div><br>
+                        <label class="class_asterisks">*</label><label>Location: </label><div class="add-row"><input type="text" id="location" name="location"/><button id="NewLocationButton">New</button></div><br>
                         <label>Serial Number: </label><div class="add-row"><input type="text" id="serial_number" name="serial_number"/><span id='serial-result'></span></div><br>
                         <label>Condition: </label><div class="ui-widget"><div id="condition_options"></div></div><br>
                         
@@ -66,6 +66,13 @@
                             <label>Name: </label><input type="text" id="location_to_add" name="location_to_add" /><br>                   
                             <br>
                             <button id="AddLocationButton" type="submit">Save</button>                    
+                        </div>
+                        <div id="EditTypeDialog" title="Edit Types">
+                            <label>Type</label><br><input type="text" id="type_to_edit"><br><br>
+                            <label>Name: </label><input type="text" id="name_to_save"><img class="icon" src="images/save.png" onClick="save_type_name()"><br>
+                            <div id="specs_to_edit"></div>
+                            <br>
+                            <button id="DeleteTypeButton">Delete type</button><button id="DoneTypeButton">Done</button>
                         </div>
                     </div>
                     <div id="ExtraSpecs"></div>

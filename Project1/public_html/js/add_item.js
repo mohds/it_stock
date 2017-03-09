@@ -5,8 +5,7 @@ $(document).ready(function(){
         minLength: 1,
         select: function(event, ui){
             var type_selected = ui.item.value;
-            generate_extra_specs(type_selected);            
-            
+            generate_extra_specs(type_selected);
         }
     });
     $("#brand").autocomplete({
@@ -17,6 +16,7 @@ $(document).ready(function(){
         source: "get_locations",
         minLength: 1
     });
+    
         
     // popups
     $("#NewTypeDialog").dialog({
@@ -31,10 +31,6 @@ $(document).ready(function(){
             duration: 200
         }
     });
-    $("#NewTypeButton").on("click", function(){
-        $("#NewTypeDialog").dialog("open");
-    });
-    
     $("#NewBrandDialog").dialog({
         autoOpen: false,
         show: {
@@ -46,10 +42,6 @@ $(document).ready(function(){
             duration: 200
         }
     });
-    $("#NewBrandButton").on("click", function(){
-        $("#NewBrandDialog").dialog("open");
-    });
-    
     $("#NewLocationDialog").dialog({
         autoOpen: false,
         show: {
@@ -61,12 +53,19 @@ $(document).ready(function(){
             duration: 200
         }
     });
-    $("#NewLocationButton").on("click", function(){
-        $("#NewLocationDialog").dialog("open");
+    $("#EditTypeDialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
     });
     
-    
-    // add buttons
+    // buttons
     $("#AddItemButton").on("click", function() {
         add_item();
     });
@@ -89,8 +88,27 @@ $(document).ready(function(){
     $("#clear-button").on("click", function(){
         clear_input();
     });
-    
-    
+    $("#NewBrandButton").on("click", function(){
+        $("#NewBrandDialog").dialog("open");
+    });
+    $("#NewLocationButton").on("click", function(){
+        $("#NewLocationDialog").dialog("open");
+    });
+    $("#NewTypeButton").on("click", function(){
+        $("#NewTypeDialog").dialog("open");
+    });
+    $("#EditTypeButton").on("click", function(){
+        $("#EditTypeDialog").dialog("open");
+        $("#type_to_edit").autocomplete({
+            source: "get_types",
+            minLength: 1,
+            select: function(event, ui){
+                var type_selected = ui.item.value;
+                document.getElementById("name_to_save").value = type_selected;
+                generate_extra_specs_for_edit(type_selected);
+            }
+        });
+    });
     
     // input checker
     var x_timer;    
@@ -117,10 +135,10 @@ $(document).ready(function(){
     }); 
 
     function check_serial_ajax(serial){
-            $("#serial-result").html('<img src="images/ajax-loader.gif" />');
-            $.post('serial_checker', {'serial':serial}, function(data) {
-              $("#serial-result").html(data);
-            });
+        $("#serial-result").html('<img src="images/ajax-loader.gif" />');
+        $.post('serial_checker', {'serial':serial}, function(data) {
+            $("#serial-result").html(data);
+        });
     }
     
 });
@@ -221,6 +239,7 @@ function add_location(){
 function add_item(){
     
     $("#message-box").html("Adding new Item please wait.");
+    start_loading();
     
     // first we get the main attributes
     var type = document.getElementById("TypeCombo").value;
@@ -242,6 +261,7 @@ function add_item(){
     $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values}, 
         function(returnedData){
             $("#message-box").html(returnedData);
+            stop_loading();
     });    
 }
 
@@ -278,4 +298,55 @@ function generate_extra_specs(type_selected){
     $(".spec_name").focusout(function(){
         save_specs_names();
     });
+}
+function generate_extra_specs_for_edit(type_selected){
+    $("#specs_to_edit").html('');
+    
+    $.post('get_specs', {type_selected: type_selected}, 
+        function(returnedData){
+                document.getElementById("specs_to_edit").innerHTML = "<strong>Specs<\/strong><br>";
+                for( i = 0 ; i < returnedData.length ; i++ ){
+                    $("#specs_to_edit").append("<div id='spec_in_edit_"+ returnedData[i].spec_id +"' class='spec_in_edit'><input type=\"hidden\" value=\""+ returnedData[i].spec_id +"\" class=\"spec_id\" ><label class=\"spec_name\" contenteditable=\"true\" onblur=\"save_specs_names()\" >" + returnedData[i].spec_name + "<\/label><img src=\"images/remove.png\" onClick=\"delete_spec('"+ returnedData[i].spec_id +"')\"><br><\/div>");
+                }
+    }, 'json');
+    
+    // on lost focus
+    $(".spec_name").focusout(function(){
+        save_specs_names();
+    });
+}
+function delete_spec(spec_id){
+    start_loading();
+    document.getElementById("message-box").innerHTML = "Deleting spec. Please wait.";
+    var type = document.getElementById("type_to_edit").value;
+    $.post('delete_spec', {spec_id: spec_id, type: type}, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        if(returnedData.includes("success")){
+            document.getElementById("spec_in_edit_" + spec_id).remove();
+        }
+        stop_loading();
+    });
+}
+
+function save_type_name(){
+    start_loading();
+    document.getElementById("message-box").innerHTML = "Saving type name. Please wait.";
+    
+    var old_type_name = document.getElementById("type_to_edit").value;
+    var new_type_name = document.getElementById("name_to_save").value;
+    
+    $.post('update_type_name', {old_type_name: old_type_name, new_type_name: new_type_name}, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        if(returnedData.includes("success")){
+            document.getElementById("type_to_edit").value = new_type_name;
+        }
+        stop_loading();
+    });
+}
+
+function start_loading(){
+  document.getElementById("div_loading").style.display = "block";
+}
+function stop_loading(){
+  document.getElementById("div_loading").style.display = "none";
 }
