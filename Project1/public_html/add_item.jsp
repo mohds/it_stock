@@ -68,16 +68,25 @@
                             <button id="AddLocationButton" type="submit">Save</button>                    
                         </div>
                         <div id="EditTypeDialog" title="Edit Types">
-                            <label>Type</label><br><input type="text" id="type_to_edit"><br><br>
+                            <label>Type</label><br><div id="type-select-box"></div><br><br>
                             <label>Name: </label><input type="text" id="name_to_save"><img class="icon" src="images/save.png" onClick="save_type_name()"><br>
                             <div id="specs_to_edit"></div>
                             <br>
-                            <button id="DeleteTypeButton">Delete type</button><button id="DoneTypeButton">Done</button>
+                            <!--<button id="DeleteTypeButton">Delete type</button><button id="DoneTypeButton">Done</button>-->
+                            <img class="icon pointer-cursor" onClick="open_add_spec_to_type_dialog()" src="images/Button-Add-icon.png"/>
+                        </div>
+                        <div id="AddSpecToTypeDialog" title="New Spec">
+                            <label id="add-spec-label">Add Spec:</label><br>
+                            <input type="text" id="spec_to_add">
+                            <button id="AddSpecToType">Save</button>
                         </div>
                     </div>
                     <div id="ExtraSpecs"></div>
                 </div>
             <%}%>
         </div>
+        <script>
+            get_conditions();
+        </script>
     </body>
 </html>

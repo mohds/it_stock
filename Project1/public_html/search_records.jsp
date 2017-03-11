@@ -82,6 +82,7 @@
                     <table id="ResultsTable">
                         <tr>
                             <th>Record ID</th>
+                            <th>Receipt ID</th>
                             <th>Item ID</th>
                             <th>Item Label</th>
                             <th>Item Type</th>
@@ -124,8 +125,8 @@
             </div>
             <div id="ReturnDialog" title="Return Item">
                 <span id="ReturnTitle"></span></br>
-                <label>Returned By: </label><input type="text" id="ClientReturner_ReturnDialog"><button id="AddClient_ReturnDialog">New</button></br>
-                <label>To Location: </label><input type="text" id="NewLocation_ReturnDialog"><button id="AddLocation_ReturnDialog">New</button></br>
+                <label class="class_asterisks">*</label><label>Returned By: </label><input type="text" id="ClientReturner_ReturnDialog"><button id="AddClient_ReturnDialog">New</button></br>
+                <label class="class_asterisks">*</label><label>To Location: </label><input type="text" id="NewLocation_ReturnDialog"><button id="AddLocation_ReturnDialog">New</button></br>
                 <label>Return Receipt: </label><input type="checkbox" id="ReturnReceipt"></br>
                 <span id="ConfirmReturnButton"></span>
             </div>

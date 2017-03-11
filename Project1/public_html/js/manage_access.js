@@ -11,7 +11,29 @@ $(document).ready(function(){
             effect: "slide",
             duration: 200
         }
-    });    
+    }); 
+    $("#AddAccessGroupDialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    }); 
+    $("#ChangePasswordDialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    }); 
     
     // buttons
     $("#SaveAccessGroups").on("click", function() {
@@ -29,11 +51,43 @@ $(document).ready(function(){
     $("#SaveEmails").on("click", function() {
         save_emails();
     });
+    $("#AddAccessGroup").on("click", function() {
+        $("#AddAccessGroupDialog").dialog("open");
+    });
+    $("#AddNewAccessGroup").on("click", function(){
+        add_access_group();
+    });
+    $("#ChangePasswordButton").on("click", function(){
+        save_password();
+    });
     
     populate_methods_container();
     populate_user_emails_row();
     
 });
+
+function change_password(username){
+    $("#ChangePasswordDialog").dialog("open");
+    document.getElementById("temp_user_storage").value = username;
+}
+function save_password(){
+    var username = document.getElementById("temp_user_storage").value;
+    var new_password = document.getElementById("NewPassword").value;
+    $.post('force_change_password', {username: username, new_password: new_password}, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        $("#ChangePasswordDialog").dialog("close");
+    });
+}
+
+function add_access_group(){
+    document.getElementById("message-box").innerHTML = "Adding new access group.";
+    var access_group = document.getElementById("NewAccessGroup").value;
+    $.post('add_access_group', {access_group: access_group}, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        $("#AddAccessGroupDialog").dialog("close");
+        document.getElementById("NewAccessGroup").value = "";
+    });
+}
 
 function delete_user(username, row_id){
     document.getElementById("message-box").innerHTML = "Deleting " + username + ". Please wait.";
@@ -57,6 +111,7 @@ function add_new_method(){
 
 function save_methods(){
     document.getElementById("message-box").innerHTML = "Saving methods please wait.";
+    start_loading();
     var access_group = document.getElementById("access-groups").value;
     var methods = []; 
     var inputElements = document.getElementsByClassName('methods_checkbox');
@@ -68,6 +123,7 @@ function save_methods(){
     
     $.post('save_methods', {access_group: access_group, methods: methods }, function(returnedData){
         document.getElementById("message-box").innerHTML = returnedData;
+        stop_loading();
     });
     
 }
@@ -169,4 +225,10 @@ function check_email_boxes(){
             document.getElementById(returnedData[i] + "_id").checked = true;
         }
     });
+}
+function start_loading(){
+  document.getElementById("div_loading").style.display = "block";
+}
+function stop_loading(){
+  document.getElementById("div_loading").style.display = "none";
 }

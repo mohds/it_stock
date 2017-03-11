@@ -49,7 +49,8 @@
                         access_groups = access.get_access_groups();
                         
                         out.println("<table id=\"management_table\">");
-                        out.println("<th>User</th><th>Access Level</th><th>Edit Password</th><th>Delete</th>");
+                        
+                        out.println("<th>User</th><th>Access Level&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th>");
                         admins = access.get_admins();
                         for(int i = 0 ; i < admins.size() ; i++){
                             String access_level = "No access level";
@@ -71,7 +72,7 @@
                             }
                             out.println("</select>");
                             out.println("</td>");
-                            out.println("<td><button onClick=\"\">Edit</button></td>");
+                            out.println("<td><img id=\"ChangePasswordIcon\" src=\"images/forgot-password-icon-0.png\" class=\"icon pointer-cursor\" onClick=\"change_password('"+ admin +"')\"></td>");
                             out.println("<td><img src=\"images/remove.png\" onClick=\"delete_user('"+ admin +"','row_"+ i +"')\"></td>");                            
                             out.println("</tr>");
                         }
@@ -88,7 +89,7 @@
                         <tr id="methods-row">
                         </tr>                        
                     </table>
-                    <button id="AddMethod">Add Method</button><button id="SaveMethods">Save</button>
+                    <button id="AddMethod">Add Method</button><button id="AddAccessGroup">Add Access Group</button><button id="SaveMethods">Save</button>
                 </div>
                 <div id="emails-container">
                     <h1>Manage Emails</h1>
@@ -110,6 +111,15 @@
             <div id="NewMethodDialog" title="New Method">
                 <input type="text" id="NewMethod" />
                 <button id="AddNewMethod">Add</button>
+            </div>
+            <div id="AddAccessGroupDialog" title="New Access Group">
+                <input type="text" id="NewAccessGroup" />
+                <button id="AddNewAccessGroup">Add</button>
+            </div>
+            <div id="ChangePasswordDialog" title="New Password">
+                <input type="password" id="NewPassword" />
+                <input type="hidden" value="" id="temp_user_storage">
+                <button id="ChangePasswordButton">Save</button>
             </div>
             <%}%>
         </div>

@@ -1,3 +1,6 @@
+#AddAccessGroup{
+    width: auto;
+}
 .class_asterisks {
     color: red;
     font-weight: bold;
@@ -5,6 +8,9 @@
 .icon{
     height: 15px;
     width: auto;
+}
+.pointer-cursor:hover{
+    cursor: pointer
 }
 #EditTypeDialog img{
     cursor: pointer;
@@ -91,6 +97,8 @@ a:hover{
 }
 body{
     background-color:#EEE;
+    /*background-image: url("../images/mayadeen.png");
+    background-repeat:no-repeat;*/    
 }
 #MainContainer #export-buttons {
     float: right;

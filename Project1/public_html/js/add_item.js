@@ -64,6 +64,17 @@ $(document).ready(function(){
             duration: 200
         }
     });
+    $("#AddSpecToTypeDialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    });
     
     // buttons
     $("#AddItemButton").on("click", function() {
@@ -80,8 +91,7 @@ $(document).ready(function(){
     
     $("#add_spec").on("click", function(){
         add_spec();
-    });
-    
+    });    
     $("#AddTypeButton").on("click", function(){
         add_type();
     });
@@ -99,15 +109,12 @@ $(document).ready(function(){
     });
     $("#EditTypeButton").on("click", function(){
         $("#EditTypeDialog").dialog("open");
-        $("#type_to_edit").autocomplete({
-            source: "get_types",
-            minLength: 1,
-            select: function(event, ui){
-                var type_selected = ui.item.value;
-                document.getElementById("name_to_save").value = type_selected;
-                generate_extra_specs_for_edit(type_selected);
-            }
-        });
+        generate_type_combo();
+        document.getElementById("specs_to_edit").innerHTML = "";
+        document.getElementById("name_to_save").value = "";
+    });
+    $("#AddSpecToType").on("click", function(){
+        add_spec_to_type();
     });
     
     // input checker
@@ -139,9 +146,36 @@ $(document).ready(function(){
         $.post('serial_checker', {'serial':serial}, function(data) {
             $("#serial-result").html(data);
         });
-    }
-    
+    }    
 });
+
+function add_spec_to_type(){
+    start_loading();    
+    var type = document.getElementById("type_to_edit").value;
+    var spec = document.getElementById("spec_to_add").value;
+    
+    $.post('add_spec_to_type', {type: type, spec: spec}, function(returnedData){
+        $("#AddSpecToTypeDialog").dialog("close");
+        document.getElementById("spec_to_add").value = "";        
+        generate_extra_specs_for_edit(type);
+        document.getElementById("message-box").innerHTML = returnedData;
+        stop_loading();
+    });
+}
+
+function open_add_spec_to_type_dialog(){
+    $("#AddSpecToTypeDialog").dialog("open");
+    $("#spec_to_add").autocomplete({
+        source: "get_all_specs_filtered",
+        minLength: 1
+    });
+}
+
+function generate_extra_specs_for_edit_event(){
+    var type_selected = document.getElementById("type_to_edit").value;
+    document.getElementById("name_to_save").value = type_selected;
+    generate_extra_specs_for_edit(type_selected);
+}
 
 function clear_input(){
     document.getElementById("TypeCombo").value = "";
@@ -153,7 +187,7 @@ function clear_input(){
 }
 
 // populate conditions select box
-get_conditions();
+// get_conditions();
 
 var spec_id = 0; // will be used as a unique identifier for each added spec space
 
@@ -212,14 +246,10 @@ function add_type(){
 }
 
 function add_brand(){
-
-    var brand = document.getElementById("brand_to_add").value;
-    
+    var brand = document.getElementById("brand_to_add").value;    
     $.post('add_brand', {brand: brand}, 
-        function(returnedData){
-            
-    }, 'json');
-    
+        function(returnedData){            
+    }, 'json');    
     $("#NewBrandDialog").dialog("close");
     document.getElementById("brand_to_add").value = "";
 }
@@ -301,13 +331,14 @@ function generate_extra_specs(type_selected){
 }
 function generate_extra_specs_for_edit(type_selected){
     $("#specs_to_edit").html('');
-    
+    start_loading();
     $.post('get_specs', {type_selected: type_selected}, 
         function(returnedData){
                 document.getElementById("specs_to_edit").innerHTML = "<strong>Specs<\/strong><br>";
                 for( i = 0 ; i < returnedData.length ; i++ ){
                     $("#specs_to_edit").append("<div id='spec_in_edit_"+ returnedData[i].spec_id +"' class='spec_in_edit'><input type=\"hidden\" value=\""+ returnedData[i].spec_id +"\" class=\"spec_id\" ><label class=\"spec_name\" contenteditable=\"true\" onblur=\"save_specs_names()\" >" + returnedData[i].spec_name + "<\/label><img src=\"images/remove.png\" onClick=\"delete_spec('"+ returnedData[i].spec_id +"')\"><br><\/div>");
                 }
+                stop_loading();
     }, 'json');
     
     // on lost focus
@@ -338,10 +369,27 @@ function save_type_name(){
     $.post('update_type_name', {old_type_name: old_type_name, new_type_name: new_type_name}, function(returnedData){
         document.getElementById("message-box").innerHTML = returnedData;
         if(returnedData.includes("success")){
-            document.getElementById("type_to_edit").value = new_type_name;
+            generate_type_combo();
+            document.getElementById("specs_to_edit").innerHTML = "";
+            document.getElementById("name_to_save").value = "";
         }
         stop_loading();
     });
+}
+
+function generate_type_combo(){
+    var html = "<select id=\"type_to_edit\" onchange=\"generate_extra_specs_for_edit_event()\">";
+    var term = "";
+    var options = "";
+    options += "<option value=\"\"><\/option>";
+    $.getJSON('get_types', {term: term}, function(returnedData){
+        for(var i = 0 ; i < returnedData.length ; i++){
+            options += "<option value=\""+ returnedData[i] +"\">"+ returnedData[i] +"<\/option>";
+        }
+        html += options;
+        html += "<\/select>";
+        document.getElementById("type-select-box").innerHTML = html;
+    });    
 }
 
 function start_loading(){

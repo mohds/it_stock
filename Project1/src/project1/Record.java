@@ -2,13 +2,16 @@ package project1;
 
 public class Record {
     
-    private String record_id, item_id, item_label, item_type, borrower, borrow_date, return_date, status;
+    private String record_id, receipt_id, item_id, item_label, item_type, borrower, borrow_date, return_date, status;
     
     public String get_item_label(){
         return item_label;
     }
     public String get_item_id(){
         return item_id;
+    }
+    public String get_receipt_id(){
+        return receipt_id;
     }
     public String get_item_type(){
         return item_type;
@@ -35,6 +38,9 @@ public class Record {
     public void set_item_id(String s){
         item_id = s;
     }
+    public void set_receipt_id(String s){
+        receipt_id = s;
+    }    
     public void set_item_type(String s){
         item_type = s;
     }
@@ -54,9 +60,10 @@ public class Record {
         status = s;
     }
     
-    public Record(String record_id, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status) {
+    public Record(String record_id, String receipt_id, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status) {
         super();
         set_record_id(record_id);
+        set_receipt_id(receipt_id);
         set_item_id(item_id);
         set_item_label(item_label);
         set_item_type(item_type);

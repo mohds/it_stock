@@ -23,7 +23,7 @@ public class get_methods extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         List<String> methods = new ArrayList<String>();
-        methods = Queries.get_names("methods");
+        methods = Queries.get_sorted_names("methods");
         Gson gson = new Gson();
         out.println(gson.toJson(methods));
         

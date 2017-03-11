@@ -12,6 +12,76 @@ public class Queries {
         super();
     }
     
+    public static boolean add_spec_to_type(String type, String spec){
+        boolean return_me = false;
+        
+        if(spec == null){
+            return return_me;
+        }
+        else if(type == null){
+            return return_me;
+        }
+        
+        String query = "INSERT INTO specs(name) VALUES('"+ spec +"') ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+        }
+        catch(Exception e){
+            // no need to handle this error, it is supposed to not add 
+            // a spec when there is a conflict in names
+            // System.out.println(e.toString());
+        }
+        String spec_id = "";
+        query = "SELECT specs.id FROM specs WHERE specs.name = '"+ spec +"'";
+        // System.out.println(query);
+        con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()){
+                spec_id = rs.getString("id");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        String type_id = "";
+        query = "SELECT types.id FROM types WHERE types.name = '"+ type +"'";
+        // System.out.println(query);
+        con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()){
+                type_id = rs.getString("id");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        query = "INSERT INTO specs_types(spec_id, type_id) VALUES('"+ spec_id +"', '"+ type_id +"') ";
+        // System.out.println(query);
+        con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+            return_me = true;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }        
+        
+        return return_me;
+    }
+    
     public static boolean update_type_name(String old_type_name, String new_type_name){
         boolean return_me = false;
         
@@ -430,6 +500,26 @@ public class Queries {
         List<String> names = new ArrayList<String>();
               
         String query = "SELECT name FROM "+ table +" ORDER BY id ASC";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                names.add(rs.getString("name"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return names;
+    }
+    public static List<String> get_sorted_names(String table){
+        List<String> names = new ArrayList<String>();
+              
+        String query = "SELECT name FROM "+ table +" ORDER BY NAME ASC";
         // System.out.println(query);
         Connection con = connect_to_db();
         try{
