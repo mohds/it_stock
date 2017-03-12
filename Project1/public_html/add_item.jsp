@@ -44,8 +44,8 @@
                         <label class="class_asterisks">*</label><label>Add Item of type: </label><div class="add-row"><input id="TypeCombo" name="type"/><button id="NewTypeButton">New</button><button id="EditTypeButton">Edit</button></div><br><br><br><br>
                         <strong>Enter Specs:</strong><br>
                         <label>Label: </label><div class="add-row"><input type="text" id="label" name="label"/><span id='label-result'></span></div><br>
-                        <label class="class_asterisks">*</label><label>Brand: </label><div class="add-row"><input type="text" id="brand" name="brand"/><button id="NewBrandButton">New</button></div><br>
-                        <label class="class_asterisks">*</label><label>Location: </label><div class="add-row"><input type="text" id="location" name="location"/><button id="NewLocationButton">New</button></div><br>
+                        <label class="class_asterisks">*</label><label>Brand: </label><div class="add-row"><input type="text" id="brand" name="brand"/><button id="NewBrandButton">New</button><button id="EditBrandButton">Edit</button></div><br>
+                        <label class="class_asterisks">*</label><label>Location: </label><div class="add-row"><input type="text" id="location" name="location"/><button id="NewLocationButton">New</button><button id="EditLocationButton">Edit</button></div><br>
                         <label>Serial Number: </label><div class="add-row"><input type="text" id="serial_number" name="serial_number"/><span id='serial-result'></span></div><br>
                         <label>Condition: </label><div class="ui-widget"><div id="condition_options"></div></div><br>
                         
@@ -79,6 +79,16 @@
                             <label id="add-spec-label">Add Spec:</label><br>
                             <input type="text" id="spec_to_add">
                             <button id="AddSpecToType">Save</button>
+                        </div>
+                        <div id="EditBrandDialog" title="Edit Brand">
+                            <label>Brand</label><br><div id="brand-select-box"></div><br>
+                            <label>Name: </label><input type="text" id="brand_to_save"><br><br>
+                            <button id="DeleteBrandButton">Delete</button><button id="SaveBrandName" onClick="save_brand_name()">Save</button>
+                        </div>
+                        <div id="EditLocationDialog" title="Edit Location">
+                            <label>Location</label><br><div id="location-select-box"></div><br>
+                            <label>Name: </label><input type="text" id="location_to_save"><br><br>
+                            <button id="DeleteLocationButton">Delete</button><button id="SaveLocationName" onClick="save_location_name()">Save</button>
                         </div>
                     </div>
                     <div id="ExtraSpecs"></div>

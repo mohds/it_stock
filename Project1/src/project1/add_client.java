@@ -26,6 +26,8 @@ public class add_client extends HttpServlet {
         String client = request.getParameter("client");
         Queries.insert_into_table("clients", client);
         
+        out.println(client);
+        
         Log log = new Log();
         HttpSession session = request.getSession();
         String description = "Added client " + client;

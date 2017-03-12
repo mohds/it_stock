@@ -229,6 +229,12 @@ public class items_hq extends HttpServlet {
         out.println("</div>");
         out.println("</div>");
         
+        ///////////// new client handler //////////////    
+        out.println("<div id=\"NewClientPopup\" title=\"New Client\">");
+        out.println("<label>Name:</label><br>");
+        out.println("<input type=\"text\" value=\"\" id=\"NewClientName\"><br>");
+        out.println("<button id=\"SaveNewClientButton\" onClick=\"save_new_client()\">Save</button>");
+        out.println("</div>");
         
         out.println("</body></html>");
         out.close();

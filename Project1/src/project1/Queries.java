@@ -83,15 +83,13 @@ public class Queries {
     }
     
     public static boolean update_type_name(String old_type_name, String new_type_name){
-        boolean return_me = false;
-        
+        boolean return_me = false;        
         if(new_type_name == null){
             return return_me;
         }
         else if(new_type_name.length() <= 0){
             return return_me;
-        }        
-        
+        }                
         String query = "UPDATE types SET name = '"+ new_type_name +"' WHERE name = '"+ old_type_name +"' ";
         // System.out.println(query);
         Connection con = connect_to_db();
@@ -104,8 +102,53 @@ public class Queries {
         catch(Exception e){
             System.out.println(e.toString());
             return return_me;
+        }        
+        return return_me;
+    }
+    public static boolean update_brand_name(String old_brand_name, String new_brand_name){
+        boolean return_me = false;        
+        if(new_brand_name == null){
+            return return_me;
         }
-        
+        else if(new_brand_name.length() <= 0){
+            return return_me;
+        }                
+        String query = "UPDATE brands SET name = '"+ new_brand_name +"' WHERE name = '"+ old_brand_name +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+            return_me = true;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return return_me;
+        }        
+        return return_me;
+    }
+    public static boolean update_location_name(String old_location_name, String new_location_name){
+        boolean return_me = false;        
+        if(new_location_name == null){
+            return return_me;
+        }
+        else if(new_location_name.length() <= 0){
+            return return_me;
+        }                
+        String query = "UPDATE locations SET name = '"+ new_location_name +"' WHERE name = '"+ old_location_name +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            con.close();
+            return_me = true;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return return_me;
+        }        
         return return_me;
     }
     

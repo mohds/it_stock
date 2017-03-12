@@ -75,6 +75,28 @@ $(document).ready(function(){
             duration: 200
         }
     });
+    $("#EditBrandDialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    });
+    $("#EditLocationDialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    });
     
     // buttons
     $("#AddItemButton").on("click", function() {
@@ -115,6 +137,16 @@ $(document).ready(function(){
     });
     $("#AddSpecToType").on("click", function(){
         add_spec_to_type();
+    });
+    $("#EditBrandButton").on("click", function(){
+        $("#EditBrandDialog").dialog("open");
+        generate_brand_combo();
+        document.getElementById("brand_to_save").value = "";
+    });
+    $("#EditLocationButton").on("click", function(){
+        $("#EditLocationDialog").dialog("open");
+        generate_location_combo();
+        document.getElementById("location_to_save").value = "";
     });
     
     // input checker
@@ -169,6 +201,15 @@ function open_add_spec_to_type_dialog(){
         source: "get_all_specs_filtered",
         minLength: 1
     });
+}
+
+function edit_brand_on_change(){
+    var brand_selected = document.getElementById("brand_to_edit").value;
+    document.getElementById("brand_to_save").value = brand_selected;
+}
+function edit_location_on_change(){
+    var location_selected = document.getElementById("location_to_edit").value;
+    document.getElementById("location_to_save").value = location_selected;
 }
 
 function generate_extra_specs_for_edit_event(){
@@ -376,6 +417,40 @@ function save_type_name(){
         stop_loading();
     });
 }
+function save_brand_name(){
+    start_loading();
+    document.getElementById("message-box").innerHTML = "Saving brand name. Please wait.";
+    
+    var old_brand_name = document.getElementById("brand_to_edit").value;
+    var new_brand_name = document.getElementById("brand_to_save").value;
+    
+    $.post('update_brand_name', {old_brand_name: old_brand_name, new_brand_name: new_brand_name}, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        if(returnedData.includes("success")){
+            generate_type_combo();
+            document.getElementById("brand_to_save").value = "";
+            $("#EditBrandDialog").dialog("close");
+        }
+        stop_loading();
+    });
+}
+function save_location_name(){
+    start_loading();
+    document.getElementById("message-box").innerHTML = "Saving location name. Please wait.";
+    
+    var old_location_name = document.getElementById("location_to_edit").value;
+    var new_location_name = document.getElementById("location_to_save").value;
+    
+    $.post('update_location_name', {old_location_name: old_location_name, new_location_name: new_location_name}, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        if(returnedData.includes("success")){
+            generate_type_combo();
+            document.getElementById("location_to_save").value = "";
+            $("#EditLocationDialog").dialog("close");
+        }
+        stop_loading();
+    });
+}
 
 function generate_type_combo(){
     var html = "<select id=\"type_to_edit\" onchange=\"generate_extra_specs_for_edit_event()\">";
@@ -389,6 +464,34 @@ function generate_type_combo(){
         html += options;
         html += "<\/select>";
         document.getElementById("type-select-box").innerHTML = html;
+    });    
+}
+function generate_brand_combo(){
+    var html = "<select id=\"brand_to_edit\" onchange=\"edit_brand_on_change()\">";
+    var term = "";
+    var options = "";
+    options += "<option value=\"\"><\/option>";
+    $.getJSON('get_brands', {term: term}, function(returnedData){
+        for(var i = 0 ; i < returnedData.length ; i++){
+            options += "<option value=\""+ returnedData[i] +"\">"+ returnedData[i] +"<\/option>";
+        }
+        html += options;
+        html += "<\/select>";
+        document.getElementById("brand-select-box").innerHTML = html;
+    });    
+}
+function generate_location_combo(){
+    var html = "<select id=\"location_to_edit\" onchange=\"edit_location_on_change()\">";
+    var term = "";
+    var options = "";
+    options += "<option value=\"\"><\/option>";
+    $.getJSON('get_locations', {term: term}, function(returnedData){
+        for(var i = 0 ; i < returnedData.length ; i++){
+            options += "<option value=\""+ returnedData[i] +"\">"+ returnedData[i] +"<\/option>";
+        }
+        html += options;
+        html += "<\/select>";
+        document.getElementById("location-select-box").innerHTML = html;
     });    
 }
 

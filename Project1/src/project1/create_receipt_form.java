@@ -144,7 +144,6 @@ public class create_receipt_form
       FileOutputStream fileout = new FileOutputStream(file);
       Document document = new Document();
       PdfWriter.getInstance(document, fileout);
-      
       document.addAuthor("Wassim El Ahmar");
       document.addTitle("Stock Receipt");
       document.open();

@@ -85,6 +85,8 @@ public class show_receipt_popup
     }
     out.println("</select>");
     
+    ///////////// new client handler //////////////
+    out.println("<button id=\"NewClientButton\" onClick=\"display_new_client_popup()\">New</button>");
     
     out.println("<br><br>");
     
@@ -156,6 +158,8 @@ public class show_receipt_popup
     out.println("<button onclick = create_receipt()>Check out</button>");
     out.println("<input type='checkbox' id = 'print_checkbox_id'> Print receipt<br>");
     
+    
+        
     out.close();
     
     Log log = new Log();  //for every added record, create a log

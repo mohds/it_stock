@@ -28,3 +28,9 @@ Open tightVNC viewer
 Remote host: 10.10.10.5::5902 
 Password: oracle
 In case of authentication password popup: oracle
+
+
+To run the webserver:
+/home/oracle/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain/startWebLogic.sh
+you will be prompter for a username/password which are:
+weblogic/Welcome1

@@ -39,6 +39,8 @@ public class update_type_name extends HttpServlet {
         else{
             if(Queries.update_type_name(old_type_name, new_type_name)){
                 out.println("Type name updated successfully.");
+                Log log = new Log();
+                log.log("Type " + old_type_name + " change to " + new_type_name, request, session);
             }
             else{
                 out.println("Failed to update type name.");
