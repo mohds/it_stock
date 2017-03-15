@@ -150,7 +150,7 @@ public class create_receipt_form
       //FileOutputStream fileout = new FileOutputStream(file);
       String user = "ittihadtv.local;it.stock:it$t0cK*543";
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(user);
-      String path = "smb://ittihadtv.local;it.stock:it$t0cK*543@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
+      String path = "smb://140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
       SmbFile file = new SmbFile(path, auth);
       SmbFileOutputStream sfos = new SmbFileOutputStream(file);
       Document document = new Document();
