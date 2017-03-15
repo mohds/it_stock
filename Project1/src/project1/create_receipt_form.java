@@ -155,24 +155,15 @@ public class create_receipt_form
       String path = "smb://140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
       SmbFile file = new SmbFile(path, auth);
       SmbFileOutputStream sfos = new SmbFileOutputStream(file);*/
-      String USER_NAME = null;
-      String PASSWORD = null;
-      String DOMAIN = null;
-      String NETWORK_FOLDER = null;
+      String user = "it.stock";
+      String pass ="it$t0cK*543";
 
-      String path = null;
-      NtlmPasswordAuthentication auth = null;
-      SmbFile file = null;
-      SmbFileOutputStream sfos = null;
-      USER_NAME = "it.stock";
-      PASSWORD = "it$t0cK*543";
-      DOMAIN = "ittihadtv.local";
-      NETWORK_FOLDER = "smb://nas5//it/IT%20Support/_Receipts/IT_STOCK/";
-      auth = new NtlmPasswordAuthentication(
-      DOMAIN, USER_NAME, PASSWORD);
-      path = NETWORK_FOLDER + "Receipt_" + receipt_id + ".pdf";
-      file = new SmbFile(path, auth);
-      sfos = new SmbFileOutputStream(file);
+      String sharedFolder="it/IT%20Support/_Receipts/IT_STOCK";
+      String path="smb://140.125.2.102/"+sharedFolder+"/Receipt_" + receipt_id + ".pdf";
+      System.out.println(path);
+      NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("ittihadtv.local",user,pass);
+      SmbFile file = new SmbFile(path,auth);
+      SmbFileOutputStream sfos = new SmbFileOutputStream(file);
       Document document = new Document();
       PdfWriter.getInstance(document, sfos);
       document.addAuthor("Wassim El Ahmar");
