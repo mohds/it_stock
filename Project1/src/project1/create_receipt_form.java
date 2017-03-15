@@ -57,6 +57,8 @@ import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileOutputStream;
 
+import sun.security.util.Password;
+
 
 public class create_receipt_form
 
@@ -148,11 +150,29 @@ public class create_receipt_form
       //String smbUrl = "smb://ittihadtv.local;it.stock:it$t0cK*543@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
       //SmbFileOutputStream fos = new SmbFileOutputStream(new SmbFile(smbUrl));
       //FileOutputStream fileout = new FileOutputStream(file);
-      String user = "ittihadtv.local;it.sup:123456";
+      /*String user = "ittihadtv.local;it.sup:123456";
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(user);
       String path = "smb://140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
       SmbFile file = new SmbFile(path, auth);
-      SmbFileOutputStream sfos = new SmbFileOutputStream(file);
+      SmbFileOutputStream sfos = new SmbFileOutputStream(file);*/
+      String USER_NAME = null;
+      String PASSWORD = null;
+      String DOMAIN = null;
+      String NETWORK_FOLDER = null;
+
+      String path = null;
+      NtlmPasswordAuthentication auth = null;
+      SmbFile file = null;
+      SmbFileOutputStream sfos = null;
+      USER_NAME = "it.stock";
+      PASSWORD = "it$t0cK*543";
+      DOMAIN = "ittihadtv.local";
+      NETWORK_FOLDER = "smb://nas5//it/IT%20Support/_Receipts/IT_STOCK/";
+      auth = new NtlmPasswordAuthentication(
+      DOMAIN, USER_NAME, PASSWORD);
+      path = NETWORK_FOLDER + "Receipt_" + receipt_id + ".pdf";
+      file = new SmbFile(path, auth);
+      sfos = new SmbFileOutputStream(file);
       Document document = new Document();
       PdfWriter.getInstance(document, sfos);
       document.addAuthor("Wassim El Ahmar");

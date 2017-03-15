@@ -20,9 +20,9 @@ public class SendEmail {
         CC = Queries.get_emails("CC");
                 
         Properties properties = new Properties();
-        properties.put("mail.transport.protocol", "smtp");
+        properties.put("mail.transport.protocol", "smtps");
         properties.put("mail.smtp.host", "mail.almayadeen.net");
-        properties.put("mail.smtp.port", "25");
+        properties.put("mail.smtp.port", "443");
         properties.put("mail.smtp.auth", "true");
 
         final String username = "it.sup";
