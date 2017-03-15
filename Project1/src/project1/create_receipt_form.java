@@ -155,8 +155,8 @@ public class create_receipt_form
       String path = "smb://140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
       SmbFile file = new SmbFile(path, auth);
       SmbFileOutputStream sfos = new SmbFileOutputStream(file);*/
-      String user = "it.stock";
-      String pass ="it$t0cK*543";
+      String user = "m.salloum";
+      String pass ="DX-398L3";
 
       String sharedFolder="it/IT%20Support/_Receipts/IT_STOCK";
       String path="smb://140.125.2.102/"+sharedFolder+"/Receipt_" + receipt_id + ".pdf";
