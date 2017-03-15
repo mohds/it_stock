@@ -144,7 +144,7 @@ public class create_receipt_form
     try
     {
       File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
-      String smbUrl = "smb://w.elahmar:231MEINKAMPF=231@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
+      String smbUrl = "smb://@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
       SmbFileOutputStream fos = new SmbFileOutputStream(new SmbFile(smbUrl));
       FileOutputStream fileout = new FileOutputStream(file);
       Document document = new Document();
