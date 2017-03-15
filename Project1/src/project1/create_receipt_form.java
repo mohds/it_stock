@@ -53,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileOutputStream;
 
@@ -143,12 +144,17 @@ public class create_receipt_form
     
     try
     {
-      File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
-      String smbUrl = "smb://ittihadtv.local;it.stock:it$t0cK*543@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
-      SmbFileOutputStream fos = new SmbFileOutputStream(new SmbFile(smbUrl));
-      FileOutputStream fileout = new FileOutputStream(file);
+      //File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
+      //String smbUrl = "smb://ittihadtv.local;it.stock:it$t0cK*543@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
+      //SmbFileOutputStream fos = new SmbFileOutputStream(new SmbFile(smbUrl));
+      //FileOutputStream fileout = new FileOutputStream(file);
+      String user = "ittihadtv.local;it.stock:it$t0cK*543";
+      NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(user);
+      String path = "smb://ittihadtv.local;it.stock:it$t0cK*543@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
+      SmbFile file = new SmbFile(path, auth);
+      SmbFileOutputStream sfos = new SmbFileOutputStream(file);
       Document document = new Document();
-      PdfWriter.getInstance(document, fos);
+      PdfWriter.getInstance(document, sfos);
       document.addAuthor("Wassim El Ahmar");
       document.addTitle("Stock Receipt");
       document.open();
