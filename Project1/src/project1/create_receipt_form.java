@@ -160,7 +160,6 @@ public class create_receipt_form
 
       String sharedFolder="it/IT%20Support/_Receipts/IT_STOCK";
       String path="smb://140.125.2.102/"+sharedFolder+"/Receipt_" + receipt_id + ".pdf";
-      System.out.println(path);
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("ittihadtv.local",user,pass);
       SmbFile file = new SmbFile(path,auth);
       SmbFileOutputStream sfos = new SmbFileOutputStream(file);
