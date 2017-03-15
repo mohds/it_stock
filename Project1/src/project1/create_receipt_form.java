@@ -53,6 +53,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileOutputStream;
+
 
 public class create_receipt_form
 
@@ -141,9 +144,11 @@ public class create_receipt_form
     try
     {
       File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
+      String smbUrl = "smb://it.stock:it$t0cK*543@140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
+      SmbFileOutputStream fos = new SmbFileOutputStream(new SmbFile(smbUrl));
       FileOutputStream fileout = new FileOutputStream(file);
       Document document = new Document();
-      PdfWriter.getInstance(document, fileout);
+      PdfWriter.getInstance(document, fos);
       document.addAuthor("Wassim El Ahmar");
       document.addTitle("Stock Receipt");
       document.open();
@@ -155,21 +160,21 @@ public class create_receipt_form
       out.println("<h3>Receipt ID: " + receipt_id + "</h3>");
       
       Image image;
-      try 
-      {
-        image = Image.getInstance("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\mayadeen.png");
-        image.setAlignment(Image.ALIGN_RIGHT);
-        document.add(image);
-        out.println("<img align='right' src = 'images/mayadeen.png'>");
-      } 
-      catch (MalformedURLException e) 
-      {
-        e.printStackTrace();
-      } 
-      catch (IOException e) 
-      {
-        e.printStackTrace();
-      }
+      //try 
+      //{
+      //  image = Image.getInstance("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\mayadeen.png");
+      //  image.setAlignment(Image.ALIGN_RIGHT);
+      //  document.add(image);
+      //  out.println("<img align='right' src = 'images/mayadeen.png'>");
+      //} 
+      //catch (MalformedURLException e) 
+      //{
+      //  e.printStackTrace();
+      //} 
+      //catch (IOException e) 
+      //{
+      //  e.printStackTrace();
+      //}
       
       out.println("<h2 style = 'color: red; text-align: center;'>Al Mayadeen IT Department</h2>");
       
