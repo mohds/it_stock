@@ -162,6 +162,7 @@ public class create_receipt_form
       String path="smb://140.125.2.102/"+sharedFolder+"/Receipt_" + receipt_id + ".pdf";
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("ittihadtv.local",user,pass);
       SmbFile file = new SmbFile(path,auth);
+      file.mkdir();
       SmbFileOutputStream sfos = new SmbFileOutputStream(file);
       Document document = new Document();
       PdfWriter.getInstance(document, sfos);
