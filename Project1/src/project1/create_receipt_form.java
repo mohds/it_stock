@@ -57,11 +57,7 @@ import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileOutputStream;
 
-<<<<<<< HEAD
-=======
 import sun.security.util.Password;
-
->>>>>>> ab952fdb7558142fe7265672594d6da6d521b373
 
 public class create_receipt_form
 
@@ -149,43 +145,36 @@ public class create_receipt_form
     
     try
     {
-<<<<<<< HEAD
       
       String user = "it.stock";
       String pass ="it$t0cK*543";
       String server_ip = "140.125.2.102";
       String sharedFolder="IT/IT Support/_Receipts/IT_STOCK";
-      String path="smb://"+ server_ip +"/"+sharedFolder+"/test.txt";
+      String path="smb://"+ server_ip +"/"+sharedFolder+"/Receipt_"+ receipt_id +".pdf";
       //System.out.println("path: " + path); // test
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
       SmbFile smbFile = new SmbFile(path,auth);
       SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
       //smbfos.write("testing....and writing to a file".getBytes()); // test
         
-      File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
-      FileOutputStream fileout = new FileOutputStream(file);
-=======
       //File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
       //FileOutputStream fileout = new FileOutputStream(file);
-      /*String user = "ittihadtv.local;it.sup:123456";
-      NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(user);
-      String path = "smb://140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
+       
+      /*String path = "smb://140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
       SmbFile file = new SmbFile(path, auth);
       SmbFileOutputStream sfos = new SmbFileOutputStream(file);*/
-      String user = "m.salloum";
-      String pass ="DX-398L3";
-
-      String sharedFolder="it/IT%20Support/_Receipts/IT_STOCK/";
+      
+      /*String sharedFolder="it/IT%20Support/_Receipts/IT_STOCK/";
       String path="smb://140.125.2.102/"+sharedFolder;
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("ittihadtv.local",user,pass);
       SmbFile file = new SmbFile(path,auth);
       String newFileName = "sample.pdf";
       SmbFileOutputStream sfos = new SmbFileOutputStream(file);
       String fileContent = "Just a Test File";
-      sfos.write(fileContent.getBytes());
->>>>>>> ab952fdb7558142fe7265672594d6da6d521b373
+      sfos.write(fileContent.getBytes());*/
+        
       Document document = new Document();
-      PdfWriter.getInstance(document, sfos);
+      PdfWriter.getInstance(document, smbfos);
       document.addAuthor("Wassim El Ahmar");
       document.addTitle("Stock Receipt");
       document.open();
