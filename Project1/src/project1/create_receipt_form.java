@@ -53,6 +53,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileOutputStream;
+
 
 public class create_receipt_form
 
@@ -140,6 +144,18 @@ public class create_receipt_form
     
     try
     {
+      
+      String user = "it.stock";
+      String pass ="it$t0cK*543";
+      String server_ip = "140.125.2.102";
+      String sharedFolder="IT/IT Support/_Receipts/IT_STOCK";
+      String path="smb://"+ server_ip +"/"+sharedFolder+"/test.txt";
+      //System.out.println("path: " + path); // test
+      NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+      SmbFile smbFile = new SmbFile(path,auth);
+      SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
+      //smbfos.write("testing....and writing to a file".getBytes()); // test
+        
       File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
       FileOutputStream fileout = new FileOutputStream(file);
       Document document = new Document();

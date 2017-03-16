@@ -228,7 +228,7 @@ public class generate_items_table
     
     try
     {
-      System.out.println(sql_master);
+      //System.out.println(sql_master);
       Statement stat_master = con.createStatement();
       ResultSet rs_master = stat_master.executeQuery(sql_master); //execute query
       
