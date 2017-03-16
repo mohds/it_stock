@@ -21,6 +21,7 @@ import java.util.Date;
 
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
 
 public class finalize_receipt_pdf
@@ -69,7 +70,12 @@ public class finalize_receipt_pdf
           PdfContentByte cb = writer.getDirectContent();
         
           // Load existing PDF
-          PdfReader reader = new PdfReader("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  // replaced receipt_id
+          String path_existing = "smb://"+ server_ip +"/"+sharedFolder+"/Complete/Receipt_"+ receipt_id +"_complete.pdf";
+          SmbFile smbFile_existing = new SmbFile(path_existing, auth);
+          SmbFileInputStream smbfos_existing = new SmbFileInputStream(smbFile_existing);
+          //PdfReader reader = new PdfReader("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  // replaced receipt_id
+          PdfReader reader = new PdfReader(smbfos_existing);
+          
           PdfImportedPage page = writer.getImportedPage(reader, 1); 
         
           // Copy first page of existing PDF into output PDF
@@ -85,10 +91,13 @@ public class finalize_receipt_pdf
           page.closePath();
           reader.close();
           
-          File source_to_delete = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf"); // replaced receipt_id
+          //File source_to_delete = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf"); // replaced receipt_id
+          String path_delete = "smb://"+ server_ip +"/"+sharedFolder+"/Receipt_"+ receipt_id +".pdf";
+          SmbFile smbFile_delete = new SmbFile(path_delete, auth);
+            
           try
           {
-            source_to_delete.delete();
+            smbFile_delete.delete();
           }
           catch(Exception e)
           {
