@@ -20,13 +20,13 @@ public class SendEmail {
         CC = Queries.get_emails("CC");
                 
         Properties properties = new Properties();
-        properties.put("mail.transport.protocol", "smtp");
+        properties.put("mail.transport.protocol", "smtps");
         properties.put("mail.smtp.host", "mail.almayadeen.net");
-        properties.put("mail.smtp.port", "25");
+        properties.put("mail.smtp.port", "443");
         properties.put("mail.smtp.auth", "true");
 
-        final String username = "it.stock";
-        final String password = "it$t0cK*543";
+        final String username = "it.sup";
+        final String password = "123456";
         Authenticator authenticator = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -38,7 +38,7 @@ public class SendEmail {
         try {
             Session session = Session.getInstance(properties, authenticator);
             MimeMessage mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress("it.stock@almayadeen.net"));
+            mimeMessage.setFrom(new InternetAddress("it.sup@almayadeen.net"));
             if(CC != null){
                 for(int i = 0 ; i < CC.size() ; i++){
                     mimeMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(CC.get(i)));
@@ -54,7 +54,7 @@ public class SendEmail {
             }
             else{
                 mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(""));
-            }
+            } 
             
             mimeMessage.setContent(content,"text/html");
             mimeMessage.setSubject(subject);

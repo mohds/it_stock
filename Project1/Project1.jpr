@@ -278,7 +278,11 @@
             </hash>
             <hash>
                <list n="classPath">
+<<<<<<< HEAD
                   <url path="jar/jcifs-1.3.18.jar" jar-entry=""/>
+=======
+                  <url path="../../../../../../jcifs-1.3.18.jar" jar-entry=""/>
+>>>>>>> ab952fdb7558142fe7265672594d6da6d521b373
                </list>
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Jcifs-1.3.18.jar"/>
