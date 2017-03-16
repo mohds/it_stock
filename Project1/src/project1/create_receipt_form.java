@@ -157,22 +157,6 @@ public class create_receipt_form
       SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
       //smbfos.write("testing....and writing to a file".getBytes()); // test
         
-      //File file = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  //create empty new pdf file
-      //FileOutputStream fileout = new FileOutputStream(file);
-       
-      /*String path = "smb://140.125.2.102/it/IT%20Support/_Receipts/IT_STOCK/Receipt_" + receipt_id + ".pdf";
-      SmbFile file = new SmbFile(path, auth);
-      SmbFileOutputStream sfos = new SmbFileOutputStream(file);*/
-      
-      /*String sharedFolder="it/IT%20Support/_Receipts/IT_STOCK/";
-      String path="smb://140.125.2.102/"+sharedFolder;
-      NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("ittihadtv.local",user,pass);
-      SmbFile file = new SmbFile(path,auth);
-      String newFileName = "sample.pdf";
-      SmbFileOutputStream sfos = new SmbFileOutputStream(file);
-      String fileContent = "Just a Test File";
-      sfos.write(fileContent.getBytes());*/
-        
       Document document = new Document();
       PdfWriter.getInstance(document, smbfos);
       document.addAuthor("Wassim El Ahmar");

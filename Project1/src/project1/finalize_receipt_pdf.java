@@ -19,6 +19,10 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileOutputStream;
+
 public class finalize_receipt_pdf
 {
     public finalize_receipt_pdf() 
@@ -34,10 +38,20 @@ public class finalize_receipt_pdf
         Calendar c = Calendar.getInstance();
         Date today_date = c.getTime();
         String current_date = String.valueOf(c.get(Calendar.DATE) + "-" + String.valueOf(today_date.getMonth() + 1) + "-" + String.valueOf(c.get(Calendar.YEAR)));
-            
-        File dest = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Complete\\Receipt_" + receipt_id + "_complete.pdf"); // replaced receipt_id
+        
         try
         {
+          String user = "it.stock";
+          String pass ="it$t0cK*543";
+          String server_ip = "140.125.2.102";
+          String sharedFolder="IT/IT Support/_Receipts/IT_STOCK";
+          String path="smb://"+ server_ip +"/"+sharedFolder+"/Complete/Receipt_"+ receipt_id +"_complete.pdf";
+          //System.out.println("path: " + path); // test
+          NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+          SmbFile smbFile = new SmbFile(path,auth);
+          SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
+          //smbfos.write("testing....and writing to a file".getBytes()); // test
+        
           Paragraph reception_title_text = new Paragraph("RETURNED",redFont);
           reception_title_text.setAlignment(Element.ALIGN_CENTER);
           
@@ -50,7 +64,7 @@ public class finalize_receipt_pdf
           
           
           Document document = new Document(PageSize.A4);
-          PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
+          PdfWriter writer = PdfWriter.getInstance(document, smbfos);
           document.open();
           PdfContentByte cb = writer.getDirectContent();
         
