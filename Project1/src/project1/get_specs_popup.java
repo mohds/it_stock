@@ -122,6 +122,8 @@ public class get_specs_popup
             out.println(option);  //add option to the select
           }
           out.println("</select>");
+          out.println("<br>");
+          out.println("<button id=\"NewLocationButton\" onClick=\"display_new_location_popup()\">New</button>");
           out.println("</td>");
           
           //in the table, generate select to select item condition and make the user able to select a new condition

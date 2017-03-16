@@ -287,6 +287,81 @@ start_loading();
     });
 }
 
+
+
+
+
+///////////// new client handler //////////////
+    
+// popup
+
+$(document).ready(function(){
+    $("#NewClientPopup").dialog({
+        width: "350px",
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    });
+});
+
+$(document).ready(function(){
+    $("#NewLocationPopup").dialog({
+        width: "350px",
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    });
+});
+
+
+function display_new_client_popup()
+{
+    $("#NewClientPopup").dialog("open");
+}
+
+function save_new_client()
+{
+    var client = document.getElementById("NewClientName").value;
+    $.post('add_client', {client: client}, function(returnedData)
+    {
+        $("#NewClientPopup").dialog("close");
+        show_receipt();
+    });
+}
+
+function display_new_location_popup()
+{
+    $("#NewLocationPopup").dialog("open");
+}
+
+function save_new_location()
+{
+    var location = document.getElementById("NewLocationName").value;
+    $.post('add_location', {location: location}, function(returnedData)
+    {
+        $("#NewLocationPopup").dialog("close");
+        var location_combo = document.getElementById("popup_select_item_location_id");
+        var option = document.createElement("option")
+        option.text = returnedData;
+        option.value = returnedData;
+        option.value = returnedData;
+        location_combo.add(option);
+    });
+}
+
+
 function start_loading()
 {
   document.getElementById("div_loading").style.display = "block";

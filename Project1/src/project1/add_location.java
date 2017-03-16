@@ -26,6 +26,8 @@ public class add_location extends HttpServlet {
         String location = request.getParameter("location");
         Queries.insert_into_table("locations", location);
         
+        out.println(location);
+      
         Log log = new Log();
         HttpSession session = request.getSession();
         String description = "Added location " + location;

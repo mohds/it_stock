@@ -236,6 +236,12 @@ public class items_hq extends HttpServlet {
         out.println("<button id=\"SaveNewClientButton\" onClick=\"save_new_client()\">Save</button>");
         out.println("</div>");
         
+        out.println("<div id=\"NewLocationPopup\" title=\"New Location\">");
+        out.println("<label>Name:</label><br>");
+        out.println("<input type=\"text\" value=\"\" id=\"NewLocationName\"><br>");
+        out.println("<button id=\"SaveNewLocationtButton\" onClick=\"save_new_location()\">Save</button>");
+        out.println("</div>");
+        
         out.println("</body></html>");
         out.close();
       }
