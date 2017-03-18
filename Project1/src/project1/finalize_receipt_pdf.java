@@ -72,7 +72,7 @@ public class finalize_receipt_pdf
           // Load existing PDF
           String path_existing = "smb://"+ server_ip +"/"+sharedFolder+"/Complete/Receipt_"+ receipt_id +"_complete.pdf";
           SmbFile smbFile_existing = new SmbFile(path_existing, auth);
-          SmbFileInputStream smbfos_existing = new SmbFileInputStream(smbFile_existing);
+          SmbFileInputStream smbfos_existing = new SmbFileInputStream(smbFile);
           //PdfReader reader = new PdfReader("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  // replaced receipt_id
           PdfReader reader = new PdfReader(smbfos_existing);
           
