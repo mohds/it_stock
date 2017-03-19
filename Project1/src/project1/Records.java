@@ -43,6 +43,28 @@ public class Records {
         return record_ids;
     }
     
+    public static boolean record_returned(String record_id){
+        boolean return_me = false;
+        
+        String query = "SELECT records.id FROM records WHERE records.id='"+ record_id +"' AND records.return_datetime IS NOT NULL ";
+        // System.out.println(query);
+        
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()){
+                return_me = true;
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return return_me;
+    }
+    
     public static boolean return_item(String record_id, String client_returner, PrintWriter out, String admin_receiver, String new_location){
                 
         String current_datetime = "";
@@ -58,7 +80,12 @@ public class Records {
             return false;
         }
         
-        String query = "UPDATE records SET records.return_datetime = TO_TIMESTAMP('"+ current_datetime +"','DD/MM/YYYY HH24:MI:SS.FF'), records.client_returner_id = '"+ client_returner_id +"', records.admin_receiver_id = '"+ admin_receiver_id +"' WHERE records.id = '"+ record_id +"' ";
+        if(record_returned(record_id)){
+            return true;
+        }
+        
+        String query = "UPDATE records SET records.return_datetime = TO_TIMESTAMP('"+ current_datetime +"','DD/MM/YYYY HH24:MI:SS.FF'), records.client_returner_id = '"+ client_returner_id +"', records.admin_receiver_id = '"+ admin_receiver_id +"' WHERE records.id = '"+ record_id +"' AND records.return_datetime IS NULL ";
+        // System.out.println(query);
         Connection con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
