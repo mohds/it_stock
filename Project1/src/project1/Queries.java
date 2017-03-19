@@ -629,7 +629,7 @@ public class Queries {
             // not the best practice
             // migrate to PL SQL in updates
             String item_id = "Item ID not found.";        
-            query = "SELECT id FROM items ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
+            query = "SELECT items.id FROM items WHERE rowid=(select max(rowid) from items)";
             // System.out.println(query);
             con = connect_to_db();
             try{
