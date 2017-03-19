@@ -190,7 +190,8 @@ function create_receipt() //function to create receipt after checkout is complet
 {
     var client_name = document.getElementById('receipt_client_name_id').value;
     var receiver_name = document.getElementById('receipt_receiver_name_id').value;
-    if(client_name ==  '' || receiver_name == '')
+    var receipt_country = $("#receipt_location_id option:selected").text();
+    if(client_name ==  '' || receiver_name == '' || receipt_country == '')
     {
       alert('All elements preceded by * must be entered');
     }
@@ -204,9 +205,7 @@ function create_receipt() //function to create receipt after checkout is complet
         var current_date_time = document.getElementById('current_date_time_id').value;
         var admin_id = document.getElementById('admin_id_id').value;
         var admin = document.getElementById('admin_name_id').value;
-        var global_expected_date = document.getElementById('global_expected_date_id').value;
-        var receipt_country = document.getElementById('receipt_country_id').value;
-        
+        var global_expected_date = document.getElementById('global_expected_date_id').value;  
         var records_items_ids = document.getElementsByClassName('item_ids_class');  
         var records_expected_dates_of_return = document.getElementsByClassName('records_expected_date_class');
         var records_notes = document.getElementsByClassName('records_notes_class'); 
@@ -240,6 +239,7 @@ function create_receipt() //function to create receipt after checkout is complet
           $.get('create_receipt_and_records', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receiver_name':get_receiver_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
           {
             //alert("Receipt successfully created.");
+            send_specs(); //update search results
             $.get('create_receipt_form', {'records_items_id':get_array_records_items_ids, 'records_expected_dates_of_return':get_array_records_expected_dates_of_return,'records_notes':get_array_records_notes, 'records_returning':get_array_records_returning, 'client_name':get_client_name, 'receiver_name':get_receiver_name, 'receipt_notes':get_receipt_notes,'current_date_time':get_current_date_time, 'admin_id':get_admin_id, 'admin':get_admin, 'global_expected_date':get_global_expected_date,'receipt_country':get_receipt_country}, function(data)
             {
               stop_loading();
@@ -249,7 +249,6 @@ function create_receipt() //function to create receipt after checkout is complet
               {
                 myWindow.print(); //print the opened tab
               }
-              send_specs(); //update search results
               $("#items_in_cart_table td").remove();  //empty all entries in the items cart table
             });
           });
@@ -325,6 +324,20 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+    $("#NewRemoteLocationPopup").dialog({
+        width: "350px",
+        autoOpen: false,
+        show: {
+            effect: "slide",
+            duration: 200
+        },
+        hide: {
+            effect: "slide",
+            duration: 200
+        }
+    });
+});
 
 function display_new_client_popup()
 {
@@ -346,6 +359,11 @@ function display_new_location_popup()
     $("#NewLocationPopup").dialog("open");
 }
 
+function display_new_remote_location_popup()
+{
+    $("#NewRemoteLocationPopup").dialog("open");
+}
+
 function save_new_location()
 {
     var location = document.getElementById("NewLocationName").value;
@@ -353,10 +371,22 @@ function save_new_location()
     {
         $("#NewLocationPopup").dialog("close");
         var location_combo = document.getElementById("popup_select_item_location_id");
-        var option = document.createElement("option")
+        var option = document.createElement("option");
         option.text = returnedData;
         option.value = returnedData;
-        option.value = returnedData;
+        location_combo.add(option);
+    });
+}
+
+function save_new_remote_location()
+{
+    var location = document.getElementById("NewRemoteLocationName").value;
+    $.post('add_remote_location', {location: location}, function(returnedData)
+    {
+        $("#NewRemoteLocationPopup").dialog("close");
+        var location_combo = document.getElementById("receipt_location_id");
+        var option = document.createElement("option");
+        option.text = returnedData;
         location_combo.add(option);
     });
 }

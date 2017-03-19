@@ -70,23 +70,26 @@ public class finalize_receipt_pdf
           PdfContentByte cb = writer.getDirectContent();
         
           // Load existing PDF
-          String path_existing = "smb://"+ server_ip +"/"+sharedFolder+"/Complete/Receipt_"+ receipt_id +"_complete.pdf";
+          String path_existing = "smb://"+ server_ip +"/"+sharedFolder+"/Receipt_"+ receipt_id +".pdf";
           SmbFile smbFile_existing = new SmbFile(path_existing, auth);
-          SmbFileInputStream smbfos_existing = new SmbFileInputStream(smbFile);
+          SmbFileInputStream smbfos_existing = new SmbFileInputStream(smbFile_existing);
           //PdfReader reader = new PdfReader("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf");  // replaced receipt_id
           PdfReader reader = new PdfReader(smbfos_existing);
-          
           PdfImportedPage page = writer.getImportedPage(reader, 1); 
         
           // Copy first page of existing PDF into output PDF
           document.newPage();
-          cb.addTemplate(page,0,0);
-        
-          // Add your new data / text here
-          // for example...
           document.add(reception_title_text);
           document.add( Chunk.NEWLINE );
           document.add(reception_par);
+          document.newPage();
+          cb.addTemplate(page,0,0);
+          
+          
+        
+          // Add your new data / text here
+          // for example...
+          
           document.close();
           page.closePath();
           reader.close();

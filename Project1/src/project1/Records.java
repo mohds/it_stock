@@ -110,7 +110,7 @@ public class Records {
             System.out.println(e.toString());
         }
         
-        query = "UPDATE items SET items.availability = '1', items.location_id = '"+ location_id +"' WHERE items.id = '"+ item_id +"' ";
+        query = "UPDATE items SET items.availability = '1', items.location_id = '"+ location_id +"', items.current_location_id = '0' WHERE items.id = '"+ item_id +"' ";
         // System.out.println(query);
         con = connect_to_db();
         try{

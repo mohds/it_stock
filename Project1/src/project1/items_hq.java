@@ -210,6 +210,7 @@ public class items_hq extends HttpServlet {
         out.println("<th>ID</th>");
         out.println("<th>Type</th>");
         out.println("<th>Brand</th>");
+        out.println("<th>HQ Location</th>");
         out.println("<th>Location</th>");
         out.println("<th>Condition</th>");
         out.println("<th>Label</th>");
@@ -240,6 +241,12 @@ public class items_hq extends HttpServlet {
         out.println("<label>Name:</label><br>");
         out.println("<input type=\"text\" value=\"\" id=\"NewLocationName\"><br>");
         out.println("<button id=\"SaveNewLocationtButton\" onClick=\"save_new_location()\">Save</button>");
+        out.println("</div>");
+        
+        out.println("<div id=\"NewRemoteLocationPopup\" title=\"New Remote Location\">");
+        out.println("<label>Name:</label><br>");
+        out.println("<input type=\"text\" value=\"\" id=\"NewRemoteLocationName\"><br>");
+        out.println("<button id=\"SaveNewRemoteLocationtButton\" onClick=\"save_new_remote_location()\">Save</button>");
         out.println("</div>");
         
         out.println("</body></html>");

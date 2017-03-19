@@ -115,6 +115,11 @@ public class create_receipt_and_records
       
       for(int i = 0 ; i < records_items_id.length ; i++)
       {
+        int current_location_id = queries.get_remote_location_id_from_name(receipt_country);
+        String sql_update_item_location = "UPDATE ITEMS SET CURRENT_LOCATION_ID = '" + current_location_id + "' WHERE ITEMS.ID = '" + records_items_id[i] + "'";
+        Statement stat_update_item_location = con.createStatement();
+        stat_update_item_location.executeUpdate(sql_update_item_location);
+        
         SimpleDateFormat dateFormat_stamp = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         Date parsedDate = dateFormat_stamp.parse(current_date_time);
         Timestamp current_timestamp_temp = new java.sql.Timestamp(parsedDate.getTime());

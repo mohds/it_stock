@@ -101,6 +101,29 @@ public class db_queries
     }
   }
   
+  public List<String> get_remote_locations()
+  {
+    connect_to_db connect = new connect_to_db();
+    Connection con = connect.connect();
+    List<String> locations_list = new ArrayList<String>();
+    String sql_get_locations = "SELECT NAME FROM REMOTE_LOCATIONS";
+    try
+    {
+      Statement stat = con.createStatement();
+      ResultSet rs_locations = stat.executeQuery(sql_get_locations);
+      while(rs_locations.next()) 
+      {
+          locations_list.add(rs_locations.getString(1));
+      }
+      return locations_list;
+    }
+    catch(Exception e)
+    {
+      System.out.println(e.toString());
+      return null;
+    }
+  }
+  
   
   public List<String> get_type_specs(String type_name)
   {
@@ -168,6 +191,25 @@ public class db_queries
     connect_to_db connect = new connect_to_db();
     Connection con = connect.connect();
     String sql_get_id = "Select ID FROM LOCATIONS WHERE NAME = '" + location_name +"'";
+    try
+    {
+      Statement stat = con.createStatement();
+      ResultSet rs_location_id = stat.executeQuery(sql_get_id);
+      rs_location_id.next();
+      return rs_location_id.getInt(1);
+    }
+    catch(Exception e)
+    {
+      System.out.println(e.toString());
+      return 0;
+    }
+  }
+  
+  public int get_remote_location_id_from_name(String remote_location_name)
+  {
+    connect_to_db connect = new connect_to_db();
+    Connection con = connect.connect();
+    String sql_get_id = "Select ID FROM REMOTE_LOCATIONS WHERE NAME = '" + remote_location_name + "'";
     try
     {
       Statement stat = con.createStatement();

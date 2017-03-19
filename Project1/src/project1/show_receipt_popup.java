@@ -41,6 +41,7 @@ public class show_receipt_popup
     db_queries queries = new db_queries();
     
     List<String> clients_list = queries.get_clients_names();  //list contains all clients names
+    List<String> remote_locations_list = queries.get_remote_locations();  //list contains all clients names
     
     if(request.getParameterValues("ids_array[]") != null) //create the list of item ids in cart from the array WITHOUT null or empty array entries
     {
@@ -118,8 +119,15 @@ public class show_receipt_popup
     out.println("<button onclick = 'set_expected_return_date()'>Set all</button>");  //calls set_expected_return_date that sets the return date of all items in receipt to the global expected return date
     out.println("<br><br>");
     
-    out.println("<label>Country: </label>");
-    out.println("<input type = 'text' id = 'receipt_country_id'>");
+    out.println("<label class = 'class_asterisks'>*  </label><label>Country: </label>");
+    out.println("<select name = 'receipt_location_name' id = 'receipt_location_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+    out.println("<option value = ''></option>");
+    for(int i = 0 ; i < remote_locations_list.size() ; i++)
+    {
+      out.println("<option value = '" + remote_locations_list.get(i) + "'>" + remote_locations_list.get(i) + "</option>");
+    }
+    out.println("</select>");
+    out.println("<button id=\"NewRemoteLocationButton\" onClick=\"display_new_remote_location_popup()\">New</button>");
     out.println("<br><br>");
     
     out.println("<table id = 'receipt_table_id'>");  //generate table of records
