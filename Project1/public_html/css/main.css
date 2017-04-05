@@ -81,19 +81,19 @@ a:hover{
     cursor: pointer;
 }
 #add-page{
-    width: 600px;
+    width: 700px;
 }
 #ExtraSpecs{
     position: relative;
-    top: -410px;
     float: right;
 }
 #add-panel {
-    width: 500px;
+    width: 400px;
+    float: left;
 }
 #add-panel .add-row{
-    width: 100%;
-    float: right;
+    width: 400px;
+    
 }
 body{
     background-color:#EEE;
