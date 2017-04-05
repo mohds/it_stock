@@ -20,10 +20,12 @@ public class SendEmail {
         CC = Queries.get_emails("CC");
                 
         Properties properties = new Properties();
-        properties.put("mail.transport.protocol", "smtps");
+        properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.host", "mail.almayadeen.net");
         properties.put("mail.smtp.port", "25");
         properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.ssl.enable","true");
 
         final String username = "it.sup";
         final String password = "123456";
@@ -58,7 +60,7 @@ public class SendEmail {
             
             mimeMessage.setContent(content,"text/html");
             mimeMessage.setSubject(subject);
-            transport = session.getTransport();
+            transport = session.getTransport("smtp");
             transport.connect(username, password);
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
             

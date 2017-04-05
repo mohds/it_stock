@@ -219,12 +219,17 @@ function generate_extra_specs_for_edit_event(){
 }
 
 function clear_input(){
+    document.getElementById("message-box").value = "";
+    
     document.getElementById("TypeCombo").value = "";
     document.getElementById("label").value = "";
+    document.getElementById("label-result").innerHTML = "";
     document.getElementById("brand").value = "";
     document.getElementById("location").value = "";
     document.getElementById("serial_number").value = "";
+    document.getElementById("serial-result").innerHTML = "";
     
+    document.getElementById("ExtraSpecs").innerHTML = "";
 }
 
 // populate conditions select box
