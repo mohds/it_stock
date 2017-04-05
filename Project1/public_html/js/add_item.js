@@ -229,7 +229,8 @@ function clear_input(){
     document.getElementById("serial_number").value = "";
     document.getElementById("serial-result").innerHTML = "";
     document.getElementById("model").innerHTML = "";
-    document.getElementById("ExtraSpecs").innerHTML = "";
+    document.getElementById("ExtraSpecs").innerHTML = "";    
+    document.getElementById("notes").value = "";
 }
 
 // populate conditions select box
@@ -296,7 +297,7 @@ function add_brand(){
     var brand = document.getElementById("brand_to_add").value;    
     $.post('add_brand', {brand: brand}, 
         function(returnedData){   
-            document.getElementById("brand") = brand;
+            document.getElementById("brand").value = brand;
     }, 'json');    
     $("#NewBrandDialog").dialog("close");
     document.getElementById("brand_to_add").value = "";
@@ -307,7 +308,7 @@ function add_location(){
     
     $.post('add_location', {location: location}, 
         function(returnedData){
-            document.getElementById("location") = location;
+            document.getElementById("location").value = location;
     }, 'json');
     
     $("#NewLocationDialog").dialog("close");
