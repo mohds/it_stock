@@ -219,7 +219,7 @@ function generate_extra_specs_for_edit_event(){
 }
 
 function clear_input(){
-    document.getElementById("message-box").value = "";
+    document.getElementById("message-box").innerHTML = "";
     
     document.getElementById("TypeCombo").value = "";
     document.getElementById("label").value = "";
@@ -228,7 +228,7 @@ function clear_input(){
     document.getElementById("location").value = "";
     document.getElementById("serial_number").value = "";
     document.getElementById("serial-result").innerHTML = "";
-    
+    document.getElementById("model").innerHTML = "";
     document.getElementById("ExtraSpecs").innerHTML = "";
 }
 
@@ -282,7 +282,8 @@ function add_type(){
     
     $.post('add_type', {type: type,specs_names: specs_names}, 
         function(returnedData){
-            
+            document.getElementById("TypeCombo").value = type;
+            generate_extra_specs(type);
     }, 'json');
     
     $("#NewTypeDialog").dialog("close");
@@ -294,7 +295,8 @@ function add_type(){
 function add_brand(){
     var brand = document.getElementById("brand_to_add").value;    
     $.post('add_brand', {brand: brand}, 
-        function(returnedData){            
+        function(returnedData){   
+            document.getElementById("brand") = brand;
     }, 'json');    
     $("#NewBrandDialog").dialog("close");
     document.getElementById("brand_to_add").value = "";
@@ -305,7 +307,7 @@ function add_location(){
     
     $.post('add_location', {location: location}, 
         function(returnedData){
-            
+            document.getElementById("location") = location;
     }, 'json');
     
     $("#NewLocationDialog").dialog("close");
@@ -324,6 +326,8 @@ function add_item(){
     var label = document.getElementById("label").value;
     var serial_number = document.getElementById("serial_number").value;
     var condition = document.getElementById("condition").value;
+    var model = document.getElementById("model").value;
+    var notes = document.getElementById("notes").value;
     
     // second we get the extra specs attributes
     var specs_names = [];
@@ -334,7 +338,7 @@ function add_item(){
         specs_values.push(specs_temp[i].value);
     }
     
-    $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values}, 
+    $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, notes: notes}, 
         function(returnedData){
             $("#message-box").html(returnedData);
             stop_loading();
