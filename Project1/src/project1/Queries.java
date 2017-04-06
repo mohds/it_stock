@@ -608,7 +608,7 @@ public class Queries {
             Statement stmt = con.createStatement();
             //stmt.executeUpdate(query);
             con.close();
-            return_me = true; // at this point the item have been added
+            //return_me = true; // at this point the item have been added
         }
         catch(Exception e){
             System.out.println(query);
@@ -638,10 +638,10 @@ public class Queries {
                 PreparedStatement stmt = con.prepareStatement(query, generatedColumns);
                 stmt.executeUpdate();                
                 ResultSet rs = stmt.getGeneratedKeys();//stmt.executeQuery(query);
+                return_me = true; // at this point the item have been added
                 if(rs.next()){
                     item_id = rs.getString(1);
-                    System.out.println("item id:" + item_id);
-                    
+                    System.out.println("item id:" + item_id);                    
                 }
                 con.close();
             }
