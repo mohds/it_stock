@@ -604,18 +604,7 @@ public class Queries {
         // query check
         // System.out.println(query);              
         Connection con = connect_to_db();
-        try{
-            Statement stmt = con.createStatement();
-            //stmt.executeUpdate(query);
-            con.close();
-            //return_me = true; // at this point the item have been added
-        }
-        catch(Exception e){
-            System.out.println(query);
-            System.out.println(e.toString());
-            return false;
-        }
-        
+                
         // wait a second
         try{
             Thread.sleep(1000);
@@ -623,8 +612,6 @@ public class Queries {
         catch(Exception ex){
             System.out.println(ex);
         }
-        
-        
         if(specs_names != null){
             // we will now get the added item's id
             // not the best practice
@@ -671,7 +658,18 @@ public class Queries {
             }
         }
         else{
-            // return_me = true;
+            // add item without needing to handle specs
+            try{
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate(query);
+                con.close();
+                return_me = true; // at this point the item have been added
+            }
+            catch(Exception e){
+                System.out.println(query);
+                System.out.println(e.toString());
+                return false;
+            }
         }
         
         return return_me;
