@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.*;
@@ -73,11 +75,12 @@ public class generate_items_table
     String sn = request.getParameter("sn");
     String availability_available = request.getParameter("availability_available");
     String availability_out = request.getParameter("availability_out");
+    int total_items_count = 0;
     
     String[] specs_names = null;  //added specs input elements ids
     String[] specs_values = null; //added specs input elements values(content)
     
-    List<String> result_ids = new ArrayList<String>();  //results of items
+    List<Integer> result_ids = new ArrayList<>();  //results of items
     List<String> list_specs_names = new ArrayList<String>();  //will be used to store only specs that have values in the search
     List<String> list_specs_values = new ArrayList<String>(); //will be used to store only the specs values that are not ""
     
@@ -237,14 +240,15 @@ public class generate_items_table
       
       while(rs_master.next()) 
       {
-        result_ids.add(rs_master.getString(1));
+        result_ids.add(rs_master.getInt(1));
       }
+      
+      Collections.sort(result_ids);
+      total_items_count = result_ids.size();
       
       //generate the results table
       //
       //
-      Object[] test = null;
-      test = result_ids.toArray();
       out.println("<a class=\"export\">Export Table data into Excel</a>");
       out.println("<a class=\"hrefprintclass\" target=\"_blank\"\" onclick = \"print_results_table()\">Print table</a>");
       out.println("<div id = 'results_table_div'>");
@@ -312,7 +316,7 @@ public class generate_items_table
           out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(5) + "</td>");
         }
         out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(6) + "</td>");
-        if(rs_final.getString(6) != null && !rs_final.getString(6).equals("null"))
+        if(rs_final.getString(7) != null && !rs_final.getString(7).equals("null"))
         {
           out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(7) + "</td>");
         }
@@ -320,7 +324,7 @@ public class generate_items_table
         {
           out.println("<td class = 'td_normal' align = 'center'>-</td>");
         }
-        if(rs_final.getString(7) != null && !rs_final.getString(7).equals("null"))
+        if(rs_final.getString(8) != null && !rs_final.getString(8).equals("null"))
         {
           out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(8) + "</td>");
         }
@@ -356,6 +360,7 @@ public class generate_items_table
     }
     out.println("</table>");
     out.println("</div>");
+    out.println("<p>Total: " + total_items_count + "</p>");
     if(authorized_checkout)
     {
       out.println("<br><button id = 'add_to_cart_button' onclick = 'add_to_cart();'>Add to cart</button>");

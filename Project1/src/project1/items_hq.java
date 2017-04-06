@@ -97,7 +97,7 @@ public class items_hq extends HttpServlet {
         //onchange, call type_value() from get_type_specs.js
         //once type is selected, a select element containing relevant specs of selected type is generated along with a 'Add' Button
         
-        out.println("<label>Type: </label><select class = 'search_inputs' name = 'select_item_type' id = 'select_item_type_id' onchange = 'type_value()' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+        out.println("<label>Type: </label><select class = 'search_inputs' name = 'select_item_type' id = 'select_item_type_id' onchange = 'type_value()' onmousedown=\"if(this.options.length>8){this.size=0;} sort_select_hq_type()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
         out.println("<option value = 'any'>Any</option>");
         for(int i = 0 ; i < types_list.size() ; i++)
         {
@@ -110,8 +110,8 @@ public class items_hq extends HttpServlet {
         //Select element for brand
         //
         //
-        
-        out.println("<label>Brand: </label><select class = 'search_inputs' name = 'select_item_brand' id = 'select_item_brand_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+        String test = "select_item_brand_id";
+        out.println("<label>Brand: </label><select class = 'search_inputs' name = 'select_item_brand' id = 'select_item_brand_id' onmousedown=\"if(this.options.length>8){this.size=0; } sort_select_hq_brand()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
         out.println("<option value = 'any'>Any</option>");
         for(int i = 0 ; i < brands_list.size() ; i++)
         {
@@ -125,7 +125,7 @@ public class items_hq extends HttpServlet {
         //
         //
         
-        out.println("<label>Location: </label><select class = 'search_inputs' name = 'select_item_location' id = 'select_item_location_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+        out.println("<label>Location: </label><select class = 'search_inputs' name = 'select_item_location' id = 'select_item_location_id' onmousedown=\"if(this.options.length>8){this.size=0;} sort_select_hq_location()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
         out.println("<option value = 'any'>Any</option>");
         for(int i = 0 ; i < locations_list.size() ; i++)
         {
@@ -139,7 +139,7 @@ public class items_hq extends HttpServlet {
         //
         //
         
-        out.println("<label>Condition: </label><select class = 'search_inputs' name = 'select_item_condition' id = 'select_item_condition_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+        out.println("<label>Condition: </label><select class = 'search_inputs' name = 'select_item_condition' id = 'select_item_condition_id' onmousedown=\"if(this.options.length>8){this.size=0;} sort_select_hq_condition()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
         out.println("<option value = 'any'>Any</option>");
         for(int i = 0 ; i < conditions_list.size() ; i++)
         {

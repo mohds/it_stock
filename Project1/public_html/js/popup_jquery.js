@@ -400,3 +400,93 @@ function stop_loading()
 {
   document.getElementById("div_loading").style.display = "none";
 }
+
+function sort_select_edit_item_brand()
+{
+  var my_options = $("#popup_select_item_brand_id option");
+  var selected = $("#popup_select_item_brand_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#popup_select_item_brand_id").empty().append( my_options );
+  $("#popup_select_item_brand_id").val(selected);
+}
+
+function sort_select_edit_item_location()
+{
+  var my_options = $("#popup_select_item_location_id option");
+  var selected = $("#popup_select_item_location_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#popup_select_item_location_id").empty().append( my_options );
+  $("#popup_select_item_location_id").val(selected);
+}
+
+function sort_select_edit_item_condition()
+{
+  var my_options = $("#popup_select_item_condition_id option");
+  var selected = $("#popup_select_item_condition_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#popup_select_item_condition_id").empty().append( my_options );
+  $("#popup_select_item_condition_id").val(selected);
+}
+
+function sort_select_receipt_client()
+{
+  var my_options = $("#receipt_client_name_id option");
+  var selected = $("#receipt_client_name_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#receipt_client_name_id").empty().append( my_options );
+  $("#receipt_client_name_id").val(selected);
+}
+
+function sort_select_receipt_receiver()
+{
+  var my_options = $("#receipt_receiver_name_id option");
+  var selected = $("#receipt_receiver_name_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#receipt_receiver_name_id").empty().append( my_options );
+  $("#receipt_receiver_name_id").val(selected);
+}
+
+function sort_select_receipt_country()
+{
+  var my_options = $("#receipt_location_id option");
+  var selected = $("#receipt_location_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#receipt_location_id").empty().append( my_options );
+  $("#receipt_location_id").val(selected);
+}

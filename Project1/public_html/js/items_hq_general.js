@@ -258,3 +258,63 @@ function stop_loading()
 {
   document.getElementById("div_loading").style.display = "none";
 }
+
+function sort_select_hq_type()
+{
+  var my_options = $("#select_item_type_id option");
+  var selected = $("#select_item_type_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#select_item_type_id").empty().append( my_options );
+  $("#select_item_type_id").val(selected);
+}
+
+function sort_select_hq_brand()
+{
+  var my_options = $("#select_item_brand_id option");
+  var selected = $("#select_item_brand_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#select_item_brand_id").empty().append( my_options );
+  $("#select_item_brand_id").val(selected);
+}
+
+function sort_select_hq_location()
+{
+  var my_options = $("#select_item_location_id option");
+  var selected = $("#select_item_location_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#select_item_location_id").empty().append( my_options );
+  $("#select_item_location_id").val(selected);
+}
+
+function sort_select_hq_condition()
+{
+  var my_options = $("#select_item_condition_id option");
+  var selected = $("#select_item_condition_id").val();
+  
+  my_options.sort(function(a,b) {
+      if (a.text > b.text) return 1;
+      if (a.text < b.text) return -1;
+      return 0
+  })
+  
+  $("#select_item_condition_id").empty().append( my_options );
+  $("#select_item_condition_id").val(selected);
+}

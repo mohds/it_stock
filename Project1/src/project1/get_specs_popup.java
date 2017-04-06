@@ -95,7 +95,7 @@ public class get_specs_popup
           
           //in the table, generate select to select item brand and make the user able to select a new brand
           out.println("<td>");
-          out.println("<select name = 'popup_select_item_brand' id = 'popup_select_item_brand_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+          out.println("<select name = 'popup_select_item_brand' id = 'popup_select_item_brand_id' onmousedown=\"if(this.options.length>8){this.size=0;} sort_select_edit_item_brand()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
           for(int i = 0 ; i < brands_list.size() ; i++) //loop through all brand names
           {
             String option = "<option value = '" + brands_list.get(i) + "'";   //create an option with every brand name
@@ -111,7 +111,7 @@ public class get_specs_popup
           
           //in the table, generate select to select item location and make the user able to select a new location
           out.println("<td>");
-          out.println("<select name = 'popup_select_item_location' id = 'popup_select_item_location_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+          out.println("<select name = 'popup_select_item_location' id = 'popup_select_item_location_id' onmousedown=\"if(this.options.length>8){this.size=0;} sort_select_edit_item_location()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
           for(int i = 0 ; i < locations_list.size() ; i++)  //loop through all location names
           {
             String option = "<option value = '" + locations_list.get(i) + "'";  //create an option with every location name
@@ -138,7 +138,7 @@ public class get_specs_popup
           
           //in the table, generate select to select item condition and make the user able to select a new condition
           out.println("<td>");
-          out.println("<label><select name = 'popup_select_item_condition' id = 'popup_select_item_condition_id' onmousedown=\"if(this.options.length>8){this.size=0;}\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
+          out.println("<label><select name = 'popup_select_item_condition' id = 'popup_select_item_condition_id' onmousedown=\"if(this.options.length>8){this.size=0;} sort_select_edit_item_condition()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
           for(int i = 0 ; i < conditions_list.size() ; i++) //loop through all item condition names
           {
             String option = "<option value = '" + conditions_list.get(i) + "'";   //create an option with every item condition name
@@ -152,12 +152,28 @@ public class get_specs_popup
           out.println("</select>");
           out.println("</td>");
           
-          out.println("<td><input type = 'text' id = 'popup_label_input_id' value = '" + rs_general_info.getString(7) + "'></td>"); //create an input text element for item label and make the current value the default value
-          out.println("<td><input type = 'text' id = 'popup_sn_input_id' value = '" + rs_general_info.getString(8) + "'></td>");  //create an input text element for item serial number and make the current value the default value
+          if(rs_general_info.getString(7) != null && !rs_general_info.getString(7).equals("null"))
+          {
+            out.println("<td><input type = 'text' id = 'popup_label_input_id' value = '" + rs_general_info.getString(7) + "'></td>"); //create an input text element for item label and make the current value the default value
+          }
+          else
+          {
+            out.println("<td><input type = 'text' id = 'popup_label_input_id'></td>"); //create an empty input text element for item label
+          }
+          if(rs_general_info.getString(8) != null && !rs_general_info.getString(8).equals("null"))
+          {
+            out.println("<td><input type = 'text' id = 'popup_sn_input_id' value = '" + rs_general_info.getString(8) + "'></td>");  //create an input text element for item serial number and make the current value the default value
+          }
+          else
+          {
+            out.println("<td><input type = 'text' id = 'popup_sn_input_id'></td>");  //create an empty input text element for item serial number
+          }
           out.println("</tr>");
           out.println("</table>");
           out.println("</br>");
-          out.println("<label>Notes: <input type = 'text' id = 'popup_notes_input_id' value = '" + rs_general_info.getString(9) + "'></label>");
+          out.println("<div id = 'popup_notes_region'>");
+          out.println("<label>Notes: </label> <br> <textarea id = 'popup_notes_input_id' maxlength = '250' rows = '4' cols = '50'>" + rs_general_info.getString(9) + "</textarea>");
+          out.println("</div>");
         }
         else  //if not authorized to edit item
         {
@@ -184,6 +200,7 @@ public class get_specs_popup
           out.println("<p>Notes: " + rs_general_info.getString(9) + ".</p>");
         }
       } 
+      out.println("<div id = 'popup_item_specs'>");
       out.println("<h3>Specifications: </h3>");
       
       //create specs table
@@ -221,6 +238,7 @@ public class get_specs_popup
       }
       
       out.println("</table>");
+      out.println("</div>");
       if(authorized_edit)  //if authorized to edit current specs of an item
       {
         List<String> item_specs_list = queries.get_type_specs_for_item(type,item_id);  //list contains specs relevant to item type

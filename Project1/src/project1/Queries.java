@@ -1,6 +1,7 @@
 package project1;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -605,7 +606,7 @@ public class Queries {
         Connection con = connect_to_db();
         try{
             Statement stmt = con.createStatement();
-            stmt.executeUpdate(query);
+            //stmt.executeUpdate(query);
             con.close();
             return_me = true; // at this point the item have been added
         }
@@ -629,14 +630,18 @@ public class Queries {
             // not the best practice
             // migrate to PL SQL in updates
             String item_id = "Item ID not found.";        
-            query = "SELECT items.id FROM items WHERE rowid=(select max(rowid) from items)";
+            //query = "SELECT items.id FROM items WHERE rowid=(select max(rowid) from items)";
             // System.out.println(query);
             con = connect_to_db();
             try{
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(query);
+                String generatedColumns[] = { "ID" };
+                PreparedStatement stmt = con.prepareStatement(query, generatedColumns);
+                stmt.executeUpdate();                
+                ResultSet rs = stmt.getGeneratedKeys();//stmt.executeQuery(query);
                 if(rs.next()){
-                    item_id = rs.getString("id");
+                    item_id = rs.getString(1);
+                    System.out.println("item id:" + item_id);
+                    
                 }
                 con.close();
             }
@@ -651,7 +656,7 @@ public class Queries {
                         String spec_id = get_id_from_name("specs", specs_names[i]);
                         query = "INSERT INTO itemspecvalues (value, spec_id, item_id) VALUES('"+ specs_values[i] +"','"+ spec_id +"','"+ item_id +"')";  
                         // query check
-                        // System.out.println(query);
+                        System.out.println(query);
                         con = connect_to_db();
                         try{
                             Statement stmt = con.createStatement();
