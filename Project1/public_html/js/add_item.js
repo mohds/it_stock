@@ -228,9 +228,11 @@ function clear_input(){
     document.getElementById("location").value = "";
     document.getElementById("serial_number").value = "";
     document.getElementById("serial-result").innerHTML = "";
-    document.getElementById("model").innerHTML = "";
+    document.getElementById("model").value = "";
     document.getElementById("ExtraSpecs").innerHTML = "";    
     document.getElementById("notes").value = "";
+    var select = document.getElementById("condition");
+    select.selectedIndex = select.options[0];
 }
 
 // populate conditions select box
