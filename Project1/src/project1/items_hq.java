@@ -210,6 +210,7 @@ public class items_hq extends HttpServlet {
         out.println("<th>ID</th>");
         out.println("<th>Type</th>");
         out.println("<th>Brand</th>");
+        out.println("<th>Model</th>");
         out.println("<th>HQ Location</th>");
         out.println("<th>Location</th>");
         out.println("<th>Condition</th>");
