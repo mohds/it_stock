@@ -73,6 +73,8 @@ public class generate_items_table
     String condition = request.getParameter("condition");
     String label = request.getParameter("label");
     String sn = request.getParameter("sn");
+    String model = request.getParameter("model");
+    String keyword = request.getParameter("keyword");
     String availability_available = request.getParameter("availability_available");
     String availability_out = request.getParameter("availability_out");
     int total_items_count = 0;
@@ -161,12 +163,22 @@ public class generate_items_table
     
     if(!label.equals("")) //if label is given, add it in query
     {
-      sql_master = sql_master + " AND ITEMS.LABEL LIKE '%" + label + "%'";
+      sql_master = sql_master + " AND UPPER(ITEMS.LABEL) LIKE UPPER ('%" + label + "%')";
     }
     
     if(!sn.equals(""))  //if serial number is given, add it in query
     {
-      sql_master = sql_master + " AND ITEMS.SERIAL_NUMBER LIKE '%" + sn + "%'";
+      sql_master = sql_master + " AND UPPER(ITEMS.SERIAL_NUMBER) LIKE ('%" + sn + "%')";
+    }
+    
+    if(!model.equals(""))  //if serial number is given, add it in query
+    {
+      sql_master = sql_master + " AND UPPER(ITEMS.MODEL) LIKE ('%" + model + "%')";
+    }
+    
+    if(!keyword.equals(""))  //if serial number is given, add it in query
+    {
+      sql_master = sql_master + " AND UPPER(ITEMS.KEYWORD) LIKE UPPER('%" + keyword + "%')";
     }
     
     if(availability_available != null && availability_available.equals("1"))  //if availability option is available (show only available items), add this to the query
@@ -218,10 +230,9 @@ public class generate_items_table
           sql_master = sql_master + " AND ";
         }
         
-        sql_master = sql_master + "\"" + spec + "\"" + " LIKE '" + list_specs_values.get(i) + "%'";
+        sql_master = sql_master + "UPPER(\"" + spec + "\")" + " LIKE UPPER('%" + list_specs_values.get(i) + "%')";
       }
     }
-    
     //javascript links
     //
     //
@@ -265,7 +276,7 @@ public class generate_items_table
       out.println("<th>Location</th>");
       out.println("<th>Condition</th>");
       out.println("<th>Label</th>");
-      out.println("<th>Serial Number</th>");
+      out.println("<th>Keyword</th>");
       out.println("<th>Availability</th>");
       out.println("<th>Receipt</th>");
       out.println("<th>Details</th>");
@@ -281,11 +292,11 @@ public class generate_items_table
       //
       for(int k = 0; k < result_ids.size() ; k++)
       {
-        String sql_final = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME,REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.SERIAL_NUMBER, ITEMS.NOTES, ITEMS.AVAILABILITY FROM ITEMS, TYPES, BRANDS, LOCATIONS,REMOTE_LOCATIONS, ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + result_ids.get(k) + "'";
+        String sql_final = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME,REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD, ITEMS.AVAILABILITY FROM ITEMS, TYPES, BRANDS, LOCATIONS,REMOTE_LOCATIONS, ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + result_ids.get(k) + "'";
         ResultSet rs_final = stat_final.executeQuery(sql_final);
         rs_final.next();
         item_id = rs_final.getString(1);
-        if(rs_final.getString(11).equals("1"))
+        if(rs_final.getString(10).equals("1"))
         {
           out.println("<tr class = 'item_available_row'>");
         }
@@ -295,7 +306,7 @@ public class generate_items_table
         }
         if(authorized_checkout)
         {
-          if(rs_final.getString(11).equals("1"))
+          if(rs_final.getString(10).equals("1"))
           {
             out.println("<td align = 'center'><input type = 'checkbox' class = 'items_checkboxes_class' id = 'checkbox_" + item_id + "'></td>");
           }
@@ -324,14 +335,7 @@ public class generate_items_table
         {
           out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(6) + "</td>");
         }
-        if(rs_final.getString(7) != null && !rs_final.getString(7).equals("null"))
-        {
-          out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(7) + "</td>");
-        }
-        else
-        {
-          out.println("<td class = 'td_normal' align = 'center'>-</td>");
-        }
+        out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(7) + "</td>");
         if(rs_final.getString(8) != null && !rs_final.getString(8).equals("null"))
         {
           out.println("<td class = 'td_normal' align = 'center'>" + rs_final.getString(8) + "</td>");
@@ -348,7 +352,7 @@ public class generate_items_table
         {
           out.println("<td class = 'td_normal' align = 'center'>-</td>");
         }
-        if(rs_final.getString(11).equals("1"))
+        if(rs_final.getString(10).equals("1"))
         {
           out.println("<td class = 'td_normal' align = 'center'>Available</td>");
           out.println("<td class = 'td_normal' align = 'center'>-</td>");

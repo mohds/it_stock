@@ -14,6 +14,8 @@ start_loading();
     var select_condition = document.getElementById('select_item_condition_id').value;
     var input_label = document.getElementById('input_item_label').value;
     var input_sn = document.getElementById('input_item_sn').value;
+    var input_model = document.getElementById('input_item_model').value;
+    var input_keyword = document.getElementById('input_item_keyword').value;
     var bool_availability_available = 0;
     var bool_availability_out = 0;
     if(document.getElementById('availability_option_available_id').checked)
@@ -34,11 +36,11 @@ start_loading();
     clearTimeout(x_timer);		        
     x_timer = setTimeout(function()
     {
-    send_to_servlet(input_id,specs_input_names,specs_input_values,select_type,select_brand,select_location,select_condition,input_label,input_sn,bool_availability_available,bool_availability_out);}, 1000);
+    send_to_servlet(input_id,specs_input_names,specs_input_values,select_type,select_brand,select_location,select_condition,input_label,input_sn,input_model, input_keyword, bool_availability_available,bool_availability_out);}, 1000);
     
-    function send_to_servlet(item_id,specs_names,specs_values,type,brand,location,condition,label,sn,availability_available,availability_out) //send to generate_items_table all search parameters
+    function send_to_servlet(item_id,specs_names,specs_values,type,brand,location,condition,label,sn,model,keyword,availability_available,availability_out) //send to generate_items_table all search parameters
     {
-      $.get('generate_items_table', {'item_id':item_id,'specs_names':specs_names, 'specs_values':specs_values, 'type':type, 'brand':brand, 'location':location,'condition':condition, 'label':label,'sn':sn,'availability_available':availability_available, 'availability_out':availability_out}, function(data)
+      $.get('generate_items_table', {'item_id':item_id,'specs_names':specs_names, 'specs_values':specs_values, 'type':type, 'brand':brand, 'location':location,'condition':condition, 'label':label,'sn':sn,'model':model,'keyword':keyword,'availability_available':availability_available, 'availability_out':availability_out}, function(data)
       {
         $("#results_region").html('');
         $("#results_region").html(data);
@@ -233,17 +235,49 @@ function reset_search_options()
   var id = document.getElementById("input_item_id");
   id.value = '';
   var type = document.getElementById("select_item_type_id");
-  type.selectedIndex = 0;
+  for (var i = 0; i < type.options.length; i++) 
+  {
+    if (type.options[i].text === "Any") 
+    {
+        type.selectedIndex = i;
+        break;
+    }
+  }
   var brand = document.getElementById("select_item_brand_id");
-  brand.selectedIndex = 0;
+  for (var k = 0; k < brand.options.length; k++) 
+  {
+    if (brand.options[k].text === "Any") 
+    {
+        brand.selectedIndex = k;
+        break;
+    }
+  }
   var location = document.getElementById("select_item_location_id");
-  location.selectedIndex = 0;
+  for (var m = 0; m < location.options.length; m++) 
+  {
+    if (location.options[m].text === "Any") 
+    {
+        location.selectedIndex = m;
+        break;
+    }
+  }
   var condition = document.getElementById("select_item_condition_id");
-  condition.selectedIndex = 0;
+  for (var n = 0; n < condition.options.length; n++) 
+  {
+    if (condition.options[n].text === "Any") 
+    {
+        condition.selectedIndex = n;
+        break;
+    }
+  };
   var label = document.getElementById("input_item_label");
   label.value = '';
   var sn = document.getElementById("input_item_sn");
   sn.value = '';
+  var model = document.getElementById("input_item_model");
+  model.value = '';
+  var keyword = document.getElementById("input_item_keyword");
+  keyword.value = '';
   var radio_all = document.getElementById("availability_option_all_id");
   radio_all.checked = true;
   document.getElementById("specs_region").innerHTML = "";

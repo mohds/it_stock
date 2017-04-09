@@ -47,7 +47,7 @@ public class get_specs_popup
     //sql_get_general_info: used to query results exclusively from the items table (general information about the item)
     //sql_get_specs: used to query results that will show the values of specs assigned to this item
     //
-    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.SERIAL_NUMBER,ITEMS.NOTES FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + item_id + "'";
+    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + item_id + "'";
     String sql_get_specs = "SELECT SPECS.NAME, ITEMSPECVALUES.VALUE,SPECS.ID FROM SPECS,ITEMSPECVALUES WHERE ITEMSPECVALUES.SPEC_ID = SPECS.ID  AND ITEMSPECVALUES.ITEM_ID = '" + item_id + "'";
     
     try
@@ -84,6 +84,7 @@ public class get_specs_popup
       out.println("<th>Location</th>");
       out.println("<th>Condition</th>");
       out.println("<th>Label</th>");
+      out.println("<th>Keyword</th>");
       out.println("<th>Serial Number</th>");
       while(rs_general_info.next())
       {
@@ -172,6 +173,14 @@ public class get_specs_popup
           }
           if(rs_general_info.getString(9) != null && !rs_general_info.getString(9).equals("null"))
           {
+            out.println("<td><input type = 'text' id = 'popup_keyword_input_id' value = '" + rs_general_info.getString(9) + "'></td>"); //create an input text element for item label and make the current value the default value
+          }
+          else
+          {
+            out.println("<td><input type = 'text' id = 'popup_keyword_input_id'></td>"); //create an empty input text element for item label
+          }
+          if(rs_general_info.getString(10) != null && !rs_general_info.getString(10).equals("null"))
+          {
             out.println("<td><input type = 'text' id = 'popup_sn_input_id' value = '" + rs_general_info.getString(9) + "'></td>");  //create an input text element for item serial number and make the current value the default value
           }
           else
@@ -183,9 +192,9 @@ public class get_specs_popup
           out.println("</br>");
           out.println("<div id = 'popup_notes_region'>");
           out.println("<label>Notes: </label> <br>");
-          if(rs_general_info.getString(10) != null && !rs_general_info.getString(10).equals("null"))
+          if(rs_general_info.getString(11) != null && !rs_general_info.getString(11).equals("null"))
           {
-            out.println("<textarea id = 'popup_notes_input_id' maxlength = '250' rows = '4' cols = '50'>" + rs_general_info.getString(10) + "</textarea>");
+            out.println("<textarea id = 'popup_notes_input_id' maxlength = '250' rows = '4' cols = '50'>" + rs_general_info.getString(11) + "</textarea>");
           }
           else
           {
@@ -208,15 +217,16 @@ public class get_specs_popup
           }
           else
           {
-            out.println("<td>" + rs_general_info.getString(7) + "</td>");
+            out.println("<td>" + rs_general_info.getString(6) + "</td>");
           }
+          out.println("<td>" + rs_general_info.getString(7) + "</td>");
           out.println("<td>" + rs_general_info.getString(8) + "</td>");
           out.println("<td>" + rs_general_info.getString(9) + "</td>");
-          out.println("<td>" + rs_general_info.getString(9) + "</td>");
+          out.println("<td>" + rs_general_info.getString(10) + "</td>");
           out.println("</tr>");
           out.println("</table>");
           out.println("</br>");
-          out.println("<p>Notes: " + rs_general_info.getString(10) + ".</p>");
+          out.println("<p>Notes: " + rs_general_info.getString(11) + ".</p>");
         }
       } 
       out.println("<div id = 'popup_item_specs'>");

@@ -154,6 +154,14 @@ public class items_hq extends HttpServlet {
         out.println("<br><br>");
         
         out.println("<label>Serial Number: </label><input class = 'search_inputs' type = 'text' id = 'input_item_sn'>");  //input text element for serial number
+        
+        out.println("<br><br>");
+        
+        out.println("<label>Model: </label><input class = 'search_inputs' type = 'text' id = 'input_item_model'>");  //input text element for serial number
+        
+        out.println("<br><br>");
+        
+        out.println("<label>Keyword: </label><input class = 'search_inputs' type = 'text' id = 'input_item_keyword'>");  //input text element for serial number
       
         out.println("<br><br>");   
 
@@ -215,7 +223,7 @@ public class items_hq extends HttpServlet {
         out.println("<th>Location</th>");
         out.println("<th>Condition</th>");
         out.println("<th>Label</th>");
-        out.println("<th>Serial Number</th>");
+        out.println("<th>Keyword</th>");
         out.println("<th>Availability</th>");
         out.println("<th>Receipt</th>");
         out.println("<th>Details</th>");
