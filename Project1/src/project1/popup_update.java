@@ -41,6 +41,7 @@ public class popup_update
     String popup_location = request.getParameter("popup_location");
     String popup_condition = request.getParameter("popup_condition");
     String popup_label = request.getParameter("popup_label");
+    String popup_keyword = request.getParameter("popup_keyword");
     String popup_sn = request.getParameter("popup_sn");
     String popup_notes = request.getParameter("popup_notes");
     String[] popup_specs_names = null;  //will contain names of input text elements of specs (not new specs)
@@ -69,7 +70,7 @@ public class popup_update
     }
     
     //sql_update_general will update general information in ITEMS table
-    String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label +"', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "' WHERE ID = '" + item_id + "'";
+    String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label + "', KEYWORD = '" + popup_keyword + "', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "' WHERE ID = '" + item_id + "'";
     try
     {
       Statement stat_update_general = con.createStatement();  
