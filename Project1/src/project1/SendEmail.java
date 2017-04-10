@@ -19,16 +19,17 @@ public class SendEmail {
         TO = Queries.get_emails("TO");
         CC = Queries.get_emails("CC");
                 
+        String smtp_hostname = "mail.almayadeen.net";
+        int smtp_port = 25;
         Properties properties = new Properties();
         properties.put("mail.transport.protocol", "smtp");
-        properties.put("mail.smtp.host", "mail.almayadeen.net");
-        properties.put("mail.smtp.port", "25");
+        properties.put("mail.smtp.host", smtp_hostname);
+        properties.put("mail.smtp.port", smtp_port);
         properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable","true");
-        properties.put("mail.smtp.ssl.enable","true");
+        //properties.setProperty("mail.smtp.ssl.enable", "true");
 
-        final String username = "it.sup";
-        final String password = "123456";
+        final String username = "it.stock";
+        final String password = "it$t0cK*543";
         Authenticator authenticator = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -60,8 +61,8 @@ public class SendEmail {
             
             mimeMessage.setContent(content,"text/html");
             mimeMessage.setSubject(subject);
-            transport = session.getTransport("smtp");
-            transport.connect(username, password);
+            transport = session.getTransport();
+            transport.connect(smtp_hostname, smtp_port, username, password);
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
             
         }
