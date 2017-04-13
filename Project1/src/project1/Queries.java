@@ -634,6 +634,7 @@ public class Queries {
             }
             catch(Exception e){
                 System.out.println(e.toString());
+                System.out.println(query);
             }            
         
             // now add specs and their values
