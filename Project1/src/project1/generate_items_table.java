@@ -163,22 +163,22 @@ public class generate_items_table
     
     if(!label.equals("")) //if label is given, add it in query
     {
-      sql_master = sql_master + " AND UPPER(ITEMS.LABEL) LIKE UPPER ('%" + label + "%')";
+      sql_master = sql_master + " AND UPPER(ITEMS.LABEL) LIKE UPPER('%" + label + "%')";
     }
     
     if(!sn.equals(""))  //if serial number is given, add it in query
     {
-      sql_master = sql_master + " AND UPPER(ITEMS.SERIAL_NUMBER) LIKE ('%" + sn + "%')";
+      sql_master = sql_master + " AND UPPER(ITEMS.SERIAL_NUMBER) LIKE UPPER('%" + sn + "%')";
     }
     
     if(!model.equals(""))  //if serial number is given, add it in query
     {
-      sql_master = sql_master + " AND UPPER(ITEMS.MODEL) LIKE ('%" + model + "%')";
+      sql_master = sql_master + " AND UPPER(ITEMS.MODEL) LIKE UPPER('%" + model + "%')";
     }
     
-    if(!keyword.equals(""))  //if serial number is given, add it in query
+    if(!keyword.equals(""))  //if keyword is given, add it in query
     {
-      sql_master = sql_master + " AND UPPER(ITEMS.KEYWORD) LIKE UPPER('%" + keyword + "%')";
+      sql_master = sql_master + " AND (UPPER(ITEMS.SERIAL_NUMBER) LIKE UPPER('%" + keyword + "%') OR UPPER(ITEMS.LABEL) LIKE UPPER('%" + keyword + "%') OR UPPER(ITEMS.MODEL) LIKE UPPER('%" + keyword + "%') OR UPPER(ITEMS.NOTES) LIKE UPPER('%" + keyword + "%') OR UPPER(ITEMS.KEYWORD) LIKE UPPER('%" + keyword + "%'))";
     }
     
     if(availability_available != null && availability_available.equals("1"))  //if availability option is available (show only available items), add this to the query

@@ -181,7 +181,7 @@ public class get_specs_popup
           }
           if(rs_general_info.getString(10) != null && !rs_general_info.getString(10).equals("null"))
           {
-            out.println("<td><input type = 'text' id = 'popup_sn_input_id' value = '" + rs_general_info.getString(9) + "'></td>");  //create an input text element for item serial number and make the current value the default value
+            out.println("<td><input type = 'text' id = 'popup_sn_input_id' value = '" + rs_general_info.getString(10) + "'></td>");  //create an input text element for item serial number and make the current value the default value
           }
           else
           {

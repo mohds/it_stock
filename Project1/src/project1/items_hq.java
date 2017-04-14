@@ -161,7 +161,7 @@ public class items_hq extends HttpServlet {
         
         out.println("<br><br>");
         
-        out.println("<label>Keyword: </label><input class = 'search_inputs' type = 'text' id = 'input_item_keyword'>");  //input text element for serial number
+        out.println("<label>Advanced Search: </label><input class = 'search_inputs' type = 'text' id = 'input_item_keyword'>");  //input text element for serial number
       
         out.println("<br><br>");   
 
