@@ -59,18 +59,18 @@ public class SendEmail {
                 mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(""));
             } 
             
-            mimeMessage.setContent(content,"text/html");
+            /*mimeMessage.setContent(content,"text/html");
             mimeMessage.setSubject(subject);
             transport = session.getTransport();
             transport.connect(smtp_hostname, smtp_port, username, password);
-            transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+            transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());*/
             
         }
         catch(Exception ex){
             System.out.println(ex.toString());
         }
         finally {
-            if (transport != null) try { transport.close(); } catch (MessagingException logOrIgnore) {}
+            // if (transport != null) try { transport.close(); } catch (MessagingException logOrIgnore) {}
         }
     }
 }
