@@ -233,10 +233,13 @@ function clear_input(){
     document.getElementById("serial_number").value = "";
     document.getElementById("serial-result").innerHTML = "";
     document.getElementById("model").value = "";
+    document.getElementById("keyword").value = "";
     document.getElementById("ExtraSpecs").innerHTML = "";    
     document.getElementById("notes").value = "";
     var select = document.getElementById("condition");
     select.selectedIndex = select.options[0];
+    document.getElementById("count").value = "1";
+    
 }
 
 // populate conditions select box
@@ -346,12 +349,19 @@ function add_item(){
         specs_names.push(specs_temp[i].getAttribute("name"));
         specs_values.push(specs_temp[i].value);
     }
-    
-    $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes, count: count}, 
-        function(returnedData){
-            $("#message-box").html(returnedData);
-            stop_loading();
-    });    
+    if(count > 0 && count < 101){
+        for(var i = 0 ; i < count ; i++){
+            $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes}, 
+                function(returnedData){
+                    $("#message-box").html(returnedData + " Count: " + (i));
+                    stop_loading();
+            });
+        }
+    }
+    else{
+        $("#message-box").html("Count error.");
+        stop_loading();
+    }
 }
 
 function save_specs_names(){

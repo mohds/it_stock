@@ -39,20 +39,33 @@ public class add_item extends HttpServlet {
         String[] specs_names = request.getParameterValues("specs_names[]"); // sorted with respect to specs_values
         String[] specs_values = request.getParameterValues("specs_values[]"); // sorted with respect to specs_names
         String model = request.getParameter("model");
+        String keyword = request.getParameter("keyword");
         String notes = request.getParameter("notes");
-        
-        if(Queries.add_item(label, location, brand, type, serial_number, condition, specs_names, specs_values, model, notes)){
-            out.println("Item added successfully: " + label);
+        /*String count = request.getParameter("count");
+        int count_ = 0;
+        try{
+            count_ = Integer.parseInt(count);
         }
-        else{
-            out.println("Cannot add item "+ label +". Check input.");
-        }
-        
-        Log log = new Log();
-        HttpSession session = request.getSession();
-        String description = "Added item " + label + " of type " + type;
-        log.log(description, request, session);
-        
+        catch (Exception ex){
+            System.out.println(ex.toString());
+        }*/
+        //if(count_ > 0 && count_ < 101){        
+            //for(int i = 0 ; i < count_ ; i++){
+                if(Queries.add_item(label, location, brand, type, serial_number, condition, specs_names, specs_values, model, keyword, notes)){
+                    out.println("Item added successfully: " + label);
+                    Log log = new Log();
+                    HttpSession session = request.getSession();
+                    String description = "Added item " + label + " of type " + type;
+                    log.log(description, request, session);
+                }
+                else{
+                    out.println("Cannot add item "+ label +". Check input.");
+                }
+            //}
+        //}
+        /*else{
+            out.println("Cannot add item "+ label +". Count error.");
+        }*/
         out.close();
     }
 }

@@ -292,7 +292,7 @@ public class generate_items_table
       for(int k = 0; k < result_ids.size() ; k++)
       {
         String sql_final = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME,REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD, ITEMS.AVAILABILITY FROM ITEMS, TYPES, BRANDS, LOCATIONS,REMOTE_LOCATIONS, ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + result_ids.get(k) + "'";
-        System.out.println(sql_final);
+        //System.out.println(sql_final);
         ResultSet rs_final = stat_final.executeQuery(sql_final);
         rs_final.next();
         item_id = rs_final.getString(1);

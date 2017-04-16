@@ -581,7 +581,7 @@ public class Queries {
         return names;
     }
     
-    public static boolean add_item(String label, String location, String brand, String type, String serial_number, String condition, String[] specs_names, String[] specs_values, String model, String notes){
+    public static boolean add_item(String label, String location, String brand, String type, String serial_number, String condition, String[] specs_names, String[] specs_values, String model, String keyword, String notes){
         
         boolean return_me = false;
         
@@ -600,7 +600,7 @@ public class Queries {
         }
         
         // now add item
-        String query = "INSERT INTO items (label, location_id, brand_id, type_id, serial_number, condition_id, model, notes) VALUES('"+ label +"','"+ location_id +"','"+ brand_id +"','"+ type_id +"','"+ serial_number +"','"+ condition_id +"', '"+ model +"', '"+ notes +"')";  
+        String query = "INSERT INTO items (label, location_id, brand_id, type_id, serial_number, condition_id, model, keyword, notes) VALUES('"+ label +"','"+ location_id +"','"+ brand_id +"','"+ type_id +"','"+ serial_number +"','"+ condition_id +"', '"+ model +"', '"+ keyword +"', '"+ notes +"')";  
         // query check
         // System.out.println(query);              
         Connection con = connect_to_db();
