@@ -98,6 +98,22 @@ public class create_receipt_form
     String global_expected_date = request.getParameter("global_expected_date");
     String receipt_country = request.getParameter("receipt_country");
     String it_name = request.getParameter("admin");
+    String admin_id = request.getParameter("admin_id");
+    String admin_full_name = "";
+    
+    String sql_admin_full_name = "SELECT ADMINS.NAME FROM ADMINS WHERE ADMINS.ID = '" + admin_id +"'";
+    try
+    {
+      Statement stat_admin_full_name = con.createStatement();
+      ResultSet rs_admin_full_name = stat_admin_full_name.executeQuery(sql_admin_full_name);
+      rs_admin_full_name.next();
+      admin_full_name = rs_admin_full_name.getString(1);
+    }
+    catch(Exception e)
+    {
+      out.println(e.toString());
+    }
+    
     int receipt_id = 0;
     
     if(request.getParameterValues("records_items_id[]") != null)
@@ -196,16 +212,16 @@ public class create_receipt_form
       paragraph.add(new Paragraph(""));
       paragraph.add(new Paragraph("Received on: " + current_date ,subFont));
       paragraph.add(new Paragraph("Received for: " + client_name ,subFont));
-      paragraph.add(new Paragraph("Handed to: " + receiver_name ,subFont));
-      paragraph.add(new Paragraph("IT: " + it_name ,subFont));
+      paragraph.add(new Paragraph("Handed to: " + receiver_name + " ----------------Signature:___________________",subFont));
+      paragraph.add(new Paragraph("IT: " + admin_full_name ,subFont));
       paragraph.add(new Paragraph("Expected date of items return: " + global_expected_date ,subFont));
       paragraph.setAlignment(Element.ALIGN_LEFT);
       document.add(paragraph);
       
       out.println("<p>Received on: " + current_date + "</p>");
       out.println("<p>Received for: " + client_name + "</p>");
-      out.println("<p>Handed to: " + receiver_name + "</p>");
-      out.println("<p>IT: " + it_name + "</p>");
+      out.println("<p>Handed to: " + receiver_name + " ----------------Signature:___________________</p>");
+      out.println("<p>IT: " + admin_full_name + "</p>");
       out.println("<p>Expected date of items return: " + global_expected_date + "</p>");
       
       document.add( Chunk.NEWLINE );  //empty line
