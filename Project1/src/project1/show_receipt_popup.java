@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 
 import java.sql.Connection;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -32,6 +35,9 @@ public class show_receipt_popup
     response.setContentType(CONTENT_TYPE);
     PrintWriter out = response.getWriter();
     
+    connect_to_db connect = new connect_to_db();
+    Connection con = connect.connect();
+    
     String[] ids_array = null;  //array of item ids in cart
     
     List<String> list_ids = new ArrayList<String>();  //list of item ids in cart
@@ -58,8 +64,23 @@ public class show_receipt_popup
     
     String admin = (String)session.getAttribute("username");
     String admin_id = (String)session.getAttribute("id");
+    String admin_full_name = "";
     String current_date = "";
     String current_time = "";
+    
+    String sql_admin_full_name = "SELECT ADMINS.NAME FROM ADMINS WHERE ADMINS.ID = '" + admin_id +"'";
+    try
+    {
+      Statement stat_admin_full_name = con.createStatement();
+      ResultSet rs_admin_full_name = stat_admin_full_name.executeQuery(sql_admin_full_name);
+      rs_admin_full_name.next();
+      admin_full_name = rs_admin_full_name.getString(1);
+    }
+    catch(Exception e)
+    {
+      out.println(e.toString());
+    }
+    
     
     Calendar c = Calendar.getInstance();
     Date today_date = c.getTime();
@@ -102,7 +123,7 @@ public class show_receipt_popup
     
     out.println("<br><br>");
     
-    out.println("<label>Admin: " + admin +"</label>");
+    out.println("<label>Admin: " + admin_full_name +"</label>");
     
     out.println("<br><br>");
     
