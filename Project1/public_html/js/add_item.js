@@ -1,4 +1,8 @@
 $(document).ready(function(){
+
+    // spinner
+    var spinner = $( "#count" ).spinner();
+
     // autocomplete boxes
     $("#TypeCombo").autocomplete({
         source: "get_types",
@@ -178,7 +182,7 @@ $(document).ready(function(){
         $.post('serial_checker', {'serial':serial}, function(data) {
             $("#serial-result").html(data);
         });
-    }    
+    }        
 });
 
 function add_spec_to_type(){
@@ -330,7 +334,9 @@ function add_item(){
     var serial_number = document.getElementById("serial_number").value;
     var condition = document.getElementById("condition").value;
     var model = document.getElementById("model").value;
+    var keyword = document.getElementById("keyword").value;
     var notes = document.getElementById("notes").value;
+    var count = document.getElementById("count").value;
     
     // second we get the extra specs attributes
     var specs_names = [];
@@ -341,7 +347,7 @@ function add_item(){
         specs_values.push(specs_temp[i].value);
     }
     
-    $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, notes: notes}, 
+    $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes, count: count}, 
         function(returnedData){
             $("#message-box").html(returnedData);
             stop_loading();

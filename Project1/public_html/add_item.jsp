@@ -47,8 +47,10 @@
                         <label class="class_asterisks">*</label><label>Location: </label><div class="add-row"><input type="text" id="location" name="location"/><button id="NewLocationButton">New</button><button id="EditLocationButton">Edit</button></div>
                         <label>Serial Number: </label><div class="add-row"><input type="text" id="serial_number" name="serial_number"/><span id='serial-result'></span></div>
                         <label>Model: </label><div class="add-row"><input type="text" id="model" name="model"/></div>
+                        <label>Keyword: </label><div class="add-row"><input type="text" id="keyword" name="keyword"/></div>
                         <label>Condition: </label><div class="ui-widget"><div id="condition_options"></div></div>
                         <label>Notes:</label><br><div class="add-row"><textarea id="notes" maxlength="250" rows="4" cols="50"></textarea></div>
+                        <label>Count:</label><input id="count" value="1"><br>
                         
                         <button id="clear-button">Clear</button><button type="button" id="AddItemButton">Add Item</button>
                         <div id="NewTypeDialog" title="Add a new type">
