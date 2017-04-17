@@ -349,19 +349,19 @@ function add_item(){
         specs_names.push(specs_temp[i].getAttribute("name"));
         specs_values.push(specs_temp[i].value);
     }
-    if(count > 0 && count < 101){
-        for(var i = 0 ; i < count ; i++){
-            $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes}, 
+    //if(count > 0 && count < 101){
+        //for(var i = 0 ; i < count ; i++){
+            $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes, count: count}, 
                 function(returnedData){
-                    $("#message-box").html(returnedData + " Count: " + (i));
+                    $("#message-box").html(returnedData);
                     stop_loading();
             });
-        }
-    }
-    else{
+        //}
+    //}
+    /*else{
         $("#message-box").html("Count error.");
         stop_loading();
-    }
+    }*/
 }
 
 function save_specs_names(){

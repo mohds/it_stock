@@ -41,18 +41,18 @@ public class add_item extends HttpServlet {
         String model = request.getParameter("model");
         String keyword = request.getParameter("keyword");
         String notes = request.getParameter("notes");
-        /*String count = request.getParameter("count");
+        String count = request.getParameter("count");
         int count_ = 0;
         try{
             count_ = Integer.parseInt(count);
         }
         catch (Exception ex){
             System.out.println(ex.toString());
-        }*/
-        //if(count_ > 0 && count_ < 101){        
-            //for(int i = 0 ; i < count_ ; i++){
+        }
+        if(count_ > 0 && count_ < 101){        
+            for(int i = 0 ; i < count_ ; i++){
                 if(Queries.add_item(label, location, brand, type, serial_number, condition, specs_names, specs_values, model, keyword, notes)){
-                    out.println("Item added successfully: " + label);
+                    
                     Log log = new Log();
                     HttpSession session = request.getSession();
                     String description = "Added item " + label + " of type " + type;
@@ -61,11 +61,12 @@ public class add_item extends HttpServlet {
                 else{
                     out.println("Cannot add item "+ label +". Check input.");
                 }
-            //}
-        //}
-        /*else{
+            }
+            out.println("Item added successfully: " + label + " Count:" + count_);
+        }
+        else{
             out.println("Cannot add item "+ label +". Count error.");
-        }*/
+        }
         out.close();
     }
 }
