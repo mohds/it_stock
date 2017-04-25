@@ -18,18 +18,20 @@ public class SendEmail {
         List<String> CC = new ArrayList<String>();
         TO = Queries.get_emails("TO");
         CC = Queries.get_emails("CC");
-                
-        String smtp_hostname = "mail.almayadeen.net";
-        int smtp_port = 25;
+        
+        
+        
+        String smtp_hostname = "smtp.gmail.com";
+        int smtp_port = 465;
         Properties properties = new Properties();
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.host", smtp_hostname);
-        properties.put("mail.smtp.port", smtp_port);
+        //properties.put("mail.smtp.port", smtp_port);
         properties.put("mail.smtp.auth", "true");
-        //properties.setProperty("mail.smtp.ssl.enable", "true");
+        properties.setProperty("mail.smtp.starttls.enable", "true");
 
-        final String username = "it.stock";
-        final String password = "it$t0cK*543";
+        final String username = "mayadeen.stock";
+        final String password = "it@admin";
         Authenticator authenticator = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -41,7 +43,7 @@ public class SendEmail {
         try {
             Session session = Session.getInstance(properties, authenticator);
             MimeMessage mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress("it.sup@almayadeen.net"));
+            mimeMessage.setFrom(new InternetAddress("mayadeen.stock@gmail.com"));
             if(CC != null){
                 for(int i = 0 ; i < CC.size() ; i++){
                     mimeMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(CC.get(i)));
@@ -59,11 +61,19 @@ public class SendEmail {
                 mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(""));
             } 
             
-            /*mimeMessage.setContent(content,"text/html");
+            // add signature
+            String signature = "";
+            signature = "<br><br><b>IT STOCK</b><br>" + 
+            "Al Mayadeen Satellite Network<br>" + 
+            "Phone: +9611828500 | Ext: 199 | <br>" + 
+            "Email: mayadeen.stock@gmail.com<br>";
+            content = content + signature;
+            
+            mimeMessage.setContent(content,"text/html");
             mimeMessage.setSubject(subject);
             transport = session.getTransport();
-            transport.connect(smtp_hostname, smtp_port, username, password);
-            transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());*/
+            transport.connect(smtp_hostname, username, password);
+            transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
             
         }
         catch(Exception ex){
