@@ -31,6 +31,7 @@ public class return_receipt_from_record_id extends HttpServlet {
         
         HttpSession session = request.getSession();
         String admin_receiver = (String)session.getAttribute("username");
+        String admin_name = Queries.get_name_from_username(admin_receiver);
         
         Access access = new Access();
         String user = (String)session.getAttribute("username");
@@ -54,7 +55,7 @@ public class return_receipt_from_record_id extends HttpServlet {
             // send email
             String content = "";
             String subject = "IT STOCK - CHECK IN";
-            content += "Admin: " + admin_receiver + " has received a whole receipt<br>";
+            content += "Admin: " + admin_name + " has received a whole receipt<br>";
             content += "Receipt ID: " + receipt_id + "<br>";
             content += "Returner: " + client_returner + "<br>";
             content += "New location: " + new_location + "<br><br>";

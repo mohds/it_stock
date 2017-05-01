@@ -36,9 +36,11 @@ public class return_item extends HttpServlet {
         else{
             if(Records.return_item(record_id, client_returner, out, admin_receiver, new_location)){
                 // send email
+                String admin_name = "";
+                admin_name = Queries.get_name_from_username(admin_receiver);
                 String content = "";
                 String subject = "IT STOCK - CHECK IN";
-                content += "Admin: " + admin_receiver + " has received an item<br>";
+                content += "Admin: " + admin_name + " has received an item<br>";
                 content += "Record ID: " + record_id + "<br>";
                 content += "Returner: " + client_returner + "<br>";
                 content += "New location: " + new_location + "<br><br>";

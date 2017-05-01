@@ -13,6 +13,27 @@ public class Queries {
         super();
     }
     
+    public static String get_name_from_username(String username){
+        String name = "";
+        
+        String query = "SELECT admins.name FROM admin WHERE admins.username='"+ username +"'";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                name = rs.getString("name");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return name;
+    }
+    
     public static boolean add_spec_to_type(String type, String spec){
         boolean return_me = false;
         
