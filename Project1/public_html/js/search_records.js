@@ -5,6 +5,10 @@ $(document).ready(function(){
         source: "get_receipt_ids",
         minLength: 1
     });
+    $("#RecordId").autocomplete({
+        source: "get_record_ids",
+        minLength: 1
+    });
     $("#Borrower").autocomplete({
         source: "get_clients",
         minLength: 1
@@ -450,6 +454,7 @@ function clear_details_dialog(){
 
 function clear_all_input(){
     document.getElementById("ReceiptId").value = "";
+    document.getElementById("RecordId").value = "";
     document.getElementById("ItemId").value = "";
     document.getElementById("ItemLabel").value = "";
     document.getElementById("Borrower").value = "";
@@ -490,6 +495,7 @@ function search(lower_bound, upper_bound){
     start_loading();
     
     var ReceiptId = document.getElementById("ReceiptId").value;
+    var RecordId = document.getElementById("RecordId").value;
     var item_id = document.getElementById("ItemId").value;
     var item_label = document.getElementById("ItemLabel").value;
     var Borrower = document.getElementById("Borrower").value;
@@ -503,7 +509,7 @@ function search(lower_bound, upper_bound){
     var RecordStatus = document.getElementById("RecordStatus").value;
     var ItemStatus = document.getElementById("ItemStatus").value;
         
-    $.getJSON('search_records', {ReceiptId: ReceiptId, item_id: item_id, item_label: item_label, Borrower: Borrower, AdminCheckerId: AdminCheckerId, BorrowBeforeDate: BorrowBeforeDate, BorrowAfterDate: BorrowAfterDate, ReturnBeforeDate: ReturnBeforeDate, ReturnAfterDate: ReturnAfterDate, ItemType: ItemType, ReceiptStatus: ReceiptStatus, RecordStatus: RecordStatus, ItemStatus: ItemStatus, lower_bound: lower_bound, upper_bound: upper_bound},
+    $.getJSON('search_records', {ReceiptId: ReceiptId, RecordId: RecordId, item_id: item_id, item_label: item_label, Borrower: Borrower, AdminCheckerId: AdminCheckerId, BorrowBeforeDate: BorrowBeforeDate, BorrowAfterDate: BorrowAfterDate, ReturnBeforeDate: ReturnBeforeDate, ReturnAfterDate: ReturnAfterDate, ItemType: ItemType, ReceiptStatus: ReceiptStatus, RecordStatus: RecordStatus, ItemStatus: ItemStatus, lower_bound: lower_bound, upper_bound: upper_bound},
         function(returnedData){                    
             // remove all rows except first
             $("#ResultsTable").find("tr:gt(0)").remove();            

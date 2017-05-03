@@ -41,6 +41,7 @@
             <span id="message-box"></span></br>
             <div class="container" id="LeftContainer">
                 <label>Receipt ID: </label><input type="text" id="ReceiptId" /><br>
+                <label>Record ID: </label><input type="text" id="RecordId" /><br>
                 <label>Item ID: </label><input type="text" id="ItemId"/></br>
                 <label>Item Label: </label><input type="text" id="ItemLabel" /><br>
                 <label>Borrower: </label><input type="text" id="Borrower" /><br>

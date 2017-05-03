@@ -18,6 +18,7 @@ public class search_records extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         String ReceiptId = request.getParameter("ReceiptId");
+        String RecordId = request.getParameter("RecordId");
         String item_label = request.getParameter("item_label");
         String item_id = request.getParameter("item_id");
         String Borrower = request.getParameter("Borrower");
@@ -33,7 +34,7 @@ public class search_records extends HttpServlet {
         String lower_bound = request.getParameter("lower_bound");
         String upper_bound = request.getParameter("upper_bound");
         
-        Records.generate_results(ReceiptId, item_id, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, RecordStatus, ItemStatus, out, lower_bound, upper_bound);
+        Records.generate_results(ReceiptId, RecordId, item_id, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, RecordStatus, ItemStatus, out, lower_bound, upper_bound);
         
         Log log = new Log();
         HttpSession session = request.getSession();

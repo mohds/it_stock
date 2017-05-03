@@ -21,6 +21,28 @@ public class Records {
         super();
     }
     
+    public static String get_item_id_from_record_id(String record_id){
+        String item_id = "";
+        
+        String query = "SELECT records.item_id FROM records WHERE records.id='"+ record_id +"' ";
+        // System.out.println(query);
+        
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                item_id = rs.getString("item_id");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return item_id;
+    }
+    
     public static List<String> get_record_ids_from_receipt(String receipt_id){
         List<String> record_ids = new ArrayList<String>();
         
@@ -277,11 +299,14 @@ public class Records {
         out.println(gson.toJson(record));
     }
     
-    public static void generate_results(String ReceiptId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String RecordStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
+    public static void generate_results(String ReceiptId, String RecordId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String RecordStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
         String query = "SELECT records.id, receipts.id AS receipt_id, items.id AS item_id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
         
         if(!(ReceiptId.length() == 0)){
             query += "AND Receipts.id = '"+ ReceiptId +"' ";
+        }
+        if(!(RecordId.length() == 0)){
+            query += "AND records.id = '"+ RecordId +"' ";
         }
         if(!(item_id.length() == 0)){
             query += "AND items.id = '"+ item_id +"' ";

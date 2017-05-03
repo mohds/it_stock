@@ -16,7 +16,7 @@ public class Queries {
     public static String get_name_from_username(String username){
         String name = "";
         
-        String query = "SELECT admins.name FROM admin WHERE admins.username='"+ username +"'";
+        String query = "SELECT admins.name FROM admins WHERE admins.username='"+ username +"'";
         // System.out.println(query);
         Connection con = connect_to_db();
         try{
