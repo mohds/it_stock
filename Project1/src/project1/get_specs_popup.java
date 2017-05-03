@@ -297,6 +297,15 @@ public class get_specs_popup
         out.println("<button onclick = 'update_popup(" + item_id + ")'>Update</button>");  //update button will update all information related to specific item. onclick calls update_popup from popup_jquery.js and takes item_id as argument
       }
       
+      out.println("<div id = 'item_image_id'>");
+      out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
+      out.println("<fieldset>");
+      out.println("<label for = 'fileName'>Browse</label>");
+      out.println("<input id = 'fileName' type = 'file' name = 'fileName' id = 'fileUploader'/>");
+      out.println("</fieldset>");
+      out.println("<button type = 'submit'><span>Add Image</span></button>");
+      out.println("</div>");
+      
       Log log = new Log();
       String description = "Viewed details of item of ID " + item_id;
       log.log(description, request, session);
