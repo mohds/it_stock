@@ -13,6 +13,10 @@ import java.util.List;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileOutputStream;
+
 public class get_specs_popup
   extends HttpServlet
 {
@@ -297,8 +301,36 @@ public class get_specs_popup
         out.println("<button onclick = 'update_popup(" + item_id + ")'>Update</button>");  //update button will update all information related to specific item. onclick calls update_popup from popup_jquery.js and takes item_id as argument
       }
       
+      String image_name = "";
+      String sql_get_image_name = "SELECT ITEMS.IMAGE FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
+      try
+      {
+        Statement stat_get_image_name = con.createStatement();
+        ResultSet rs_get_image_name = stat_get_image_name.executeQuery(sql_get_image_name);
+        if(rs_get_image_name.next())
+        {
+          if(!rs_get_image_name.getString(1).equals("") && rs_get_image_name.getString(1) != null)
+          {
+            image_name = rs_get_image_name.getString(1);
+          }
+          else
+          {
+            image_name = "no_image.jpg";
+          }
+        }
+      }
+      catch(Exception e)
+      {
+        image_name = "no_image.jpg";
+      }
+      
+      String context_path = getServletContext().getRealPath("/");
+      System.out.println(context_path);
+      
       out.println("<div id = 'item_image_id'>");
+      out.println("<img src = 'file://140.125.2.102/IT/IT Support/IT Stock/Item Images/" + image_name + "'>");
       out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
+      out.println("<input type = 'hidden' id = 'item_id_hidden' name = 'item_id_hidden' value = '" + item_id + "'>");
       out.println("<fieldset>");
       out.println("<label for = 'fileName'>Browse</label>");
       out.println("<input id = 'fileName' type = 'file' name = 'fileName' id = 'fileUploader'/>");

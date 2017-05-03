@@ -1,10 +1,10 @@
 package project1;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
+
+import java.sql.Connection;
+import java.sql.Statement;
 
 import java.util.Iterator;
 import java.util.List;
@@ -14,8 +14,6 @@ import javax.servlet.http.*;
 
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
-
-import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
 
 import org.apache.commons.fileupload.FileItem;
@@ -23,9 +21,6 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
-import org.apache.commons.io.FileUtils;
-
 
 public class upload_image
   extends HttpServlet
@@ -43,6 +38,12 @@ public class upload_image
   {
     response.setContentType(CONTENT_TYPE);
     PrintWriter out = response.getWriter();
+    
+    connect_to_db connect = new connect_to_db();
+    Connection con = connect.connect();
+    
+    String item_id = "";
+    String fileName = "";
     out.println("<html>");
     out.println("<head><title>upload_image</title></head>");
     out.println("<body>");
@@ -50,6 +51,7 @@ public class upload_image
     out.println("</body></html>");
     
     boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+    
     if (isMultipart) {
         // Create a factory for disk-based file items
         FileItemFactory factory = new DiskFileItemFactory();
@@ -63,29 +65,39 @@ public class upload_image
             Iterator iterator = items.iterator();
             while (iterator.hasNext())
             {
-              
-              String user = "it.stock";
-              String pass ="it$t0cK*543";
-              String server_ip = "140.125.2.102";
-              String sharedFolder="IT/IT Support/IT STOCK/Item Images";
-              
-              
               FileItem item = (FileItem) iterator.next();
-              String fileName = item.getName(); 
-              
-              String path="smb://"+ server_ip +"/"+sharedFolder+"/" + fileName;
-              NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
-              SmbFile smbFile = new SmbFile(path,auth);
-              SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
-              smbfos.write(item.get());
-              smbfos.close();
+              if (!item.isFormField())
+              {
+                String user = "it.stock";
+                String pass ="it$t0cK*543";
+                String server_ip = "140.125.2.102";
+                String sharedFolder="IT/IT Support/IT STOCK/Item Images";
+                
+                
+                
+                fileName = item.getName(); 
+                
+                String path="smb://"+ server_ip +"/"+sharedFolder+"/" + fileName;
+                NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+                SmbFile smbFile = new SmbFile(path,auth);
+                SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
+                smbfos.write(item.get());
+                smbfos.close();
+              }
+              else
+              {
+                item_id = item.getString();
+              }
             }
+          
+          String sql_add_image_to_db = "UPDATE ITEMS SET ITEMS.IMAGE = '" + fileName +"' WHERE ITEMS.ID = '" + item_id + "'";
+          Statement stat_add_image_to_db = con.createStatement();
+          stat_add_image_to_db.executeUpdate(sql_add_image_to_db);
         } catch (FileUploadException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    out.close();
   }
 }

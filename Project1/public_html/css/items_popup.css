@@ -133,3 +133,14 @@ p
 {
     width: 100px;
 }
+
+#item_image_id
+{
+    border: 1px;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    margin-left: 800px;
+}
