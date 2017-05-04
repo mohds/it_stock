@@ -340,10 +340,10 @@ public class get_specs_popup
       System.out.println("1");
       String image_source = "smb://ITTIHADTV;it.sup:123456@140.125.2.102/IT/IT Support/IT Stock/Item Images/" + image_name + "";
 
-      samba(image_source);
+      samba(image_source, context_path);
 
       out.println("<div id = 'item_image_id'>");
-      out.println("<img src = 'image.png'>");
+      out.println("<img src = '../image.png'>");
       out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
       out.println("<input type = 'hidden' id = 'item_id_hidden' name = 'item_id_hidden' value = '" + item_id + "'>");
       out.println("<fieldset>");
@@ -364,13 +364,13 @@ public class get_specs_popup
     out.close();
   }
   
-  void samba(String image_source){
+  void samba(String image_source, String context_path){
          InputStream in = null;
          OutputStream out = null;
          try{
     
              String SambaURL= image_source;
-             File destinationFolder = new File("");
+             File destinationFolder = new File(context_path + "/");
              File child = new File (destinationFolder+ "image.png");
              SmbFile dir = new SmbFile(SambaURL);
              SmbFile fileToGet=new SmbFile(SambaURL);
