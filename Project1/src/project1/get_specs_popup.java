@@ -1,6 +1,13 @@
 package project1;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import java.sql.Connection;
@@ -8,6 +15,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.*;
@@ -15,6 +25,7 @@ import javax.servlet.http.*;
 
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
 
 public class get_specs_popup
@@ -326,9 +337,13 @@ public class get_specs_popup
       
       String context_path = getServletContext().getRealPath("/");
       System.out.println(context_path);
-      
+      System.out.println("1");
+      String image_source = "smb://ITTIHADTV;it.sup:123456@140.125.2.102/IT/IT Support/IT Stock/Item Images/" + image_name + "";
+
+      samba(image_source);
+
       out.println("<div id = 'item_image_id'>");
-      out.println("<img src = 'file://140.125.2.102/IT/IT Support/IT Stock/Item Images/" + image_name + "'>");
+      out.println("<img src = 'image.png'>");
       out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
       out.println("<input type = 'hidden' id = 'item_id_hidden' name = 'item_id_hidden' value = '" + item_id + "'>");
       out.println("<fieldset>");
@@ -337,7 +352,7 @@ public class get_specs_popup
       out.println("</fieldset>");
       out.println("<button type = 'submit'><span>Add Image</span></button>");
       out.println("</div>");
-      
+        
       Log log = new Log();
       String description = "Viewed details of item of ID " + item_id;
       log.log(description, request, session);
@@ -347,5 +362,45 @@ public class get_specs_popup
       out.println(e.toString());
     }
     out.close();
+  }
+  
+  void samba(String image_source){
+         InputStream in = null;
+         OutputStream out = null;
+         try{
+    
+             String SambaURL= image_source;
+             File destinationFolder = new File("");
+             File child = new File (destinationFolder+ "image.png");
+             SmbFile dir = new SmbFile(SambaURL);
+             SmbFile fileToGet=new SmbFile(SambaURL);
+             fileToGet.connect();
+    
+             in = new BufferedInputStream(new SmbFileInputStream(fileToGet));
+             out = new BufferedOutputStream(new FileOutputStream(child));
+    
+             byte[] buffer = new byte[4096];
+             int len = 0; //Read length
+             while ((len = in.read(buffer, 0, buffer.length)) != -1) {
+                       out.write(buffer, 0, len);
+             }
+             out.flush(); //The refresh buffer output stream
+         }
+         catch (Exception e) {
+             String msg = "The error occurred: " + e.getLocalizedMessage();
+             System.out.println(msg);
+         }
+         finally {
+             try {
+                 if(out != null) {
+                     out.close();
+                 }
+                 if(in != null) {
+                     in.close();
+                 }
+             }
+             catch (Exception e) {}
+         }
+
   }
 }

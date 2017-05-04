@@ -29,6 +29,9 @@ public class add_item extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
+        boolean successful_add = false;
+        boolean unsuccessful_add = false;
+        
         // get sent attributes
         String type = request.getParameter("type");
         String brand = request.getParameter("brand");
@@ -43,29 +46,38 @@ public class add_item extends HttpServlet {
         String notes = request.getParameter("notes");
         String count = request.getParameter("count");
         int count_ = 0;
+        int added_count = 0;
         try{
             count_ = Integer.parseInt(count);
         }
         catch (Exception ex){
             System.out.println(ex.toString());
         }
-        if(count_ > 0 && count_ < 101){        
+        if(count_ > 0 && count_ < 101){
             for(int i = 0 ; i < count_ ; i++){
                 if(Queries.add_item(label, location, brand, type, serial_number, condition, specs_names, specs_values, model, keyword, notes)){
                     
                     Log log = new Log();
                     HttpSession session = request.getSession();
                     String description = "Added item " + label + " of type " + type;
-                    log.log(description, request, session);
+                    log.log(description, request, session); 
+                    successful_add = true;
+                    added_count++;
                 }
                 else{
-                    out.println("Cannot add item "+ label +". Check input.");
+                    //out.println("Cannot add item "+ label +". Check input.");
+                    unsuccessful_add = true;
                 }
             }
-            out.println("Item added successfully: " + label + " Count:" + count_);
         }
         else{
             out.println("Cannot add item "+ label +". Count error.");
+        }
+        if(successful_add){
+            out.println("Item added successfully. Count: (" + added_count + "/" + count + ")");
+        }
+        if(unsuccessful_add){
+            out.println("Item add error. Check input.");
         }
         out.close();
     }
