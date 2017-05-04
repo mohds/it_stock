@@ -340,7 +340,7 @@ public class get_specs_popup
       System.out.println("1");
       String image_source = "smb://ITTIHADTV;it.sup:123456@140.125.2.102/IT/IT Support/IT Stock/Item Images/" + image_name + "";
 
-      samba(image_source, context_path);
+      // samba(image_source, context_path); // not done
 
       out.println("<div id = 'item_image_id'>");
       out.println("<img src = '../image.png'>");

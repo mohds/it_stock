@@ -381,6 +381,11 @@ function view_return(record_id, item_label, row_id){
         document.getElementById("ClientReturner_ReturnDialog").value = returnedData;
     });
     
+    // suggest HQ location as return to for user
+    $.getJSON('get_hq_location', {record_id: record_id}, function(returnedData){
+        document.getElementById("NewLocation_ReturnDialog").value = returnedData;
+    });
+    
     // add button
     document.getElementById("ConfirmReturnButton").innerHTML = "<button onClick=\"return_item('"+ record_id +"', '"+ row_id +"')\">Confirm<\/button>";
     

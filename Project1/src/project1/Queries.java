@@ -13,6 +13,69 @@ public class Queries {
         super();
     }
     
+    public static String get_hq_location_from_record_id(String record_id){
+        String hq_location = "";
+        
+        String query = "SELECT locations.name FROM items, locations, records WHERE records.id='"+ record_id +"' AND items.location_id = locations.id AND records.item_id = items.id";
+        //System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                hq_location = rs.getString("name");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return hq_location;
+    }
+    
+    public static String get_item_type_from_id(String item_id){
+        String type_name = "";
+        
+        String query = "SELECT types.name FROM items, types WHERE items.id='"+ item_id +"' AND items.type_id = types.id ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                type_name = rs.getString("name");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return type_name;
+    }
+    
+    public static String get_item_brand_from_id(String item_id){
+        String brand_name = "";
+        
+        String query = "SELECT brands.name FROM items, brands WHERE items.id='"+ item_id +"' AND items.brand_id = brands.id ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                brand_name = rs.getString("name");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return brand_name;
+    }
+    
     public static String get_name_from_username(String username){
         String name = "";
         
