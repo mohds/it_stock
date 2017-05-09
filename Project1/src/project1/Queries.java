@@ -13,6 +13,27 @@ public class Queries {
         super();
     }
     
+    public static String get_item_label_from_item_id(String item_id){
+        String item_label = "";
+        
+        String query = "SELECT items.label FROM items WHERE items.id = '"+ item_id +"'";
+        //System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                item_label = rs.getString("label");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return item_label;
+    }
+    
     public static String get_hq_location_from_record_id(String record_id){
         String hq_location = "";
         

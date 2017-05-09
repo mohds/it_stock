@@ -21,6 +21,28 @@ public class Records {
         super();
     }
     
+    public static List<String> get_item_ids_from_receipt_id(String receipt_id){
+        List<String> item_ids = new ArrayList<String>();
+        
+        String query = "SELECT items.id FROM items, records, receipts WHERE receipts.id = '"+ receipt_id +"' AND records.receipt_id = receipts.id AND records.item_id = items.id ";
+        // System.out.println(query);
+        
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                item_ids.add(rs.getString("id"));
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return item_ids;
+    }
+    
     public static String get_item_id_from_record_id(String record_id){
         String item_id = "";
         

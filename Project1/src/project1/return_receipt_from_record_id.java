@@ -45,7 +45,6 @@ public class return_receipt_from_record_id extends HttpServlet {
         else{
             for(int i = 0 ; i < record_ids.size() ; i++){
                 if(Records.return_item(record_ids.get(i), client_returner, out, admin_receiver, new_location)){
-                    
                 }
                 else{
                     // send error flag to client side
@@ -59,7 +58,31 @@ public class return_receipt_from_record_id extends HttpServlet {
             content += "Receipt ID: " + receipt_id + "<br>";
             content += "Returner: " + client_returner + "<br>";
             content += "New location: " + new_location + "<br><br>";
-            content += "Regards,";
+            
+            // get Receipt items
+            List<String> item_ids = new ArrayList<String>();
+            item_ids = Records.get_item_ids_from_receipt_id(receipt_id);
+            
+            // add details of each item to email
+            if(item_ids != null){
+                for(int i = 0 ; i < item_ids.size() ; i++){
+                    String item_id = item_ids.get(i);
+                    String item_type = "";
+                    String item_brand = "";
+                    String item_label = "";
+                    
+                    item_type = Queries.get_item_type_from_id(item_id);
+                    item_brand = Queries.get_item_brand_from_id(item_id);
+                    item_label = Queries.get_item_label_from_item_id(item_id);
+                    content += "<br>";
+                    content += "Item ID: "+ item_id +"<br>";
+                    content += "Type: "+ item_type +"<br>";
+                    content += "Brand: "+ item_brand +"<br>";
+                    content += "Label: "+ item_label +"<br>";
+                }
+            }
+                        
+            content += "<br>Regards,";
             SendEmail.send_email(content, subject);
             
             Log log = new Log();
