@@ -9,7 +9,7 @@ public class Connect {
     
     public Connection connect(){
                 
-        String url="jdbc:oracle:thin:C##ITSTOCK/itst0ck@10.10.10.5:1521:orcl";
+        String url="jdbc:oracle:thin:ITSTOCK/itst0ck@140.125.4.30:1522:xe";
         
         try{
             Connection con = DriverManager.getConnection(url);
@@ -21,7 +21,7 @@ public class Connect {
         }
     }
     public static Connection connect_to_db(){
-        String url="jdbc:oracle:thin:C##ITSTOCK/itst0ck@10.10.10.5:1521:orcl";
+        String url="jdbc:oracle:thin:ITSTOCK/itst0ck@140.125.4.30:1522:xe";
         
         try{
             Connection con = DriverManager.getConnection(url);
@@ -33,7 +33,7 @@ public class Connect {
         }
     }
     public Connection connect_to_log_db(){
-        String url="jdbc:oracle:thin:C##super/oracl3@10.10.10.5:1521:orcl";
+        String url="jdbc:oracle:thin:super/oracl3@140.125.4.30:1522:xe";
         
         try{
             Connection con = DriverManager.getConnection(url);

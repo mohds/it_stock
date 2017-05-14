@@ -10,7 +10,7 @@ public class connect_to_db
     {
         try
         {   
-        Connection con = DriverManager.getConnection("jdbc:oracle:thin:C##ITSTOCK/itst0ck@10.10.10.5:1521:orcl");
+        Connection con = DriverManager.getConnection("jdbc:oracle:thin:ITSTOCK/itst0ck@140.125.4.30:1522:xe");
         return con;
         }
         catch(SQLException e)
