@@ -105,16 +105,25 @@ public class upload_image
           }
           else
           {
-            String sql_get_type_model = "SELECT ITEMS.TYPE_ID, ITEMS.MODEL FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
+            String sql_get_type_model = "SELECT ITEMS.TYPE_ID,ITEMS.BRAND_ID, ITEMS.MODEL FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
             Statement stat_get_type_model = con.createStatement();
             ResultSet rs_get_type_model = stat_get_type_model.executeQuery(sql_get_type_model);
             System.out.println("hi");
             rs_get_type_model.next();
             String type = rs_get_type_model.getString(1);
+            String brand = "";
             String model = "";
             try
             {
-              model = rs_get_type_model.getString(2);
+              brand = rs_get_type_model.getString(2);
+            }
+            catch(Exception e)
+            {
+              brand = "null";
+            }
+            try
+            {
+              model = rs_get_type_model.getString(3);
             }
             catch(Exception e)
             {
@@ -129,6 +138,14 @@ public class upload_image
             else
             {
               sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.MODEL = '" + model + "'";
+            }
+            if(brand == null || brand.equals("null"))
+            {
+              sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.BRAND_ID IS NULL";
+            }
+            else
+            {
+              sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.BRAND_ID = '" + brand + "'";
             }
           }
           System.out.println(sql_add_image_to_db);
