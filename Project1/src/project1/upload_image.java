@@ -124,7 +124,7 @@ public class upload_image
             sql_add_image_to_db = "UPDATE ITEMS SET ITEMS.IMAGE = '" + fileName + "' WHERE ITEMS.TYPE_ID = '" + type + "'";
             if(model == null || model.equals("null"))
             {
-              sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.MODEL = 'null'";
+              sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.MODEL IS NULL";
             }
             else
             {

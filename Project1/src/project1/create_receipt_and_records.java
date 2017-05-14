@@ -172,8 +172,9 @@ public class create_receipt_and_records
         email_content = email_content + "General expected date of items return: " + global_expected_date + "<br><br>";
       }
       email_content = email_content + "Receipt ID: " + receipt_id;
-      
-      SendEmail.send_email(email_content, email_subject);
+      String hi = "salvation";
+      String wassim = "wassim";
+      SendEmail.send_email(hi, wassim);
 
     }
     catch(Exception e)
