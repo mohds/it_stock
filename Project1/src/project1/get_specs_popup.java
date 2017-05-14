@@ -335,24 +335,24 @@ public class get_specs_popup
         image_name = "no_image.jpg";
       }
       
-      String context_path = getServletContext().getRealPath("/");
-      System.out.println(context_path);
-      System.out.println("1");
-      String image_source = "smb://ITTIHADTV;it.sup:123456@140.125.2.102/IT/IT Support/IT Stock/Item Images/" + image_name + "";
-
-      // samba(image_source, context_path); // not done
-
+      out.println("<div id = 'div_item_image_id'>");
       out.println("<div id = 'item_image_id'>");
-      out.println("<img src = '../image.png'>");
+      out.println("<img src = 'display_image_servlet?image=" + image_name + "'>");
+      out.println("</div>");
+      
+      out.println("<div id = 'image_upload_id'>");
       out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
       out.println("<input type = 'hidden' id = 'item_id_hidden' name = 'item_id_hidden' value = '" + item_id + "'>");
       out.println("<fieldset>");
       out.println("<label for = 'fileName'>Browse</label>");
       out.println("<input id = 'fileName' type = 'file' name = 'fileName' id = 'fileUploader'/>");
       out.println("</fieldset>");
+      out.println("<input type='checkbox' name = 'add_to_all_similar_checkbox' id = 'check_all_similar_checkbox_id'> Add image to all similar items");
       out.println("<button type = 'submit'><span>Add Image</span></button>");
       out.println("</div>");
-        
+      
+      out.println("</div>");
+      
       Log log = new Log();
       String description = "Viewed details of item of ID " + item_id;
       log.log(description, request, session);

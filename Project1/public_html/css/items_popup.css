@@ -134,13 +134,49 @@ p
     width: 100px;
 }
 
+#div_item_image_id
+{
+    width: 300px;
+    position: relative;
+    margin-left: 1300px;
+    margin-top: -300px;
+}
+#popup_item_specs
+{
+    position: relative;
+    width: 50%;
+}
 #item_image_id
 {
     border: 1px;
-    width: 100px;
-    height: 100px;
+    width: 100%;
     margin: 10px;
     padding: 10px;
     position: relative;
-    margin-left: 800px;
+
+}
+
+#item_image_id img
+{
+    position: relative;
+    max-width:100%;
+    max-height:100%;
+}
+
+#image_upload_id
+{
+    border: 1px;
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+#popup_notes_region
+{
+    position: relative;
+    width: 405px;
+}
+#popup_notes_input_id
+{
+    width: 100%;
 }
