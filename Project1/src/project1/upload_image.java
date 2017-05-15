@@ -46,11 +46,6 @@ public class upload_image
     String item_id = "";
     String check = "";
     String fileName = "";
-    out.println("<html>");
-    out.println("<head><title>upload_image</title></head>");
-    out.println("<body>");
-    out.println("<p>The servlet has received a POST. This is the reply.</p>");
-    out.println("</body></html>");
     
     boolean isMultipart = ServletFileUpload.isMultipartContent(request);
     
@@ -151,6 +146,8 @@ public class upload_image
           System.out.println(sql_add_image_to_db);
           Statement stat_add_image_to_db = con.createStatement();
           stat_add_image_to_db.executeUpdate(sql_add_image_to_db);
+          response.sendRedirect("items_hq");
+
           
         } catch (FileUploadException e) {
             e.printStackTrace();

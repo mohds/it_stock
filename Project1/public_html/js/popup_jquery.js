@@ -251,11 +251,9 @@ function create_receipt() //function to create receipt after checkout is complet
               {
                 myWindow.print(); //print the opened tab
               }
-              $("#items_in_cart_table td").remove();  //empty all entries in the items cart table
             });
           });
-          
-          
+          $("#items_in_cart_table td").remove();  //empty all entries in the items cart table
         }
         $("#dialog").dialog('close'); //close receipt popup
     }

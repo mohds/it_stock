@@ -107,6 +107,8 @@ a.export:hover, a.hrefprintclass:hover
   border-spacing: 2px;
   border-color: grey;
   border-radius: 5px;
+  width: 100%;
+  table-layout:fixed;
 }
 #items_search_results_table th 
 {
@@ -186,4 +188,9 @@ a.export:hover, a.hrefprintclass:hover
 p a
 {
   font-family: 'Open Sans';
+}
+
+#results_table_div
+{
+	width: 1145px;
 }

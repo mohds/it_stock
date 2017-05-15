@@ -57,9 +57,25 @@ function view_specs()
 
 function delete_item(item_id) //function to delete item
 {
-  $(document).ready(function()
+  var checkbox_id = "checkbox_" + item_id;
+  var clicked_delete_button = document.getElementById(checkbox_id);
+  if(clicked_delete_button.checked == true)
   {
-        if(confirm('Are you sure you want to delete item of ID ' + item_id + ' ?')) //confirmation alert
+    var checkboxes = document.getElementsByClassName("items_checkboxes_class"); //get all items checkboxed
+    var selected_ids_array = [];  //will contain ids of selected items
+    for(var i = 0 ; i < checkboxes.length; ++i) //loop through all checkboxed
+    {
+      if(checkboxes[i].checked == true) //if checkbox is checked
+      {
+        var current_checkbox_id = checkboxes[i].id; 
+        var fields = current_checkbox_id.split('_');
+        var item_id_check = fields[1];  //extract item id that is checked
+        selected_ids_array.push(item_id_check); //add item id to array of selected items ids
+      }
+    }
+    $(document).ready(function()
+    {
+        if(confirm('Are you sure you want to delete selected items?')) //confirmation alert
         {
           start_loading();
             var x_timer;    
@@ -71,10 +87,13 @@ function delete_item(item_id) //function to delete item
 
             function deleteit()
             {
-                $.get('delete_item', {'item_id':item_id }, function(data)   //send to delete item servlet the item id to be deleted
+                for(var k = 0 ; k < selected_ids_array.length ; k++)
                 {
-                  stop_loading();
-                });	 
+                  $.get('delete_item', {'item_id':selected_ids_array[k] }, function(data)   //send to delete item servlet the item id to be deleted
+                  {
+                  });	 
+                }
+                stop_loading();
             }
             send_specs(); //update search results
         }
@@ -82,7 +101,38 @@ function delete_item(item_id) //function to delete item
         {
           stop_loading();
         }
-  });
+    });
+  }
+  
+  else
+  {
+    $(document).ready(function()
+    {
+          if(confirm('Are you sure you want to delete item of ID ' + item_id + ' ?')) //confirmation alert
+          {
+            start_loading();
+              var x_timer;    
+                
+                  clearTimeout(x_timer);		        
+                  x_timer = setTimeout(function(){
+                      deleteit();
+                  }, 1000);
+  
+              function deleteit()
+              {
+                  $.get('delete_item', {'item_id':item_id }, function(data)   //send to delete item servlet the item id to be deleted
+                  {
+                    stop_loading();
+                  });	 
+              }
+              send_specs(); //update search results
+          }
+          else
+          {
+            stop_loading();
+          }
+    });
+  }
 }
 
 function add_to_cart()  //function to add selected items to cart
