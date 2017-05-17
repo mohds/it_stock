@@ -23,13 +23,24 @@ public class add_brand extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        String brand = request.getParameter("brand");
-        Queries.insert_into_table("brands", brand);
-        
-        Log log = new Log();
         HttpSession session = request.getSession();
-        String description = "Added brand " + brand;
-        log.log(description, request, session);
+        Access access = new Access();
+        String user = (String)session.getAttribute("username");
+        String method = "add_brand";        
+        if(user == null){
+            out.println("Please login first!");
+        }
+        else if(!access.has_access(user, method)){
+            out.println("You do not have permission to do that!");
+        }
+        else{
+            String brand = request.getParameter("brand");
+            Queries.insert_into_table("brands", brand);
+            
+            Log log = new Log();
+            String description = "Added brand " + brand;
+            log.log(description, request, session);
+        }
         
         out.close();
     }

@@ -41,17 +41,20 @@ public class return_item extends HttpServlet {
                 String receipt_id = "";
                 String item_type = "";
                 String item_brand = "";
+                String item_label = "";
                 
                 item_id = Records.get_item_id_from_record_id(record_id);
                 receipt_id = Records.get_receipt_id_from_record_id(record_id);
                 admin_name = Queries.get_name_from_username(admin_receiver);
                 item_type = Queries.get_item_type_from_id(item_id);
                 item_brand = Queries.get_item_brand_from_id(item_id);
+                item_label = Queries.get_item_label_from_item_id(item_id);
                 
                 String content = "";
                 String subject = "IT STOCK - CHECK IN";
                 content += "Admin: " + admin_name + " has received an item<br>";
                 content += "Item ID: "+ item_id +"<br>";
+                content += "Item Label: "+ item_label +"<br>";
                 content += "Type: " + item_type +"<br>";
                 content += "Brand: " + item_brand +"<br>";
                 content += "Record ID: " + record_id + "<br>";

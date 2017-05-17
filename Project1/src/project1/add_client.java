@@ -23,15 +23,26 @@ public class add_client extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        String client = request.getParameter("client");
-        Queries.insert_into_table("clients", client);
-        
-        out.println(client);
-        
-        Log log = new Log();
         HttpSession session = request.getSession();
-        String description = "Added client " + client;
-        log.log(description, request, session);
+        Access access = new Access();
+        String user = (String)session.getAttribute("username");
+        String method = "add_client";        
+        if(user == null){
+            out.println("Please login first!");
+        }
+        else if(!access.has_access(user, method)){
+            out.println("You do not have permission to do that!");
+        }
+        else{
+            String client = request.getParameter("client");
+            Queries.insert_into_table("clients", client);
+            
+            out.println(client);
+            
+            Log log = new Log();
+            String description = "Added client " + client;
+            log.log(description, request, session);
+        }
         
         out.close();
     }

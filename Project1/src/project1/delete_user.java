@@ -23,16 +23,26 @@ public class delete_user extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        String username = request.getParameter("username");
-        Access access = new Access();
-        access.delete_user(username);
-        
-        out.println("User " + username + " has been deleted successfully.");
-        
-        Log log = new Log();
         HttpSession session = request.getSession();
-        String description = "User " + username + " deleted.";
-        log.log(description, request, session);
+        Access access = new Access();
+        String user = (String)session.getAttribute("username");
+        String method = "delete_user";        
+        if(user == null){
+            out.println("Please login first!");
+        }
+        else if(!access.has_access(user, method)){
+            out.println("You do not have permission to do that!");
+        }
+        else{
+            String username = request.getParameter("username");
+            access.delete_user(username);
+            
+            out.println("User " + username + " has been deleted successfully.");
+            
+            Log log = new Log();
+            String description = "User " + username + " deleted.";
+            log.log(description, request, session);
+        }
         
         out.close();
     }

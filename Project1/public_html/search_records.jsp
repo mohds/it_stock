@@ -89,6 +89,7 @@
                             <th>Item Type</th>
                             <th>Borrower</th>
                             <th>Borrow Date</th>
+                            <th>Expected Date</th>
                             <th>Return Date</th>
                             <th class="hide_in_print">Details</th>
                         </tr>

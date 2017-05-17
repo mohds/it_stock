@@ -23,15 +23,26 @@ public class add_type extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        String type = request.getParameter("type");
-        String[] specs = request.getParameterValues("specs_names[]");
-        
-        Queries.add_type(type, specs);
-        
-        Log log = new Log();
         HttpSession session = request.getSession();
-        String description = "Added type " + type;
-        log.log(description, request, session);
+        Access access = new Access();
+        String user = (String)session.getAttribute("username");
+        String method = "add_type";        
+        if(user == null){
+            out.println("Please login first!");
+        }
+        else if(!access.has_access(user, method)){
+            out.println("You do not have permission to do that!");
+        }
+        else{
+            String type = request.getParameter("type");
+            String[] specs = request.getParameterValues("specs_names[]");
+            
+            Queries.add_type(type, specs);
+            
+            Log log = new Log();
+            String description = "Added type " + type;
+            log.log(description, request, session);
+        }
         
         out.close();
     }

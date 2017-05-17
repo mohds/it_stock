@@ -23,15 +23,26 @@ public class add_location extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
         
-        String location = request.getParameter("location");
-        Queries.insert_into_table("locations", location);
-        
-        out.println(location);
-      
-        Log log = new Log();
         HttpSession session = request.getSession();
-        String description = "Added location " + location;
-        log.log(description, request, session);
+        Access access = new Access();
+        String user = (String)session.getAttribute("username");
+        String method = "add_location";        
+        if(user == null){
+            out.println("Please login first!");
+        }
+        else if(!access.has_access(user, method)){
+            out.println("You do not have permission to do that!");
+        }
+        else{
+            String location = request.getParameter("location");
+            Queries.insert_into_table("locations", location);
+            
+            out.println(location);
+            
+            Log log = new Log();
+            String description = "Added location " + location;
+            log.log(description, request, session);
+        }
         
         out.close();
     }

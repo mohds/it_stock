@@ -322,7 +322,7 @@ public class Records {
     }
     
     public static void generate_results(String ReceiptId, String RecordId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String RecordStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
-        String query = "SELECT records.id, receipts.id AS receipt_id, items.id AS item_id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
+        String query = "SELECT records.id, TO_CHAR(records.expected_date, 'DD/MM/YYYY') AS expected_date, receipts.id AS receipt_id, items.id AS item_id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
         
         if(!(ReceiptId.length() == 0)){
             query += "AND Receipts.id = '"+ ReceiptId +"' ";
@@ -405,7 +405,7 @@ public class Records {
         query += " ORDER BY ID DESC";
         
         // add limits
-        query = "SELECT * FROM (SELECT ROWNUM rn, id, receipt_id, item_id, label, type, client, borrow_datetime, return_datetime, status FROM("+ query + ")) WHERE rn > "+ lower_bound +" AND rn <= "+ upper_bound +"";
+        query = "SELECT * FROM (SELECT ROWNUM rn, id, expected_date, receipt_id, item_id, label, type, client, borrow_datetime, return_datetime, status FROM("+ query + ")) WHERE rn > "+ lower_bound +" AND rn <= "+ upper_bound +"";
         
         // query check
         // System.out.println(query);
@@ -419,6 +419,7 @@ public class Records {
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){                
                 String record_id = rs.getString("id");
+                String expected_date = rs.getString("expected_date");
                 String receipt_id = rs.getString("receipt_id");
                 String item_id_ = rs.getString("item_id");
                 String borrower = rs.getString("client");
@@ -444,7 +445,7 @@ public class Records {
                     // do nothing
                 }
                 
-                record_list.add(new Record(record_id, receipt_id, item_id_, item_label, item_type, borrower, borrow_date, return_date, status));
+                record_list.add(new Record(record_id, receipt_id, item_id_, item_label, item_type, borrower, borrow_date, return_date, status, expected_date));
             }
             con.close();
         }

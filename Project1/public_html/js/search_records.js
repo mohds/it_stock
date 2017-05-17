@@ -345,7 +345,7 @@ function return_item(record_id, row_id){
             else{
                 $.getJSON('get_records_ids_of_receipt', {record_id: record_id}, function(returnedData){
                     for(var i = 0 ; i < returnedData.length ; i++){
-                        document.getElementById("row_" + returnedData[i]).cells[7].innerHTML = get_date();            
+                        document.getElementById("row_" + returnedData[i]).cells[8].innerHTML = get_date();            
                         document.getElementById("row_" + returnedData[i]).setAttribute("class", "done");
                         document.getElementById("message-box").innerHTML = "Receipt has been successfully returned."; 
                     }
@@ -364,7 +364,7 @@ function return_item(record_id, row_id){
             }
             else{
                 document.getElementById("message-box").innerHTML = "Record " + record_id + " has been successfully returned.";
-                document.getElementById(row_id).cells[7].innerHTML = returnedData;            
+                document.getElementById(row_id).cells[8].innerHTML = returnedData;            
                 document.getElementById(row_id).setAttribute("class", "done");
             }
             stop_loading();
@@ -521,10 +521,10 @@ function search(lower_bound, upper_bound){
             var html_code = "";
             for(var i = 0 ; i < returnedData.length ; i++){
                 if(returnedData[i].return_date == "Pending"){
-                    html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ returnedData[i].record_id +"')\">Return<\/button><\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].expected_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ returnedData[i].record_id +"')\">Return<\/button><\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
                 }
                 else{
-                    html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"done\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].return_date +"<\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"done\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>" + returnedData[i].expected_date + "<\/td><td>"+ returnedData[i].return_date +"<\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
                 }
             }
             $("#ResultsTable").append(html_code);

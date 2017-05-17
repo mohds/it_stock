@@ -2,7 +2,7 @@ package project1;
 
 public class Record {
     
-    private String record_id, receipt_id, item_id, item_label, item_type, borrower, borrow_date, return_date, status;
+    private String record_id, receipt_id, item_id, item_label, item_type, borrower, borrow_date, return_date, status, expected_date;
     
     public String get_item_label(){
         return item_label;
@@ -30,6 +30,9 @@ public class Record {
     }
     public String get_status(){
         return status;
+    }
+    public String expected_date(){
+        return expected_date;
     }
     
     public void set_item_label(String s){
@@ -59,8 +62,11 @@ public class Record {
     public void set_status(String s){
         status = s;
     }
+    public void set_expected_date(String s){
+        expected_date = s;
+    }
     
-    public Record(String record_id, String receipt_id, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status) {
+    public Record(String record_id, String receipt_id, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status, String expected_date) {
         super();
         set_record_id(record_id);
         set_receipt_id(receipt_id);
@@ -71,5 +77,6 @@ public class Record {
         set_borrow_date(borrow_date);
         set_return_date(return_date);
         set_status(status);
+        set_expected_date(expected_date);
     }
 }

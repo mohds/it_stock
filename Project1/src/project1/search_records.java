@@ -36,10 +36,10 @@ public class search_records extends HttpServlet {
         
         Records.generate_results(ReceiptId, RecordId, item_id, item_label, Borrower, AdminCheckerId, BorrowBeforeDate, BorrowAfterDate, ReturnBeforeDate, ReturnAfterDate, ItemType, ReceiptStatus, RecordStatus, ItemStatus, out, lower_bound, upper_bound);
         
-        Log log = new Log();
+        /*Log log = new Log();
         HttpSession session = request.getSession();
         String description = "Records searched";
-        log.log(description, request, session);
+        log.log(description, request, session);*/
             
         out.close();
     }
