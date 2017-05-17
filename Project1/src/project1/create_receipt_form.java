@@ -386,11 +386,11 @@ public class create_receipt_form
       out.println("<p>Country: " + receipt_country + "</p>");
       out.println("<p>Receipt notes: " + receipt_notes + "</p>");
       
-      Paragraph please_note_text = new Paragraph("Kindly note that the return of any of the items listed in this receipt is not considered official unless signed by bot the receiver and the IT employee.",redFont);
+      Paragraph please_note_text = new Paragraph("Kindly note that the return of any of the items listed in this receipt is not considered official unless signed by both the receiver and the IT employee.",redFont);
       please_note_text.setAlignment(Element.ALIGN_LEFT);
       document.add(please_note_text);
       
-      out.println("<h4 style = 'color: red; text-align: center;'>Kindly note that the return of any of the items listed in this receipt is not considered official unless signed by bot the receiver and the IT employee</h4>");
+      out.println("<h4 style = 'color: red; text-align: center;'>Kindly note that the return of any of the items listed in this receipt is not considered official unless signed by both the receiver and the IT employee</h4>");
       
       
       document.close();

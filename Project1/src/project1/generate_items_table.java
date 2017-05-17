@@ -370,9 +370,6 @@ public class generate_items_table
         }
         out.println("</tr>");
       }
-      Log log = new Log();  //create log
-      String description = "Conducted items search";
-      log.log(description, request, session);
 
     }
     catch(Exception e)

@@ -340,17 +340,19 @@ public class get_specs_popup
       out.println("<img src = 'display_image_servlet?image=" + image_name + "'>");
       out.println("</div>");
       
-      out.println("<div id = 'image_upload_id'>");
-      out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
-      out.println("<input type = 'hidden' id = 'item_id_hidden' name = 'item_id_hidden' value = '" + item_id + "'>");
-      out.println("<fieldset>");
-      out.println("<label for = 'fileName'>Browse</label>");
-      out.println("<input id = 'fileName' type = 'file' name = 'fileName' id = 'fileUploader'/>");
-      out.println("</fieldset>");
-      out.println("<input type='checkbox' name = 'add_to_all_similar_checkbox' id = 'check_all_similar_checkbox_id'> Add image to all similar items");
-      out.println("<button type = 'submit'><span>Add Image</span></button>");
-      out.println("</div>");
-      
+      if(authorized_edit)
+      {
+        out.println("<div id = 'image_upload_id'>");
+        out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
+        out.println("<input type = 'hidden' id = 'item_id_hidden' name = 'item_id_hidden' value = '" + item_id + "'>");
+        out.println("<fieldset>");
+        out.println("<label for = 'fileName'>Browse</label>");
+        out.println("<input id = 'fileName' type = 'file' name = 'fileName' id = 'fileUploader'/>");
+        out.println("</fieldset>");
+        out.println("<input type='checkbox' name = 'add_to_all_similar_checkbox' id = 'check_all_similar_checkbox_id'> Add image to all similar items");
+        out.println("<button type = 'submit'><span>Add Image</span></button>");
+        out.println("</div>");
+      }
       out.println("</div>");
       
       Log log = new Log();
@@ -362,45 +364,5 @@ public class get_specs_popup
       out.println(e.toString());
     }
     out.close();
-  }
-  
-  void samba(String image_source, String context_path){
-         InputStream in = null;
-         OutputStream out = null;
-         try{
-    
-             String SambaURL= image_source;
-             File destinationFolder = new File(context_path + "/");
-             File child = new File (destinationFolder+ "image.png");
-             SmbFile dir = new SmbFile(SambaURL);
-             SmbFile fileToGet=new SmbFile(SambaURL);
-             fileToGet.connect();
-    
-             in = new BufferedInputStream(new SmbFileInputStream(fileToGet));
-             out = new BufferedOutputStream(new FileOutputStream(child));
-    
-             byte[] buffer = new byte[4096];
-             int len = 0; //Read length
-             while ((len = in.read(buffer, 0, buffer.length)) != -1) {
-                       out.write(buffer, 0, len);
-             }
-             out.flush(); //The refresh buffer output stream
-         }
-         catch (Exception e) {
-             String msg = "The error occurred: " + e.getLocalizedMessage();
-             System.out.println(msg);
-         }
-         finally {
-             try {
-                 if(out != null) {
-                     out.close();
-                 }
-                 if(in != null) {
-                     in.close();
-                 }
-             }
-             catch (Exception e) {}
-         }
-
   }
 }
