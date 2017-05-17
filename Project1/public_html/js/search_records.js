@@ -494,7 +494,22 @@ function view_more(record_id){
     });    
     $("#ViewDetailsDialog").dialog("open");
 }
-
+function get_date_from_string(date_string){
+    var year = "";
+    var month = "";
+    var day = "";
+    try{
+        var parsed = date_string.split("/");
+        day = parsed[0];
+        month = parsed[1];
+        year = parsed[2];
+    }
+    catch(err){
+        
+    }
+    var date = new Date(year, month, day);
+    return date;
+}
 function search(lower_bound, upper_bound){
     
     start_loading();
@@ -521,7 +536,17 @@ function search(lower_bound, upper_bound){
             var html_code = "";
             for(var i = 0 ; i < returnedData.length ; i++){
                 if(returnedData[i].return_date == "Pending"){
-                    html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].expected_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ returnedData[i].record_id +"')\">Return<\/button><\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    var current_date = get_date();
+                    var current_date_to_compare = get_date_from_string(current_date);
+                    var expected_date = returnedData[i].expected_date;
+                    var expected_date_to_compare = "";
+                    expected_date_to_compare  = get_date_from_string(expected_date);
+                    if(current_date_to_compare > expected_date_to_compare && returnedData[i].expected_date != null){ 
+                        html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td class=\"flash_me\">"+ returnedData[i].expected_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ returnedData[i].record_id +"')\">Return<\/button><\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    }
+                    else{
+                        html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"pending\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>"+ returnedData[i].expected_date +"<\/td><td><button onClick=\"view_return('"+ returnedData[i].record_id +"', '"+ returnedData[i].item_label +"', 'row_"+ returnedData[i].record_id +"')\">Return<\/button><\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
+                    }
                 }
                 else{
                     html_code += "<tr id=\"row_"+ returnedData[i].record_id +"\" class=\"done\"><td>"+ returnedData[i].record_id +"<\/td><td>"+ returnedData[i].receipt_id +"<\/td><td>"+ returnedData[i].item_id +"<\/td><td>"+ returnedData[i].item_label +"<\/td><td>"+ returnedData[i].item_type +"<\/td><td>"+ returnedData[i].borrower +"<\/td><td>"+ returnedData[i].borrow_date +"<\/td><td>" + returnedData[i].expected_date + "<\/td><td>"+ returnedData[i].return_date +"<\/td><td class=\"hide_in_print\"><button id=\"record_"+ returnedData[i].record_id +"\" onClick=\"view_more("+ returnedData[i].record_id +")\">View More<\/button><\/td><\/tr>";
@@ -531,7 +556,6 @@ function search(lower_bound, upper_bound){
             stop_loading();
         }
     );
-    
 }
 function start_loading(){
   document.getElementById("div_loading").style.display = "block";
