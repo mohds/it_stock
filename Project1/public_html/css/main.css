@@ -1,19 +1,19 @@
 .flash_me{
     background-color: #ed6d64;
     -webkit-animation-name: flash; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
     -webkit-animation-iteration-count: infinite; /* Safari 4.0 - 8.0 */
     animation-name: flash;
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 /* Standard syntax */
 @keyframes flash {
-    0%   {background-color:#ed6d64;}
-    25%   {background-color:#fe7e75;}
-    50%  {background-color:#ff9f97;}
-    75%   {background-color:#fe7e75;}
-    100% {background-color:#ed6d64;}
+    0%   {background-color:#ed574c; left:0px; top:0px;}
+    25%  {background-color:#fce374; left:200px; top:0px;}
+    50%  {background-color:#ed574c; left:200px; top:200px;}
+    75%  {background-color:#fce374; left:0px; top:200px;}
+    100% {background-color:#ed574c; left:0px; top:0px;}
 }
 #results_table_div{
 	width: 1100px;
