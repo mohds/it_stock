@@ -827,7 +827,7 @@ public class Queries {
     public static List<String> get_names_filtered(String search, String table){
         List<String> types = new ArrayList<String>();
         
-        String query = "SELECT name FROM "+ table +" WHERE lower(name) LIKE lower('%"+ search +"%') OR upper(name) LIKE upper('%"+ search +"%') ";
+        String query = "SELECT name FROM "+ table +" WHERE lower(name) LIKE lower('%"+ search +"%') OR upper(name) LIKE upper('%"+ search +"%') ORDER BY name ASC ";
         // System.out.println(query);
         Connection con = connect_to_db();
         try{

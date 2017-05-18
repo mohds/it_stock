@@ -151,6 +151,21 @@ $(document).ready(function(){
     
     check_item_id_search();
     
+    var tableOffset = $("#ResultsTable").offset().top;
+    var $header = $("#ResultsTable > thead").clone();
+    var $fixedHeader = $("#header-fixed").append($header);
+    
+    $(window).bind("scroll", function() {
+        var offset = $(this).scrollTop();
+    
+        if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
+            $fixedHeader.show();
+        }
+        else if (offset < tableOffset) {
+            $fixedHeader.hide();
+        }
+    });
+    
 });
 
 function download_csv(csv, filename) {
@@ -553,9 +568,8 @@ function search(lower_bound, upper_bound){
                 }
             }
             $("#ResultsTable").append(html_code);
-            stop_loading();
-        }
-    );
+            stop_loading();            
+        });
 }
 function start_loading(){
   document.getElementById("div_loading").style.display = "block";
