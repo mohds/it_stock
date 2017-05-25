@@ -54,15 +54,19 @@ public class get_specs_popup
     List<String> brands_list = queries.get_brands_names();  //list containing all brand names
     List<String> locations_list = queries.get_locations_names(); //list containing all location names
     List<String> conditions_list = queries.get_item_conditions(); //list containing all item condition names
+    String warranty_start_date = "";
+    String warranty_end_date = "";
+    String days_left_on_warranty = "";
     
     out.println("<link type='text/css' rel='stylesheet' href='css/items_hq.css'>"); //css link
+    out.println("<script src='js/popup_jquery.js'></script>");
     
     String item_id = request.getParameter("item_id"); //get item id from request parameter
     
     //sql_get_general_info: used to query results exclusively from the items table (general information about the item)
     //sql_get_specs: used to query results that will show the values of specs assigned to this item
     //
-    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + item_id + "'";
+    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES,ITEMS.WARRANTY_START_DATE,ITEMS.WARRANTY_END_DATE FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + item_id + "'";
     String sql_get_specs = "SELECT SPECS.NAME, ITEMSPECVALUES.VALUE,SPECS.ID FROM SPECS,ITEMSPECVALUES WHERE ITEMSPECVALUES.SPEC_ID = SPECS.ID  AND ITEMSPECVALUES.ITEM_ID = '" + item_id + "'";
     
     try
@@ -104,6 +108,14 @@ public class get_specs_popup
       while(rs_general_info.next())
       {
         type = rs_general_info.getString(2);
+        if(rs_general_info.getString(12) != null && !rs_general_info.getString(12).equals("null"))
+        {
+          warranty_start_date = rs_general_info.getString(12);
+        }
+        if(rs_general_info.getString(13) != null && !rs_general_info.getString(13).equals("null"))
+        {
+          warranty_end_date = rs_general_info.getString(13);
+        }
         out.println("<tr>");
         if(authorized_edit)  //if authorized to edit item
         {
@@ -244,6 +256,21 @@ public class get_specs_popup
           out.println("<p>Notes: " + rs_general_info.getString(11) + ".</p>");
         }
       } 
+      
+      out.println("<h3>Warranty: </h3>");
+      out.println("<div id = 'item_warranty_region>'");
+      if(authorized_edit)
+      {
+        out.println("<label>Start Date</label>");
+        out.println("<input type = 'text' class = 'datepicker' id = 'warranty_start_date_id' value = '" + warranty_start_date + "' readonly = 'true'>");
+        out.println("<br>");
+        out.println("<label>End Date</label>");
+        out.println("<input type = 'text' class = 'datepicker' id = 'warranty_end_date_id' value = '" + warranty_end_date + "' readonly = 'true'>");
+      }
+      out.println("<Days still left on warranty: " + days_left_on_warranty + ">");
+      out.println("</div>");
+      
+      
       out.println("<div id = 'popup_item_specs'>");
       out.println("<h3>Specifications: </h3>");
       
