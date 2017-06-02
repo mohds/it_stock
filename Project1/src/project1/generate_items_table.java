@@ -77,6 +77,7 @@ public class generate_items_table
     String keyword = request.getParameter("keyword");
     String availability_available = request.getParameter("availability_available");
     String availability_out = request.getParameter("availability_out");
+    String availability_not_returning = request.getParameter("availability_not_returning");
     int total_items_count = 0;
     
     String[] specs_names = null;  //added specs input elements ids
@@ -190,6 +191,10 @@ public class generate_items_table
     {
       sql_master = sql_master + " AND ITEMS.AVAILABILITY = '0'";
     }
+    else if(availability_not_returning != null && availability_not_returning.equals("1")) //if availability option is out (show only items that are out), add this to the query
+    {
+      sql_master = sql_master + " AND ITEMS.AVAILABILITY = '2'";
+    }
     
     sql_master = sql_master + ")";
     
@@ -301,9 +306,13 @@ public class generate_items_table
         {
           out.println("<tr class = 'item_available_row'>");
         }
-        else
+        else if(rs_final.getString(10).equals("0"))
         {
           out.println("<tr class = 'item_out_row'>");
+        }
+        else if(rs_final.getString(10).equals("2"))
+        {
+          out.println("<tr class = 'item_not_returning_row'>");
         }
         if(authorized_checkout)
         {

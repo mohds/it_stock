@@ -174,6 +174,7 @@ public class items_hq extends HttpServlet {
         out.println("<input type = 'radio' name = 'availability_option' id = 'availability_option_all_id' value = 'all' checked>All");
         out.println("<input type = 'radio' name = 'availability_option' id = 'availability_option_available_id' value = 'available'>Available");
         out.println("<input type = 'radio' name = 'availability_option' id = 'availability_option_out_id' value = 'out'>Out");
+        out.println("<input type = 'radio' name = 'availability_option' id = 'availability_option_not_retuning_id' value = 'not_returning'>Not Returning");
         out.println("</div>");  //radios
         
         out.println("<h3 id = 'h3_specs_values_region'>Specs</h3>");

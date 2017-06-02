@@ -18,6 +18,7 @@ start_loading();
     var input_keyword = document.getElementById('input_item_keyword').value;
     var bool_availability_available = 0;
     var bool_availability_out = 0;
+    var bool_availability_not_returning = 0;
     if(document.getElementById('availability_option_available_id').checked)
     {
       bool_availability_available = 1;
@@ -25,6 +26,10 @@ start_loading();
     else if(document.getElementById('availability_option_out_id').checked)
     {
       bool_availability_out = 1;
+    }
+    else if(document.getElementById('availability_option_not_retuning_id').checked)
+    {
+      bool_availability_not_returning = 1;
     }
     for(var i = 0; i<specs_input_elements.length; ++i)  //for every added spec input text, add it's id to specs_input_names and it's value(content) to specs_input_values
     {
@@ -36,11 +41,11 @@ start_loading();
     clearTimeout(x_timer);		        
     x_timer = setTimeout(function()
     {
-    send_to_servlet(input_id,specs_input_names,specs_input_values,select_type,select_brand,select_location,select_condition,input_label,input_sn,input_model, input_keyword, bool_availability_available,bool_availability_out);}, 1000);
+    send_to_servlet(input_id,specs_input_names,specs_input_values,select_type,select_brand,select_location,select_condition,input_label,input_sn,input_model, input_keyword, bool_availability_available,bool_availability_out,bool_availability_not_returning);}, 1000);
     
-    function send_to_servlet(item_id,specs_names,specs_values,type,brand,location,condition,label,sn,model,keyword,availability_available,availability_out) //send to generate_items_table all search parameters
+    function send_to_servlet(item_id,specs_names,specs_values,type,brand,location,condition,label,sn,model,keyword,availability_available,availability_out,availability_not_returning) //send to generate_items_table all search parameters
     {
-      $.get('generate_items_table', {'item_id':item_id,'specs_names':specs_names, 'specs_values':specs_values, 'type':type, 'brand':brand, 'location':location,'condition':condition, 'label':label,'sn':sn,'model':model,'keyword':keyword,'availability_available':availability_available, 'availability_out':availability_out}, function(data)
+      $.get('generate_items_table', {'item_id':item_id,'specs_names':specs_names, 'specs_values':specs_values, 'type':type, 'brand':brand, 'location':location,'condition':condition, 'label':label,'sn':sn,'model':model,'keyword':keyword,'availability_available':availability_available, 'availability_out':availability_out,'availability_not_returning':availability_not_returning}, function(data)
       {
         $("#results_region").html('');
         $("#results_region").html(data);
