@@ -185,7 +185,7 @@ public class items_hq extends HttpServlet {
         out.println("<div id = 'specs_values_region'>");  //div for the added specs input text elements
         out.println("</div>");  //div for the added specs input text elements
         
-        out.println("</div>");  //sticky
+        out.println("</div>");  //sticky div
         out.println("<br>"); // nazel el buttons
         out.println("<div id = 'search_buttons'>");
         out.println("<button id = 'search_button' onclick = 'send_specs();'>Search</button>"); //search button calls send_specs() from items_hq_general.js  
