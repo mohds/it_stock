@@ -370,7 +370,7 @@ public class generate_items_table
         else
         {
           out.println("<td class = 'td_normal' align = 'center'>Out</td>");
-          out.println("<td class = 'td_normal' align = 'center'><a href = 'search_records.jsp?item_id=" + item_id +"'><img src = 'images/receipt.png'></td></a>");
+          out.println("<td class = 'td_normal' align = 'center'><a href = 'search_records.jsp?item_id=" + item_id +"' target = '_blank'><img src = 'images/receipt.png'></td></a>");
         }
         out.println("<td class = 'td_normal' align = 'center'><a class='showAlert' title='View' onclick = 'show_specs(" + item_id + ")'>View</a></td>");  //add View link, when clicked, popup will show with the details of the item. onclick of the link show_specs is called from popup_jquery.js and give it as parameter the item id
         if(authorized_delete)
