@@ -16,7 +16,6 @@ public class get_record_details extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
         PrintWriter out = response.getWriter();
-        
         String record_id = request.getParameter("record_id");
         
         // generate record details
