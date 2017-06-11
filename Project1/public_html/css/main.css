@@ -101,19 +101,40 @@ a:hover{
     cursor: pointer;
 }
 #add-page{
-    width: 900px;
+    width: 1100px;
 }
 #ExtraSpecs{
     position: relative;
-    float: right;
+    box-shadow: 0px 2px 5px 0px #888;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 15px;
+    width: 226px;
 }
 #add-panel {
     width: 400px;
     float: left;
+    box-shadow: 0px 2px 5px 0px #888;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 15px;
 }
 #add-panel .add-row{
     width: 400px;
     
+}
+.add_box{
+    float:right;
+}
+#Invoice{
+    width: 300px;
+    box-shadow: 0px 2px 5px 0px #888;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 15px;
+}
+#InvoiceImage{
+    width: 250px;
 }
 body{
     background-color:#EEE;

@@ -38,8 +38,9 @@
             %>
             <h2>Add a new Item</h2>
                 <div id="add-page">
-                    <div id="add-panel">
-                        <span id="message-box"></span><br>
+                <span id="message-box"></span><br>
+                    <div id="add-panel">                        
+                        <strong>Item details</strong><br>
                         <label class="class_asterisks">*</label><label>Add Item of type: </label><div class="add-row"><input id="TypeCombo" name="type"/><button id="NewTypeButton">New</button><button id="EditTypeButton">Edit</button></div><br>
                         <strong>Enter Specs:</strong><br>
                         <label>Label: </label><div class="add-row"><input type="text" id="label" name="label"/><span id='label-result'></span></div>
@@ -94,7 +95,14 @@
                             <button id="DeleteLocationButton">Delete</button><button id="SaveLocationName" onClick="save_location_name()">Save</button>
                         </div>
                     </div>
-                    <div id="ExtraSpecs"></div>
+                    <div id="Invoice" class="add_box">
+                        <strong>Invoice</strong>
+                        <div><label>Invoice Number:</label><input type="text" id="InvoiceNumber"></div>
+                        <div><label>Warranty Start Date:</label><input type="text" id="WarrantyStartDate"></div>
+                        <div><label>Warranty End Date:</label><input type="text" id="WarrantyEndDate"></div>
+                        <div><label>Invoice Image:</label><input id="InvoiceImage" type="file"></div>
+                    </div>
+                    <div id="ExtraSpecs" class="add_box"><strong>Extra specs</strong></div>
                 </div>
             <%}%>
         </div>

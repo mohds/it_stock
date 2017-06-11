@@ -175,14 +175,25 @@ $(document).ready(function(){
             x_timer = setTimeout(function(){
                     check_serial_ajax(serial);
             }, 1000);
-    }); 
-
+    });
     function check_serial_ajax(serial){
         $("#serial-result").html('<img src="images/ajax-loader.gif" />');
         $.post('serial_checker', {'serial':serial}, function(data) {
             $("#serial-result").html(data);
         });
-    }        
+    }
+    
+    // date boxes
+    $("#WarrantyStartDate").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        dateFormat: "dd/mm/yy"
+    });
+    $("#WarrantyEndDate").datepicker({
+        changeYear: true,
+        changeMonth: true,
+        dateFormat: "dd/mm/yy"
+    });
 });
 
 function add_spec_to_type(){
@@ -234,7 +245,7 @@ function clear_input(){
     document.getElementById("serial-result").innerHTML = "";
     document.getElementById("model").value = "";
     document.getElementById("keyword").value = "";
-    document.getElementById("ExtraSpecs").innerHTML = "";    
+    document.getElementById("ExtraSpecs").innerHTML = "<strong>Extra specs<\/strong>";    
     document.getElementById("notes").value = "";
     var select = document.getElementById("condition");
     select.selectedIndex = select.options[0];
@@ -340,6 +351,7 @@ function add_item(){
     var keyword = document.getElementById("keyword").value;
     var notes = document.getElementById("notes").value;
     var count = document.getElementById("count").value;
+    var InvoiceImage = document.getElementById("InvoiceImage").value;
     
     // second we get the extra specs attributes
     var specs_names = [];
@@ -351,7 +363,7 @@ function add_item(){
     }
     //if(count > 0 && count < 101){
         //for(var i = 0 ; i < count ; i++){
-            $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes, count: count}, 
+            $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes, count: count, InvoiceImage: InvoiceImage}, 
                 function(returnedData){
                     $("#message-box").html(returnedData);
                     stop_loading();
