@@ -405,10 +405,11 @@ function add_item(){
         async: true,
         success: function(returnedData){
             $("#message-box").html(returnedData);
+            alert(returnedData);
             stop_loading();
         },
-        error: function(returnedData){
-            $("#message-box").html(returnedData);
+        error: function(request, status, error){
+            $("#message-box").html(request.responseText);
             stop_loading();
         }
     });
