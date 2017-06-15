@@ -817,14 +817,23 @@ public class Queries {
                 System.out.println(query);
             }
             
+            // specs checker
+            /*for(int i = 0 ; i < specs_names.length ; i++){
+                System.out.println(specs_names[i]);
+            }
+            for(int i = 0 ; i < specs_values.length ; i++){
+                System.out.println(specs_values[i]);
+            }*/
+            
             // now add specs and their values
             for(int i = 0 ; i < specs_names.length ; i++){
-                if(specs_names[i] != null && specs_values[i] != null){
+                if(specs_names[i] != null && specs_values[i] != null && specs_values[i] != "BLANK"){
+                    specs_values[i] = specs_values[i].replaceAll("BLANK", "");
                     if(specs_values[i].length() > 0){ // not to add empty fields
                         String spec_id = get_id_from_name("specs", specs_names[i]);
                         query = "INSERT INTO itemspecvalues (value, spec_id, item_id) VALUES('"+ specs_values[i] +"','"+ spec_id +"','"+ item_id +"')";  
                         // query check
-                        // System.out.println(query);
+                        System.out.println(query);
                         con = connect_to_db();
                         try{
                             Statement stmt = con.createStatement();

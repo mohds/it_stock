@@ -35,8 +35,9 @@ public class add_location extends HttpServlet {
         }
         else{
             String location = request.getParameter("location");
-            Queries.insert_into_table("locations", location);
-            
+            if(location.length() > 0){
+                Queries.insert_into_table("locations", location);
+            }
             out.println(location);
             
             Log log = new Log();

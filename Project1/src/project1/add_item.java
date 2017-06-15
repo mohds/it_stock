@@ -137,6 +137,7 @@ public class add_item extends HttpServlet {
                     else if(name.equals("specs_values"))
                     {
                         String spec_values_ = item.getString();
+                        spec_values_ = "BLANK"  + spec_values_  + "BLANK";
                         specs_values = spec_values_.split(",");
                     }
                     else if(name.equals("model"))

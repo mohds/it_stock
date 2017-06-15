@@ -409,8 +409,10 @@ function add_item(){
             stop_loading();
         },
         error: function(request, status, error){
-            $("#message-box").html(request.responseText);
-            stop_loading();
+            if(request.responseText.length < 100){
+                $("#message-box").html(request.responseText);
+                stop_loading();
+            }
         }
     });
     
