@@ -109,8 +109,7 @@ $(document).ready(function(){
     
     $("#AddBrandButton").on("click", function(){
         add_brand();
-    });
-    
+    });    
     $("#AddLocationButton").on("click", function(){
         add_location();
     });
@@ -151,6 +150,9 @@ $(document).ready(function(){
         $("#EditLocationDialog").dialog("open");
         generate_location_combo();
         document.getElementById("location_to_save").value = "";
+    });
+    $("#ClearInvoice").on("click", function(){
+        clear_invoice();
     });
     
     // input checker
@@ -234,8 +236,7 @@ function generate_extra_specs_for_edit_event(){
 }
 
 function clear_input(){
-    document.getElementById("message-box").innerHTML = "";
-    
+    document.getElementById("message-box").innerHTML = "";    
     document.getElementById("TypeCombo").value = "";
     document.getElementById("label").value = "";
     document.getElementById("label-result").innerHTML = "";
@@ -246,13 +247,18 @@ function clear_input(){
     document.getElementById("model").value = "";
     document.getElementById("keyword").value = "";
     document.getElementById("ExtraSpecs").innerHTML = "<strong>Extra specs<\/strong>";    
-    document.getElementById("notes").value = "";
+    document.getElementById("notes").value = "";    
     var select = document.getElementById("condition");
     select.selectedIndex = select.options[0];
     document.getElementById("count").value = "1";
-    
+    document.getElementById("ItemImage").value = "";
 }
-
+function clear_invoice(){
+    document.getElementById("InvoiceNumber").value = "";
+    document.getElementById("WarrantyStartDate").value = "";
+    document.getElementById("WarrantyEndDate").value = "";
+    document.getElementById("InvoiceImage").value = "";
+}
 // populate conditions select box
 // get_conditions();
 
@@ -351,7 +357,11 @@ function add_item(){
     var keyword = document.getElementById("keyword").value;
     var notes = document.getElementById("notes").value;
     var count = document.getElementById("count").value;
-    var InvoiceImage = document.getElementById("InvoiceImage").value;
+    var invoice_number = document.getElementById("InvoiceNumber").value;
+    var warranty_start_date = document.getElementById("WarrantyStartDate").value;
+    var warranty_end_date = document.getElementById("WarrantyEndDate").value;
+    
+    // var json_data = {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes, count: count, InvoiceImage: InvoiceImage};
     
     // second we get the extra specs attributes
     var specs_names = [];
@@ -361,13 +371,55 @@ function add_item(){
         specs_names.push(specs_temp[i].getAttribute("name"));
         specs_values.push(specs_temp[i].value);
     }
+    
+    var data = new FormData();
+    $.each($('#InvoiceImage')[0].files, function(i, file) {
+        data.append('InvoiceImage', file);
+    });
+    $.each($('#ItemImage')[0].files, function(i, file){
+        data.append('ItemImage', file);
+    });
+    data.append('type', type);
+    data.append('brand', brand);
+    data.append('location', location);
+    data.append('label', label);
+    data.append('serial_number', serial_number);
+    data.append('condition', condition);
+    data.append('specs_names', specs_names);
+    data.append('specs_values', specs_values);
+    data.append('model', model);
+    data.append('keyword', keyword);
+    data.append('notes', notes);
+    data.append('count', count);
+    data.append('invoice_number', invoice_number);
+    data.append('warranty_start_date', warranty_start_date);
+    data.append('warranty_end_date', warranty_end_date);
+    $.ajax({
+        url: 'add_item',
+        data: data,
+        cache: false,
+        dataType: JSON,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        async: true,
+        success: function(returnedData){
+            $("#message-box").html(returnedData);
+            stop_loading();
+        },
+        error: function(returnedData){
+            $("#message-box").html(returnedData);
+            stop_loading();
+        }
+    });
+    
     //if(count > 0 && count < 101){
         //for(var i = 0 ; i < count ; i++){
-            $.post('add_item', {type: type, brand: brand, location: location, label: label, serial_number: serial_number, condition: condition, specs_names: specs_names, specs_values: specs_values, model: model, keyword: keyword, notes: notes, count: count, InvoiceImage: InvoiceImage}, 
+            /*$.post('add_item', json_data, 
                 function(returnedData){
                     $("#message-box").html(returnedData);
                     stop_loading();
-            });
+            });*/
         //}
     //}
     /*else{

@@ -686,7 +686,72 @@ public class Queries {
         return names;
     }
     
-    public static boolean add_item(String label, String location, String brand, String type, String serial_number, String condition, String[] specs_names, String[] specs_values, String model, String keyword, String notes){
+    public static boolean invoice_exists(String invoice_number){
+        boolean return_me = false;
+        
+        String query = "SELECT id FROM invoices WHERE invoice_number = '"+ invoice_number +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                return_me = true;
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return return_me;
+    }
+    
+    public static String get_invoice_id(String invoice_number){
+        String return_me = "";
+        
+        String query = "SELECT id FROM invoices WHERE invoice_number = '"+ invoice_number +"' ";
+        // System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                return_me = rs.getString("id");
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        
+        return return_me;
+    }
+    public static String add_invoice(String invoice_number, String invoice_image_name){
+        String return_me = "";
+        
+        String query = "INSERT INTO invoices (invoice_number, image) VALUES ('"+ invoice_number +"', '"+ invoice_image_name +"')";
+        
+        Connection con = connect_to_db();
+        try{
+            String generatedColumns[] = { "ID" };
+            PreparedStatement stmt = con.prepareStatement(query, generatedColumns);
+            stmt.executeUpdate();                
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()){
+                return_me = rs.getString(1);
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println(query);
+        }
+        
+        return return_me;
+    }
+    
+    public static boolean add_item(String label, String location, String brand, String type, String serial_number, String condition, String[] specs_names, String[] specs_values, String model, String keyword, String notes, String invoice_number, String warranty_start_date, String warranty_end_date, String item_image_name, String invoice_image_name){
         
         boolean return_me = false;
         
@@ -694,6 +759,7 @@ public class Queries {
         String brand_id = get_id_from_name("brands", brand);
         String type_id = get_id_from_name("types", type);
         String condition_id = get_id_from_name("item_conditions", condition);
+        String invoice_id = "";
         
         // check if label / serial exist
         Access access = new Access();
@@ -704,8 +770,21 @@ public class Queries {
             return false;
         }
         
+        // get invoice number
+        // first we check invoice existance
+        if(invoice_number.length() > 0){
+            if(invoice_exists(invoice_number)){
+                // handle existing invoice
+                invoice_id = get_invoice_id(invoice_number);
+            }
+            else{
+                // handle new invoice
+                invoice_id = add_invoice(invoice_number, invoice_image_name);
+            }
+        }
+        
         // now add item
-        String query = "INSERT INTO items (label, location_id, brand_id, type_id, serial_number, condition_id, model, keyword, notes) VALUES('"+ label +"','"+ location_id +"','"+ brand_id +"','"+ type_id +"','"+ serial_number +"','"+ condition_id +"', '"+ model +"', '"+ keyword +"', '"+ notes +"')";  
+        String query = "INSERT INTO items (label, location_id, brand_id, type_id, serial_number, condition_id, model, keyword, notes, invoice_fk, warranty_start_date, warranty_end_date, image) VALUES('"+ label +"','"+ location_id +"','"+ brand_id +"','"+ type_id +"','"+ serial_number +"','"+ condition_id +"', '"+ model +"', '"+ keyword +"', '"+ notes +"', '"+ invoice_id +"', TO_TIMESTAMP('"+ warranty_start_date +"','DD/MM/YYYY HH24:MI:SS.FF'), TO_TIMESTAMP('"+ warranty_end_date +"','DD/MM/YYYY HH24:MI:SS.FF'), '"+ item_image_name +"')";  
         // query check
         // System.out.println(query);              
         Connection con = connect_to_db();
@@ -718,12 +797,8 @@ public class Queries {
             System.out.println(ex);
         }
         if(specs_names != null){
-            // we will now get the added item's id
-            // not the best practice
-            // migrate to PL SQL in updates
-            String item_id = "Item ID not found.";        
-            //query = "SELECT items.id FROM items WHERE rowid=(select max(rowid) from items)";
-            // System.out.println(query);
+            // we will now add the new item and grab its ID
+            String item_id = "Item ID not found.";
             con = connect_to_db();
             try{
                 String generatedColumns[] = { "ID" };
@@ -733,15 +808,15 @@ public class Queries {
                 return_me = true; // at this point the item have been added
                 if(rs.next()){
                     item_id = rs.getString(1);
-                    System.out.println("item id:" + item_id);                    
+                    // System.out.println("item id:" + item_id);                    
                 }
                 con.close();
             }
             catch(Exception e){
                 System.out.println(e.toString());
                 System.out.println(query);
-            }            
-        
+            }
+            
             // now add specs and their values
             for(int i = 0 ; i < specs_names.length ; i++){
                 if(specs_names[i] != null && specs_values[i] != null){
@@ -749,7 +824,7 @@ public class Queries {
                         String spec_id = get_id_from_name("specs", specs_names[i]);
                         query = "INSERT INTO itemspecvalues (value, spec_id, item_id) VALUES('"+ specs_values[i] +"','"+ spec_id +"','"+ item_id +"')";  
                         // query check
-                        System.out.println(query);
+                        // System.out.println(query);
                         con = connect_to_db();
                         try{
                             Statement stmt = con.createStatement();
