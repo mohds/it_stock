@@ -54,6 +54,7 @@ start_loading();
       var popup_input_keyword = document.getElementById('popup_keyword_input_id').value;
       var popup_input_sn = document.getElementById('popup_sn_input_id').value;
       var popup_input_notes = document.getElementById('popup_notes_input_id').value;
+      var popup_input_invoice_number = document.getElementById('popup_invoice_number_input_id').value;
       var popup_input_warranty_start_date = document.getElementById('warranty_start_date_id').value;
       var popup_input_warranty_end_date = document.getElementById('warranty_end_date_id').value;
       alert(popup_input_warranty_end_date);
@@ -77,12 +78,12 @@ start_loading();
       clearTimeout(x_timer);		        
       x_timer = setTimeout(function()
       {
-        send_to_servlet(popup_input_names,popup_input_values,popup_new_specs_input_names,popup_new_specs_input_values,popup_select_brand,popup_input_model,popup_select_location,popup_select_condition,popup_input_label,popup_input_keyword,popup_input_sn,popup_input_notes,popup_input_warranty_start_date,popup_input_warranty_end_date);
+        send_to_servlet(popup_input_names,popup_input_values,popup_new_specs_input_names,popup_new_specs_input_values,popup_select_brand,popup_input_model,popup_select_location,popup_select_condition,popup_input_label,popup_input_keyword,popup_input_sn,popup_input_notes,popup_input_invoice_number, popup_input_warranty_start_date, popup_input_warranty_end_date);
       }, 1000);
         
-      function send_to_servlet(popup_specs_names,popup_specs_values,popup_new_specs_names,popup_new_specs_values,popup_brand,popup_model,popup_location,popup_condition,popup_label,popup_keyword,popup_sn,popup_notes,popup_warranty_start_date,popup_warranty_end_date)
+      function send_to_servlet(popup_specs_names,popup_specs_values,popup_new_specs_names,popup_new_specs_values,popup_brand,popup_model,popup_location,popup_condition,popup_label,popup_keyword,popup_sn,popup_notes,popup_invoice_number, popup_warranty_start_date,popup_warranty_end_date)
       {
-      $.get('popup_update', {'popup_specs_names':popup_specs_names, 'popup_specs_values':popup_specs_values,'popup_new_specs_names':popup_new_specs_names, 'popup_new_specs_values':popup_new_specs_values, 'popup_brand':popup_brand, 'popup_model':popup_model, 'popup_location':popup_location,'popup_condition':popup_condition, 'popup_label':popup_label,'popup_keyword':popup_keyword,'popup_sn':popup_sn,'popup_notes':popup_notes,'popup_warranty_start_date':popup_warranty_start_date,'popup_warranty_end_date':popup_warranty_end_date, 'item_id':item_id}, function(data)
+      $.get('popup_update', {'popup_specs_names':popup_specs_names, 'popup_specs_values':popup_specs_values,'popup_new_specs_names':popup_new_specs_names, 'popup_new_specs_values':popup_new_specs_values, 'popup_brand':popup_brand, 'popup_model':popup_model, 'popup_location':popup_location,'popup_condition':popup_condition, 'popup_label':popup_label,'popup_keyword':popup_keyword,'popup_sn':popup_sn,'popup_notes':popup_notes,'popup_invoice_number': popup_invoice_number, 'popup_warranty_start_date':popup_warranty_start_date,'popup_warranty_end_date':popup_warranty_end_date, 'item_id':item_id}, function(data)
       {
         show_specs(item_id);  //update item popup view
         send_specs(); //update search results

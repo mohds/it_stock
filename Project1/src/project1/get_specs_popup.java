@@ -69,7 +69,7 @@ public class get_specs_popup
     //sql_get_general_info: used to query results exclusively from the items table (general information about the item)
     //sql_get_specs: used to query results that will show the values of specs assigned to this item
     //
-    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES,ITEMS.WARRANTY_START_DATE,ITEMS.WARRANTY_END_DATE FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.ID = '" + item_id + "'";
+    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES,ITEMS.WARRANTY_START_DATE,ITEMS.WARRANTY_END_DATE, INVOICES.INVOICE_NUMBER FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS,INVOICES WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.INVOICE_FK = INVOICES.ID AND ITEMS.ID = '" + item_id + "'";
     String sql_get_specs = "SELECT SPECS.NAME, ITEMSPECVALUES.VALUE,SPECS.ID FROM SPECS,ITEMSPECVALUES WHERE ITEMSPECVALUES.SPEC_ID = SPECS.ID  AND ITEMSPECVALUES.ITEM_ID = '" + item_id + "'";
     
     //System.out.println(sql_get_general_info);
@@ -202,30 +202,6 @@ public class get_specs_popup
           out.println("</select>");
           out.println("</td>");
           
-          /*if(rs_general_info.getString(8) != null && !rs_general_info.getString(8).equals("null"))
-          {
-            out.println("<td><input type = 'text' id = 'popup_label_input_id' value = '" + rs_general_info.getString(8) + "'></td>"); //create an input text element for item label and make the current value the default value
-          }
-          else
-          {
-            out.println("<td><input type = 'text' id = 'popup_label_input_id'></td>"); //create an empty input text element for item label
-          }
-          if(rs_general_info.getString(9) != null && !rs_general_info.getString(9).equals("null"))
-          {
-            out.println("<td><input type = 'text' id = 'popup_keyword_input_id' value = '" + rs_general_info.getString(9) + "'></td>"); //create an input text element for item label and make the current value the default value
-          }
-          else
-          {
-            out.println("<td><input type = 'text' id = 'popup_keyword_input_id'></td>"); //create an empty input text element for item label
-          }
-          if(rs_general_info.getString(10) != null && !rs_general_info.getString(10).equals("null"))
-          {
-            out.println("<td><input type = 'text' id = 'popup_sn_input_id' value = '" + rs_general_info.getString(10) + "'></td>");  //create an input text element for item serial number and make the current value the default value
-          }
-          else
-          {
-            out.println("<td><input type = 'text' id = 'popup_sn_input_id'></td>");  //create an empty input text element for item serial number
-          }*/
         }
         else  //if not authorized to edit item
         {
@@ -320,17 +296,31 @@ public class get_specs_popup
         out.println("<div id = 'item_warranty_region>'");
         if(authorized_edit)
         {
-          out.println("<label>Start Date</label>");
-          out.println("<input type = 'text' class = 'datepicker' id = 'warranty_start_date_id' value = '" + warranty_start_date + "' readonly = 'true'>");
-          out.println("<br><br>");
-          out.println("<label>End Date</label>");
-          out.println("<input type = 'text' class = 'datepicker' id = 'warranty_end_date_id' value = '" + warranty_end_date + "' readonly = 'true'>");
+            out.println("<label>Invoice Number</label>");  
+            if(rs_general_info.getString(13) != null && !rs_general_info.getString(13).equals("null"))
+            { 
+              out.println("<input type = 'text' id = 'popup_invoice_number_input_id' value = '" + rs_general_info.getString(13) + "'>");  //create an input text element for item serial number and make the current value the default value
+            }
+            else
+            {
+              out.println("<td><input type = 'text' id = 'popup_invoice_number_input_id'></td>");  //create an empty input text element for item serial number
+            }
+            out.println("<label>Start Date</label>");
+            out.println("<input type = 'text' class = 'datepicker' id = 'warranty_start_date_id' value = '" + warranty_start_date + "' readonly = 'true'>");
+            out.println("<br><br>");
+            out.println("<label>End Date</label>");
+            out.println("<input type = 'text' class = 'datepicker' id = 'warranty_end_date_id' value = '" + warranty_end_date + "' readonly = 'true'>");
         }
         else
         {
-          System.out.println("ping");
-          out.println("<p>Start Date: " + warranty_start_date + "</p>");
-          out.println("<p>End Date: " + warranty_end_date + "</p>");
+            out.println("<p>Invoice Number: ");
+            if(rs_general_info.getString(13) != null && !rs_general_info.getString(13).equals("null")) 
+            {
+                out.println(rs_general_info.getString(13));
+            }
+            out.println("</p>");
+            out.println("<p>Start Date: " + warranty_start_date + "</p>");
+            out.println("<p>End Date: " + warranty_end_date + "</p>");
         }
         out.println("<p>Days still left on warranty: " + days_left_on_warranty + "</p>");
         out.println("</div>");

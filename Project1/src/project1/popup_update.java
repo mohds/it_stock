@@ -44,6 +44,7 @@ public class popup_update
     String popup_keyword = request.getParameter("popup_keyword");
     String popup_sn = request.getParameter("popup_sn");
     String popup_notes = request.getParameter("popup_notes");
+    String popup_invoice_number = request.getParameter("popup_invoice_number");
     String popup_warranty_start_date = request.getParameter("popup_warranty_start_date");
     String popup_warranty_end_date = request.getParameter("popup_warranty_end_date");
     String[] popup_specs_names = null;  //will contain names of input text elements of specs (not new specs)
@@ -73,7 +74,6 @@ public class popup_update
     
     //sql_update_general will update general information in ITEMS table
     String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label + "', KEYWORD = '" + popup_keyword + "', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "', WARRANTY_START_DATE = TO_DATE('" + popup_warranty_start_date + "','dd-mm-yyyy'), WARRANTY_END_DATE = TO_DATE('" + popup_warranty_end_date + "','dd-mm-yyyy') WHERE ID = '" + item_id + "'";
-    System.out.println(sql_update_general);
     try
     {
       Statement stat_update_general = con.createStatement();  
