@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.servlet.*;
@@ -51,7 +52,6 @@ public class popup_update
     String[] popup_specs_values = null; //will contain values of input text elements of specs (not new specs)
     String [] popup_new_specs_names = null; //will contain names of input text elements of added specs (new specs)
     String [] popup_new_specs_values = null;  //will contain values of input text elements of added specs (new specs)
-    
     //ids below will be used in update queries
     //
     //
@@ -78,6 +78,22 @@ public class popup_update
     {
       Statement stat_update_general = con.createStatement();  
       stat_update_general.executeUpdate(sql_update_general);  //execute update
+    }
+    catch(Exception e)
+    {
+      out.println(e.toString());
+    }
+    
+    String sql_get_invoice_id = "SELECT ITEMS.INVOICE_FK FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
+    try
+    {
+      Statement stat_get_invoice_id = con.createStatement();
+      ResultSet rs_get_invoice_id = stat_get_invoice_id.executeQuery(sql_get_invoice_id);
+      rs_get_invoice_id.next();
+      int invoice_id = rs_get_invoice_id.getInt(1);
+      String sql_update_invoice = "UPDATE INVOICES SET INVOICES.INVOICE_NUMBER = '" + popup_invoice_number + "'" + " WHERE INVOICES.ID = '" + invoice_id + "'";
+      Statement stat_update_invoice = con.createStatement();
+      stat_update_invoice.executeUpdate(sql_update_invoice);
     }
     catch(Exception e)
     {

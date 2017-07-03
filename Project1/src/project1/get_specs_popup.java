@@ -297,9 +297,9 @@ public class get_specs_popup
         if(authorized_edit)
         {
             out.println("<label>Invoice Number</label>");  
-            if(rs_general_info.getString(13) != null && !rs_general_info.getString(13).equals("null"))
+            if(rs_general_info.getString(14) != null && !rs_general_info.getString(14).equals("null"))
             { 
-              out.println("<input type = 'text' id = 'popup_invoice_number_input_id' value = '" + rs_general_info.getString(13) + "'>");  //create an input text element for item serial number and make the current value the default value
+              out.println("<input type = 'text' id = 'popup_invoice_number_input_id' value = '" + rs_general_info.getString(14) + "'><br><br>");  //create an input text element for item serial number and make the current value the default value
             }
             else
             {

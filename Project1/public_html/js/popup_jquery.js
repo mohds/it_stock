@@ -57,7 +57,6 @@ start_loading();
       var popup_input_invoice_number = document.getElementById('popup_invoice_number_input_id').value;
       var popup_input_warranty_start_date = document.getElementById('warranty_start_date_id').value;
       var popup_input_warranty_end_date = document.getElementById('warranty_end_date_id').value;
-      alert(popup_input_warranty_end_date);
       
       for(var i = 0; i<popup_spec_input_elements.length; ++i) //for every spec in popup (not new specs)
       {
