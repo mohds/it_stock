@@ -7,8 +7,20 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileOutputStream;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class popup_update
   extends HttpServlet
@@ -21,7 +33,7 @@ public class popup_update
     super.init(config);
   }
 
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
   {
     response.setContentType(CONTENT_TYPE);
@@ -36,22 +48,173 @@ public class popup_update
     //
     //
     
-    String item_id = request.getParameter("item_id");
-    String popup_brand = request.getParameter("popup_brand");
-    String popup_model= request.getParameter("popup_model");
-    String popup_location = request.getParameter("popup_location");
-    String popup_condition = request.getParameter("popup_condition");
-    String popup_label = request.getParameter("popup_label");
-    String popup_keyword = request.getParameter("popup_keyword");
-    String popup_sn = request.getParameter("popup_sn");
-    String popup_notes = request.getParameter("popup_notes");
-    String popup_invoice_number = request.getParameter("popup_invoice_number");
-    String popup_warranty_start_date = request.getParameter("popup_warranty_start_date");
-    String popup_warranty_end_date = request.getParameter("popup_warranty_end_date");
-    String[] popup_specs_names = null;  //will contain names of input text elements of specs (not new specs)
-    String[] popup_specs_values = null; //will contain values of input text elements of specs (not new specs)
-    String [] popup_new_specs_names = null; //will contain names of input text elements of added specs (new specs)
-    String [] popup_new_specs_values = null;  //will contain values of input text elements of added specs (new specs)
+    String item_id = ""; //request.getParameter("item_id");
+    String popup_brand = ""; //request.getParameter("popup_brand");
+    String popup_model = ""; //request.getParameter("popup_model");
+    String popup_location = ""; //request.getParameter("popup_location");
+    String popup_condition = ""; //request.getParameter("popup_condition");
+    String popup_label = ""; //request.getParameter("popup_label");
+    String popup_keyword = ""; //request.getParameter("popup_keyword");
+    String popup_sn = ""; //request.getParameter("popup_sn");
+    String popup_notes = ""; //request.getParameter("popup_notes");
+    String popup_invoice_number = ""; //request.getParameter("popup_invoice_number");
+    String popup_warranty_start_date = ""; //request.getParameter("popup_warranty_start_date");
+    String popup_warranty_end_date = ""; //request.getParameter("popup_warranty_end_date");
+    String[] popup_specs_names = null; //null;  //will contain names of input text elements of specs (not new specs)
+    String[] popup_specs_values = null; //null; //will contain values of input text elements of specs (not new specs)
+    String [] popup_new_specs_names = null;//null; //will contain names of input text elements of added specs (new specs)
+    String [] popup_new_specs_values = null; //null;  //will contain values of input text elements of added specs (new specs)
+    String item_image_name = "";
+    String invoice_image_name = "";
+    
+    
+    boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+    
+    if (isMultipart) 
+    {
+        // Create a factory for disk-based file items
+        FileItemFactory factory = new DiskFileItemFactory();
+    
+        // Create a new file upload handler
+        ServletFileUpload upload = new ServletFileUpload(factory);
+    
+        try {
+            // Parse the request
+            List /* FileItem */ items = upload.parseRequest(request);
+            Iterator iterator = items.iterator();
+            while (iterator.hasNext())
+            {
+              FileItem item = (FileItem) iterator.next();
+              if (!item.isFormField())
+              {
+                  
+                String user = "it.stock";
+                String pass ="it$t0cK*543";
+                String server_ip = "140.125.2.102";
+                String sharedFolder="IT/IT Support/IT STOCK/Item Images";
+              
+                String fileName = item.getName();
+                
+                String path="smb://"+ server_ip +"/"+sharedFolder+"/" + fileName;
+                NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+                SmbFile smbFile = new SmbFile(path,auth);
+                SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
+                smbfos.write(item.get());
+                smbfos.close();
+                
+                String name = item.getFieldName();
+                if(name.equals("invoice_image"))
+                {
+                    invoice_image_name = fileName;
+                }
+                else if(name.equals("item_image"))
+                {
+                    item_image_name = fileName;
+                }
+              }
+              else
+              {
+                String name = item.getFieldName();
+                if(name.equals("item_id"))
+                {
+                    item_id = item.getString();
+                }
+                else if(name.equals("popup_brand"))
+                {
+                    popup_brand = item.getString();
+                }
+                else if(name.equals("popup_model"))
+                {
+                    popup_model = item.getString();
+                }
+                else if(name.equals("popup_location"))
+                {
+                    popup_location = item.getString();
+                }
+                else if(name.equals("popup_condition"))
+                {
+                    popup_condition = item.getString();
+                }
+                else if(name.equals("popup_label"))
+                {
+                    popup_label = item.getString();
+                }
+                else if(name.equals("popup_keyword"))
+                {
+                    popup_keyword = item.getString();
+                }
+                else if(name.equals("popup_sn"))
+                {
+                    popup_sn = item.getString();
+                }
+                else if(name.equals("popup_notes"))
+                {
+                    popup_notes = item.getString();
+                }
+                else if(name.equals("popup_invoice_number"))
+                {
+                    popup_invoice_number = item.getString();
+                }
+                else if(name.equals("popup_warranty_start_date"))
+                {
+                    popup_warranty_start_date = item.getString();
+                }
+                else if(name.equals("popup_warranty_end_date"))
+                {
+                    popup_warranty_end_date = item.getString();
+                }
+                else if(name.equals("popup_specs_names"))
+                {
+                    String spec_names_ = item.getString();
+                    popup_specs_names = spec_names_.split(",");
+                }
+                else if(name.equals("popup_specs_values"))
+                {
+                    String spec_values_ = item.getString();
+                    popup_specs_values = spec_values_.split(",");
+                }
+                else if(name.equals("popup_new_specs_names"))
+                {
+                    String new_spec_names_ = item.getString();
+                    popup_new_specs_names = new_spec_names_.split(",");
+                }
+                else if(name.equals("popup_new_specs_values"))
+                {
+                    String new_spec_values_ = item.getString();
+                    popup_new_specs_values = new_spec_values_.split(",");
+                }
+              }
+            }
+          System.out.println("POPUP_SPECS_NAMES: ");
+          for(int k = 0 ; k < popup_specs_names.length; k++)
+          {
+            System.out.println(popup_specs_names[k]);
+          }
+          System.out.println("POPUP_SPECS_VALUES: ");
+          for(int k = 0 ; k < popup_specs_values.length; k++)
+          {
+            System.out.println(popup_specs_values[k]);
+          }
+          System.out.println("POPUP_NEW_SPECS_NAMES: ");
+          for(int k = 0 ; k < popup_new_specs_names.length; k++)
+          {
+            System.out.println(popup_new_specs_names[k]);
+          }
+          System.out.println("POPUP_NEW_SPECS_VALUES: ");
+          for(int k = 0 ; k < popup_new_specs_names.length; k++)
+          {
+            System.out.println(popup_new_specs_values[k]);
+          }
+        }
+        
+        
+        catch(Exception ex)
+          {
+            System.out.println(ex.toString());
+        }
+    }
+    
+    
     //ids below will be used in update queries
     //
     //
@@ -60,7 +223,7 @@ public class popup_update
     int popup_location_id = queries.get_location_id_from_name(popup_location);
     int popup_condition_id = queries.get_condition_id_from_name(popup_condition);
     
-    if(request.getParameterValues("popup_specs_names[]") != null) //if there are specs (not new specs)
+    /*if(request.getParameterValues("popup_specs_names[]") != null) //if there are specs (not new specs)
     {
       popup_specs_names = request.getParameterValues("popup_specs_names[]");  //get ids of input text elements of specs (not new)
       popup_specs_values = request.getParameterValues("popup_specs_values[]");  //get values of input text elements of specs (not new)
@@ -70,10 +233,11 @@ public class popup_update
     {
       popup_new_specs_names = request.getParameterValues("popup_new_specs_names[]");  //get ids of input text elements of added specs (new)
       popup_new_specs_values = request.getParameterValues("popup_new_specs_values[]");  //get values of input text elements of added specs (new)
-    }
+    }*/
     
     //sql_update_general will update general information in ITEMS table
-    String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label + "', KEYWORD = '" + popup_keyword + "', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "', WARRANTY_START_DATE = TO_DATE('" + popup_warranty_start_date + "','dd-mm-yyyy'), WARRANTY_END_DATE = TO_DATE('" + popup_warranty_end_date + "','dd-mm-yyyy') WHERE ID = '" + item_id + "'";
+    String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label + "', KEYWORD = '" + popup_keyword + "', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "', WARRANTY_START_DATE = TO_DATE('" + popup_warranty_start_date + "','dd-mm-yyyy'), WARRANTY_END_DATE = TO_DATE('" + popup_warranty_end_date + "','dd-mm-yyyy'), IMAGE = '" + item_image_name + "' WHERE ID = '" + item_id + "'";
+    System.out.println("QUERY: " + sql_update_general);
     try
     {
       Statement stat_update_general = con.createStatement();  
@@ -83,7 +247,7 @@ public class popup_update
     {
       out.println(e.toString());
     }
-    
+    System.out.println("ITEM ID: " + item_id);
     String sql_get_invoice_id = "SELECT ITEMS.INVOICE_FK FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
     try
     {
@@ -91,7 +255,7 @@ public class popup_update
       ResultSet rs_get_invoice_id = stat_get_invoice_id.executeQuery(sql_get_invoice_id);
       rs_get_invoice_id.next();
       int invoice_id = rs_get_invoice_id.getInt(1);
-      String sql_update_invoice = "UPDATE INVOICES SET INVOICES.INVOICE_NUMBER = '" + popup_invoice_number + "'" + " WHERE INVOICES.ID = '" + invoice_id + "'";
+      String sql_update_invoice = "UPDATE INVOICES SET INVOICES.INVOICE_NUMBER = '" + popup_invoice_number + "'" + " WHERE INVOICES.ID = '" + invoice_id + "', INVOICES.IMAGE = '" + invoice_image_name + "'";
       Statement stat_update_invoice = con.createStatement();
       stat_update_invoice.executeUpdate(sql_update_invoice);
     }

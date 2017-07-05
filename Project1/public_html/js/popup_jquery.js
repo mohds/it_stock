@@ -6,7 +6,8 @@ start_loading();
       $("#dialog").dialog({ //settings for the dialog box
               autoOpen: false,
               resizable: false,
-              width: 'auto',
+              width: 1100,
+              height: 900,
               show: {
                   effect: "slide",
                   duration: 200
@@ -74,7 +75,54 @@ start_loading();
         popup_new_specs_input_values.push(value_new); //add input text element value in corresponding array
       }
       
-      clearTimeout(x_timer);		        
+      var data = new FormData();
+      $.each($('#invoice_image')[0].files, function(i, file) {
+          data.append('invoice_image', file);
+      });
+      $.each($('#fileName')[0].files, function(i, file) {
+          data.append('item_image', file);
+      });
+      data.append('popup_specs_names',popup_input_names);
+      data.append('popup_specs_values',popup_input_values);
+      data.append('popup_new_specs_names',popup_new_specs_input_names);
+      data.append('popup_new_specs_values',popup_new_specs_input_values);
+      data.append('popup_brand',popup_select_brand);
+      data.append('popup_model',popup_input_model);
+      data.append('popup_location',popup_select_location);
+      data.append('popup_condition',popup_select_condition);
+      data.append('popup_label',popup_input_label);
+      data.append('popup_keyword',popup_input_keyword);
+      data.append('popup_sn',popup_input_sn);
+      data.append('popup_notes',popup_input_notes);
+      data.append('popup_invoice_number',popup_input_invoice_number);
+      data.append('popup_warranty_start_date',popup_input_warranty_start_date);
+      data.append('popup_warranty_end_date',popup_input_warranty_end_date);
+      data.append('item_id',item_id);
+      
+      $.ajax(
+      {
+        url: 'popup_update',
+        data: data,
+        cache: false,
+        dataType: JSON,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        async: true,
+        success: function(returnedData)
+        {
+            show_specs(item_id);  //update item popup view
+            send_specs(); //update search results
+            stop_loading();
+            alert("Item successfully updated.");
+            stop_loading();
+        },
+        error: function(request, status, error)
+        {
+          stop_loading();
+        }
+    });
+      /*clearTimeout(x_timer);		        
       x_timer = setTimeout(function()
       {
         send_to_servlet(popup_input_names,popup_input_values,popup_new_specs_input_names,popup_new_specs_input_values,popup_select_brand,popup_input_model,popup_select_location,popup_select_condition,popup_input_label,popup_input_keyword,popup_input_sn,popup_input_notes,popup_input_invoice_number, popup_input_warranty_start_date, popup_input_warranty_end_date);
@@ -88,8 +136,8 @@ start_loading();
         send_specs(); //update search results
         stop_loading();
         alert("Item successfully updated.");
-      });
-      }
+      });*/
+      //}
     });
 }
 

@@ -71,7 +71,6 @@ public class get_specs_popup
     //
     String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES,ITEMS.WARRANTY_START_DATE,ITEMS.WARRANTY_END_DATE, INVOICES.INVOICE_NUMBER FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS,INVOICES WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.INVOICE_FK = INVOICES.ID AND ITEMS.ID = '" + item_id + "'";
     String sql_get_specs = "SELECT SPECS.NAME, ITEMSPECVALUES.VALUE,SPECS.ID FROM SPECS,ITEMSPECVALUES WHERE ITEMSPECVALUES.SPEC_ID = SPECS.ID  AND ITEMSPECVALUES.ITEM_ID = '" + item_id + "'";
-    
     //System.out.println(sql_get_general_info);
     //System.out.println(sql_get_specs);
     
@@ -310,13 +309,16 @@ public class get_specs_popup
             out.println("<br><br>");
             out.println("<label>End Date</label>");
             out.println("<input type = 'text' class = 'datepicker' id = 'warranty_end_date_id' value = '" + warranty_end_date + "' readonly = 'true'>");
+            out.println("<br><br>");
+            out.println("<label>Update Invoice Image</label><br>");
+            out.println("<input id='invoice_image' type='file'>");
         }
         else
         {
             out.println("<p>Invoice Number: ");
-            if(rs_general_info.getString(13) != null && !rs_general_info.getString(13).equals("null")) 
+            if(rs_general_info.getString(14) != null && !rs_general_info.getString(14).equals("null")) 
             {
-                out.println(rs_general_info.getString(13));
+                out.println(rs_general_info.getString(14));
             }
             out.println("</p>");
             out.println("<p>Start Date: " + warranty_start_date + "</p>");
