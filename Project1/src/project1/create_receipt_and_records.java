@@ -41,6 +41,10 @@ public class create_receipt_and_records
     Connection con = connect.connect();
     
     db_queries queries = new db_queries();
+    
+    //initialize variables
+    //
+    
     String[] records_items_id = null; //contains ids of items in receipt 
     String[] records_expected_date_of_return = null;  //contains each item expected date of return
     String[] records_notes = null;  //contains record notes
@@ -59,12 +63,16 @@ public class create_receipt_and_records
     
     HttpSession session = request.getSession();
     String user = (String)session.getAttribute("username");
-    String email_content = "";
-    String email_subject = "IT STOCK - CHECK OUT";
+    
+    
+    String email_content = "";  //email_content will contain the final message sent as an email when an item is checked out
+    String email_subject = "IT STOCK - CHECK OUT";  //email subject
     
     email_content = email_content + "Admin " + user + " has checked out the following item/s to the favor of " + client_name + " and handed to " + receiver_name + ".<br><br>";
     
-    
+    //if arrays are not null in the request, initialize them
+    //
+    //
     if(request.getParameterValues("records_items_id[]") != null)
     {
       records_items_id = request.getParameterValues("records_items_id[]");

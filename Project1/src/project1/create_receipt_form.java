@@ -97,17 +97,16 @@ public class create_receipt_form
     String receipt_notes = request.getParameter("receipt_notes");
     String global_expected_date = request.getParameter("global_expected_date");
     String receipt_country = request.getParameter("receipt_country");
-    String it_name = request.getParameter("admin");
     String admin_id = request.getParameter("admin_id");
     String admin_full_name = "";
     
-    String sql_admin_full_name = "SELECT ADMINS.NAME FROM ADMINS WHERE ADMINS.ID = '" + admin_id +"'";
+    String sql_admin_full_name = "SELECT ADMINS.NAME FROM ADMINS WHERE ADMINS.ID = '" + admin_id +"'";  //get admin full name from admin id
     try
     {
       Statement stat_admin_full_name = con.createStatement();
       ResultSet rs_admin_full_name = stat_admin_full_name.executeQuery(sql_admin_full_name);
       rs_admin_full_name.next();
-      admin_full_name = rs_admin_full_name.getString(1);
+      admin_full_name = rs_admin_full_name.getString(1);  //initialize admin_full_name
     }
     catch(Exception e)
     {
@@ -115,6 +114,10 @@ public class create_receipt_form
     }
     
     int receipt_id = 0;
+    
+    //if array variables are not null, initialize them
+    //
+    //
     
     if(request.getParameterValues("records_items_id[]") != null)
     {
@@ -150,8 +153,13 @@ public class create_receipt_form
       System.out.println(e.toString());
     }
     
-    Calendar c = Calendar.getInstance();
-    Date today_date = c.getTime();
+    Calendar c = Calendar.getInstance();  //calendar object
+    Date today_date = c.getTime();  //date object
+    
+    //build current_date of the format dd/MM/yyyy from the calendar and date objects
+    //
+    //
+    
     String current_date = String.valueOf(c.get(Calendar.DATE) + "-" + String.valueOf(today_date.getMonth() + 1) + "-" + String.valueOf(c.get(Calendar.YEAR)));
      
     
@@ -161,46 +169,36 @@ public class create_receipt_form
     
     try
     {
-      
+      //authentication and final destination of receipt pdf
+      //
       String user = "it.stock";
       String pass ="it$t0cK*543";
       String server_ip = "140.125.2.102";
       String sharedFolder="IT/IT Support/_Receipts/IT_STOCK";
       String path="smb://"+ server_ip +"/"+sharedFolder+"/Receipt_"+ receipt_id +".pdf";
-      //System.out.println("path: " + path); // test
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
       SmbFile smbFile = new SmbFile(path,auth);
       SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
-      //smbfos.write("testing....and writing to a file".getBytes()); // test
-        
+      
+      //create new pdf document
+      //
+      
       Document document = new Document();
       PdfWriter.getInstance(document, smbfos);
       document.addAuthor("Wassim El Ahmar");
       document.addTitle("Stock Receipt");
       document.open();
       
+      //Below the receipt form will be created in two parallel places
+      //in a pdf file
+      //and in a web page.
+      //HTML tags will be generated with information same as those written in the PDF document.
+      
       Paragraph receipt_id_par = new Paragraph("Receipt ID: " + receipt_id ,catFont);
       receipt_id_par.setAlignment(Element.ALIGN_LEFT);
       document.add(receipt_id_par);
       
       out.println("<h3>Receipt ID: " + receipt_id + "</h3>");
-      
-      Image image;
-      //try 
-      //{
-      //  image = Image.getInstance("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\mayadeen.png");
-      //  image.setAlignment(Image.ALIGN_RIGHT);
-      //  document.add(image);
-      //  out.println("<img align='right' src = 'images/mayadeen.png'>");
-      //} 
-      //catch (MalformedURLException e) 
-      //{
-      //  e.printStackTrace();
-      //} 
-      //catch (IOException e) 
-      //{
-      //  e.printStackTrace();
-      //}
       
       out.println("<h2 style = 'color: red; text-align: center;'>Al Mayadeen IT Department</h2>");
       
@@ -273,6 +271,9 @@ public class create_receipt_form
       out.println("<th>Expected date of return</th>");
       out.println("<th>Notes</th>");
       out.println("<th>Item Returning</th>");
+      
+      //for every item, create a record for it in the table of items in the receipt
+      //
       
       for(int i = 0 ; i < records_items_id.length ; i++)
       {

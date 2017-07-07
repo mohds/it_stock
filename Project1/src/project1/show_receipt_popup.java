@@ -36,7 +36,7 @@ public class show_receipt_popup
     PrintWriter out = response.getWriter();
     
     connect_to_db connect = new connect_to_db();
-    Connection con = connect.connect();
+    Connection con = connect.connect(); //connection object used to query database
     
     String[] ids_array = null;  //array of item ids in cart
     
@@ -60,15 +60,16 @@ public class show_receipt_popup
         }
       }
     }
-    HttpSession session = request.getSession();
     
-    String admin = (String)session.getAttribute("username");
-    String admin_id = (String)session.getAttribute("id");
+    HttpSession session = request.getSession(); //used to get current session information
+    
+    String admin = (String)session.getAttribute("username");  //ex: w.elahmar
+    String admin_id = (String)session.getAttribute("id"); //ex: 32
     String admin_full_name = "";
     String current_date = "";
     String current_time = "";
     
-    String sql_admin_full_name = "SELECT ADMINS.NAME FROM ADMINS WHERE ADMINS.ID = '" + admin_id +"'";
+    String sql_admin_full_name = "SELECT ADMINS.NAME FROM ADMINS WHERE ADMINS.ID = '" + admin_id +"'";  //used to get the full name of the logged in admin using the session username
     try
     {
       Statement stat_admin_full_name = con.createStatement();
@@ -82,21 +83,29 @@ public class show_receipt_popup
     }
     
     
-    Calendar c = Calendar.getInstance();
-    Date today_date = c.getTime();
+    Calendar c = Calendar.getInstance();  //calendar used to get current date and time
+    Date today_date = c.getTime();  //date object
+    
+    //below we build the current date in the format dd/MM/yyy from the calendar object and the date object
+    //
+    
     String today = String.valueOf(c.get(Calendar.DATE) + "-" + String.valueOf(today_date.getMonth() + 1) + "-" + String.valueOf(c.get(Calendar.YEAR)));
     current_date = today;
     
-    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");  //dateformat used to get time in the format HH:mm:ss
     
-    current_time = sdf.format(c.getTime());
+    current_time = sdf.format(c.getTime()); //current time
     
-    String current_date_time = current_date + " " + current_time;
+    String current_date_time = current_date + " " + current_time; //final date and time string
     
     out.println("<input type = 'hidden' id = 'current_date_time_id' value = '" + current_date_time +"'>");  //used to send parameter current_date_time
     out.println("<input type = 'hidden' id = 'admin_id_id' value = '" + admin_id +"'>");  //used to send parameter admin_id
     out.println("<input type = 'hidden' id = 'admin_name_id' value = '" + admin +"'>"); //used to send parameter admin name
     
+    
+    //below we will show the receipt information
+    //
+    //
     out.println("<h3>Items Checkout</h3>");
     
     out.println("<label class = 'class_asterisks'>*  </label><label>Client: </label><select name = 'receipt_client_name' id = 'receipt_client_name_id' onmousedown=\"if(this.options.length>8){this.size=0;} sort_select_receipt_client()\"  onchange='this.size=0;' onblur=\"this.size=0;\" size = \"0\">");
@@ -108,7 +117,7 @@ public class show_receipt_popup
     out.println("</select>");
     
     ///////////// new client handler //////////////
-    out.println("<button id=\"NewClientButton\" onClick=\"display_new_client_popup()\">New</button>");
+    out.println("<button id=\"NewClientButton\" onClick=\"display_new_client_popup()\">New</button>");  //button that gives the ability to add a new client
     
     out.println("<br><br>");
     
@@ -148,7 +157,7 @@ public class show_receipt_popup
       out.println("<option value = '" + remote_locations_list.get(i) + "'>" + remote_locations_list.get(i) + "</option>");
     }
     out.println("</select>");
-    out.println("<button id=\"NewRemoteLocationButton\" onClick=\"display_new_remote_location_popup()\">New</button>");
+    out.println("<button id=\"NewRemoteLocationButton\" onClick=\"display_new_remote_location_popup()\">New</button>"); //button that gives the ability to add a new remote location
     out.println("<br><br>");
     
     out.println("<table id = 'receipt_table_id'>");  //generate table of records

@@ -95,12 +95,12 @@ public class finalize_receipt_pdf
           reader.close();
           
           //File source_to_delete = new File("\\\\nas5\\IT\\IT Support\\_Receipts\\IT_STOCK\\Receipt_" + receipt_id + ".pdf"); // replaced receipt_id
-          String path_delete = "smb://"+ server_ip +"/"+sharedFolder+"/Receipt_"+ receipt_id +".pdf";
+          String path_delete = "smb://"+ server_ip +"/"+sharedFolder+"/Receipt_"+ receipt_id +".pdf"; //delete old file (not finalized)
           SmbFile smbFile_delete = new SmbFile(path_delete, auth);
             
           try
           {
-            smbFile_delete.delete();
+            smbFile_delete.delete();  //execute.
           }
           catch(Exception e)
           {

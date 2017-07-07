@@ -211,7 +211,6 @@ public class items_hq extends HttpServlet {
         
         
         
-        //out.println("<h3 id = 'h3_search_results_id'>Search Results</h3><br>");
         
         out.println("<div class='MainPanel' id = 'results_region'>"); //results table
         out.println("<div id = 'results_table_div'>");
@@ -241,17 +240,29 @@ public class items_hq extends HttpServlet {
         out.println("</div>");
         
         ///////////// new client handler //////////////    
+        //div appears when new client is being created
+        //made hidden in popup_jquery.js
+        //
+        
         out.println("<div id=\"NewClientPopup\" title=\"New Client\">");
         out.println("<label>Name:</label><br>");
         out.println("<input type=\"text\" value=\"\" id=\"NewClientName\"><br>");
         out.println("<button id=\"SaveNewClientButton\" onClick=\"save_new_client()\">Save</button>");
         out.println("</div>");
         
+        //div appears when new location is being created
+        //made hidden in popup_jquery.js
+        //
+        
         out.println("<div id=\"NewLocationPopup\" title=\"New Location\">");
         out.println("<label>Name:</label><br>");
         out.println("<input type=\"text\" value=\"\" id=\"NewLocationName\"><br>");
         out.println("<button id=\"SaveNewLocationtButton\" onClick=\"save_new_location()\">Save</button>");
         out.println("</div>");
+        
+        //div appears when new remote location is being created
+        //made hidden in popup_jquery.js
+        //
         
         out.println("<div id=\"NewRemoteLocationPopup\" title=\"New Remote Location\">");
         out.println("<label>Name:</label><br>");

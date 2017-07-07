@@ -71,21 +71,19 @@ public class get_specs_popup
     //
     String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES,ITEMS.WARRANTY_START_DATE,ITEMS.WARRANTY_END_DATE, INVOICES.INVOICE_NUMBER FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS,INVOICES WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.INVOICE_FK = INVOICES.ID AND ITEMS.ID = '" + item_id + "'";
     String sql_get_specs = "SELECT SPECS.NAME, ITEMSPECVALUES.VALUE,SPECS.ID FROM SPECS,ITEMSPECVALUES WHERE ITEMSPECVALUES.SPEC_ID = SPECS.ID  AND ITEMSPECVALUES.ITEM_ID = '" + item_id + "'";
-    //System.out.println(sql_get_general_info);
-    //System.out.println(sql_get_specs);
-    
+
     try
     {
       //execute queries
       //
       Statement stat_general_info = con.createStatement();
-      ResultSet rs_general_info = stat_general_info.executeQuery(sql_get_general_info);
+      ResultSet rs_general_info = stat_general_info.executeQuery(sql_get_general_info); //results of sql_get_general_info
       Statement stat_specs = con.createStatement();
-      ResultSet rs_specs = stat_specs.executeQuery(sql_get_specs);
+      ResultSet rs_specs = stat_specs.executeQuery(sql_get_specs);  //results of sql_get_specs
       
       boolean authorized_edit = false;  //if authorized to edit items
       
-      HttpSession session = request.getSession();
+      HttpSession session = request.getSession(); //get sessopm
       Access access = new Access();
       String user = (String)session.getAttribute("username");
       
@@ -100,26 +98,29 @@ public class get_specs_popup
       //generate general info table
       //
       out.println("<table id = 'table_item_general_info_popup' border = '1'>");
-      //out.println("<th>ID</th>");
       out.println("<th>Type</th>");
       out.println("<th>Brand</th>");
       out.println("<th>Model</th>");
       out.println("<th>HQ Location</th>");
       out.println("<th>Location</th>");
       out.println("<th>Condition</th>");
-      //out.println("<th>Label</th>");
-      //out.println("<th>Keyword</th>");
-      //out.println("<th>Serial Number</th>");
       while(rs_general_info.next())
       {
         type = rs_general_info.getString(2);
+        
+        //if there is a start and end date for warranty
+        //
         if(rs_general_info.getString(12) != null && !rs_general_info.getString(12).equals("null") && rs_general_info.getString(13) != null && !rs_general_info.getString(13).equals("null"))
         {
+          //parse warranty start date
+          //
           warranty_start_date = rs_general_info.getString(12);
           Date start_date;
           start_date = inputFormatter.parse(warranty_start_date);
           warranty_start_date = outputFormatter.format(start_date);
           
+          //parse warranty end date
+          //
           warranty_end_date = rs_general_info.getString(13);
           Date end_date;
           end_date = inputFormatter.parse(warranty_end_date);
@@ -130,7 +131,6 @@ public class get_specs_popup
         out.println("<tr>");
         if(authorized_edit)  //if authorized to edit item
         {
-          //out.println("<td>" + rs_general_info.getString(1) + "</td>"); //item id can't be changed
           out.println("<td>" + rs_general_info.getString(2) + "</td>"); //item type can't be changed
           
           //in the table, generate select to select item brand and make the user able to select a new brand
@@ -206,7 +206,6 @@ public class get_specs_popup
         {
           //generate data in table as labels (can't edit)
           //
-          //out.println("<td>" + rs_general_info.getString(1) + "</td>");
           out.println("<td>" + rs_general_info.getString(2) + "</td>");
           out.println("<td>" + rs_general_info.getString(3) + "</td>");
           out.println("<td>" + rs_general_info.getString(4) + "</td>");
@@ -220,9 +219,6 @@ public class get_specs_popup
             out.println("<td>" + rs_general_info.getString(6) + "</td>");
           }
           out.println("<td>" + rs_general_info.getString(7) + "</td>");
-          //out.println("<td>" + rs_general_info.getString(8) + "</td>");
-          //out.println("<td>" + rs_general_info.getString(9) + "</td>");
-          //out.println("<td>" + rs_general_info.getString(10) + "</td>");
           out.println("</tr>");
           out.println("</table>");
           out.println("</br>");
@@ -400,20 +396,20 @@ public class get_specs_popup
         }
         
         String image_name = "";
-        String sql_get_image_name = "SELECT ITEMS.IMAGE FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
+        String sql_get_image_name = "SELECT ITEMS.IMAGE FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'"; //query to get image name
         try
         {
           Statement stat_get_image_name = con.createStatement();
           ResultSet rs_get_image_name = stat_get_image_name.executeQuery(sql_get_image_name);
           if(rs_get_image_name.next())
           {
-            if(!rs_get_image_name.getString(1).equals("") && rs_get_image_name.getString(1) != null)
+            if(!rs_get_image_name.getString(1).equals("") && rs_get_image_name.getString(1) != null)  //if item image is not null
             {
-              image_name = rs_get_image_name.getString(1);
+              image_name = rs_get_image_name.getString(1);  //initialize image_name with the item image
             }
             else
             {
-              image_name = "no_image.jpg";
+              image_name = "no_image.jpg";  //else, we'll display no_image.jpg
             }
           }
         }
@@ -422,7 +418,7 @@ public class get_specs_popup
           image_name = "no_image.jpg";
         }
         
-        out.println("<div id = 'div_item_image_id'>");
+        out.println("<div id = 'div_item_image_id'>");  //item image div
         out.println("<div id = 'item_image_id'>");
         out.println("<img src = 'display_image_servlet?image=" + image_name + "'>");
         out.println("</div>");

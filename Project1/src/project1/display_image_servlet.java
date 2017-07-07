@@ -39,7 +39,10 @@ public class display_image_servlet
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     }
-
+    
+    //servlet responds with an outputstream displaying an image (image name sent in the request
+    //
+    
     response.setContentType(mime);
     String fileName = request.getParameter("image"); 
     String user = "it.stock";

@@ -81,28 +81,38 @@ public class popup_update
         try {
             // Parse the request
             List /* FileItem */ items = upload.parseRequest(request);
-            Iterator iterator = items.iterator();
+            Iterator iterator = items.iterator(); //iteratior contains all html elements received
             while (iterator.hasNext())
             {
-              FileItem item = (FileItem) iterator.next();
+              FileItem item = (FileItem) iterator.next(); //item is a single html element
               if (!item.isFormField())
               {
-                  
+                //credentials for the IT Stock user, used to access the folder in which item images and invoice images are stored
+                //
+                //
                 String user = "it.stock";
                 String pass ="it$t0cK*543";
                 String server_ip = "140.125.2.102";
                 String sharedFolder="IT/IT Support/IT STOCK/Item Images";
               
-                String fileName = item.getName();
+                String fileName = item.getName(); //fileName is the name of the file currently being processed
                 
-                String path="smb://"+ server_ip +"/"+sharedFolder+"/" + fileName;
-                NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
-                SmbFile smbFile = new SmbFile(path,auth);
+                String path="smb://"+ server_ip +"/"+sharedFolder+"/" + fileName; //final path of the image
+                NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);  //authentication
+                
+                //write the file(image) to the final location
+                //
+                //
+                
+                SmbFile smbFile = new SmbFile(path,auth); 
                 SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
                 smbfos.write(item.get());
                 smbfos.close();
                 
-                String name = item.getFieldName();
+                //variable name, below, will contain the name of the variable sent withing the request
+                //according to the request variable name, the variables in this class will be assigned
+                //
+                String name = item.getFieldName(); 
                 if(name.equals("invoice_image"))
                 {
                     invoice_image_name = fileName;
@@ -163,6 +173,10 @@ public class popup_update
                 {
                     popup_warranty_end_date = item.getString();
                 }
+                
+                //for variables that are lists, we need to split them on ","
+                //
+                //
                 else if(name.equals("popup_specs_names"))
                 {
                     String spec_names_ = item.getString();
@@ -185,26 +199,6 @@ public class popup_update
                 }
               }
             }
-          System.out.println("POPUP_SPECS_NAMES: ");
-          for(int k = 0 ; k < popup_specs_names.length; k++)
-          {
-            System.out.println(popup_specs_names[k]);
-          }
-          System.out.println("POPUP_SPECS_VALUES: ");
-          for(int k = 0 ; k < popup_specs_values.length; k++)
-          {
-            System.out.println(popup_specs_values[k]);
-          }
-          System.out.println("POPUP_NEW_SPECS_NAMES: ");
-          for(int k = 0 ; k < popup_new_specs_names.length; k++)
-          {
-            System.out.println(popup_new_specs_names[k]);
-          }
-          System.out.println("POPUP_NEW_SPECS_VALUES: ");
-          for(int k = 0 ; k < popup_new_specs_names.length; k++)
-          {
-            System.out.println(popup_new_specs_values[k]);
-          }
         }
         
         
@@ -223,21 +217,8 @@ public class popup_update
     int popup_location_id = queries.get_location_id_from_name(popup_location);
     int popup_condition_id = queries.get_condition_id_from_name(popup_condition);
     
-    /*if(request.getParameterValues("popup_specs_names[]") != null) //if there are specs (not new specs)
-    {
-      popup_specs_names = request.getParameterValues("popup_specs_names[]");  //get ids of input text elements of specs (not new)
-      popup_specs_values = request.getParameterValues("popup_specs_values[]");  //get values of input text elements of specs (not new)
-    }
-    
-    if(request.getParameterValues("popup_new_specs_names[]") != null) //if there are added specs (new specs)
-    {
-      popup_new_specs_names = request.getParameterValues("popup_new_specs_names[]");  //get ids of input text elements of added specs (new)
-      popup_new_specs_values = request.getParameterValues("popup_new_specs_values[]");  //get values of input text elements of added specs (new)
-    }*/
-    
     //sql_update_general will update general information in ITEMS table
     String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label + "', KEYWORD = '" + popup_keyword + "', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "', WARRANTY_START_DATE = TO_DATE('" + popup_warranty_start_date + "','dd-mm-yyyy'), WARRANTY_END_DATE = TO_DATE('" + popup_warranty_end_date + "','dd-mm-yyyy'), IMAGE = '" + item_image_name + "' WHERE ID = '" + item_id + "'";
-    System.out.println("QUERY: " + sql_update_general);
     try
     {
       Statement stat_update_general = con.createStatement();  
@@ -247,14 +228,18 @@ public class popup_update
     {
       out.println(e.toString());
     }
-    System.out.println("ITEM ID: " + item_id);
-    String sql_get_invoice_id = "SELECT ITEMS.INVOICE_FK FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
+    String sql_get_invoice_id = "SELECT ITEMS.INVOICE_FK FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";  //sql query to get invoice ID from item ID
     try
     {
+      //get invoice id
+      //
+      
       Statement stat_get_invoice_id = con.createStatement();
       ResultSet rs_get_invoice_id = stat_get_invoice_id.executeQuery(sql_get_invoice_id);
       rs_get_invoice_id.next();
       int invoice_id = rs_get_invoice_id.getInt(1);
+      
+      //update invoice information
       String sql_update_invoice = "UPDATE INVOICES SET INVOICES.INVOICE_NUMBER = '" + popup_invoice_number + "'" + " WHERE INVOICES.ID = '" + invoice_id + "', INVOICES.IMAGE = '" + invoice_image_name + "'";
       Statement stat_update_invoice = con.createStatement();
       stat_update_invoice.executeUpdate(sql_update_invoice);
@@ -283,7 +268,7 @@ public class popup_update
           else  //if value is not null
           {
             String sql_update_existing_specs = "UPDATE ITEMSPECVALUES SET VALUE = '" +  popup_specs_values[i] + "'" + " WHERE SPEC_ID = '" + spec_id +"' AND ITEM_ID = '" + item_id +"'"; //update this spec value
-            stat_update_existing_specs.executeUpdate(sql_update_existing_specs);  //execute
+            stat_update_existing_specs.executeUpdate(sql_update_existing_specs);  //execute.
           }
         }
       }

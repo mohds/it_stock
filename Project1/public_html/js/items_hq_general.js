@@ -285,7 +285,7 @@ function print_results_table()
      });
 }
 
-function reset_search_options()
+function reset_search_options() //function resets items_hq search elements to the default values
 {
   var id = document.getElementById("input_item_id");
   id.value = '';
@@ -348,7 +348,7 @@ function stop_loading()
   document.getElementById("div_loading").style.display = "none";
 }
 
-function sort_select_hq_type()
+function sort_select_hq_type()  //function called on mousedown of select item type in items_hq, sorts select options
 {
   var my_options = $("#select_item_type_id option");
   var selected = $("#select_item_type_id").val();
@@ -363,7 +363,7 @@ function sort_select_hq_type()
   $("#select_item_type_id").val(selected);
 }
 
-function sort_select_hq_brand()
+function sort_select_hq_brand() //function called on mousedown of select item brand in items_hq, sorts select options
 {
   var my_options = $("#select_item_brand_id option");
   var selected = $("#select_item_brand_id").val();
@@ -378,7 +378,7 @@ function sort_select_hq_brand()
   $("#select_item_brand_id").val(selected);
 }
 
-function sort_select_hq_location()
+function sort_select_hq_location()  //function called on mousedown of select item location in items_hq, sorts select options
 {
   var my_options = $("#select_item_location_id option");
   var selected = $("#select_item_location_id").val();
@@ -393,7 +393,7 @@ function sort_select_hq_location()
   $("#select_item_location_id").val(selected);
 }
 
-function sort_select_hq_condition()
+function sort_select_hq_condition() //function called on mousedown of select item condition in items_hq, sorts select options
 {
   var my_options = $("#select_item_condition_id option");
   var selected = $("#select_item_condition_id").val();

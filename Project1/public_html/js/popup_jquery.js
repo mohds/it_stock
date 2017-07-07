@@ -122,22 +122,6 @@ start_loading();
           stop_loading();
         }
     });
-      /*clearTimeout(x_timer);		        
-      x_timer = setTimeout(function()
-      {
-        send_to_servlet(popup_input_names,popup_input_values,popup_new_specs_input_names,popup_new_specs_input_values,popup_select_brand,popup_input_model,popup_select_location,popup_select_condition,popup_input_label,popup_input_keyword,popup_input_sn,popup_input_notes,popup_input_invoice_number, popup_input_warranty_start_date, popup_input_warranty_end_date);
-      }, 1000);
-        
-      function send_to_servlet(popup_specs_names,popup_specs_values,popup_new_specs_names,popup_new_specs_values,popup_brand,popup_model,popup_location,popup_condition,popup_label,popup_keyword,popup_sn,popup_notes,popup_invoice_number, popup_warranty_start_date,popup_warranty_end_date)
-      {
-      $.get('popup_update', {'popup_specs_names':popup_specs_names, 'popup_specs_values':popup_specs_values,'popup_new_specs_names':popup_new_specs_names, 'popup_new_specs_values':popup_new_specs_values, 'popup_brand':popup_brand, 'popup_model':popup_model, 'popup_location':popup_location,'popup_condition':popup_condition, 'popup_label':popup_label,'popup_keyword':popup_keyword,'popup_sn':popup_sn,'popup_notes':popup_notes,'popup_invoice_number': popup_invoice_number, 'popup_warranty_start_date':popup_warranty_start_date,'popup_warranty_end_date':popup_warranty_end_date, 'item_id':item_id}, function(data)
-      {
-        show_specs(item_id);  //update item popup view
-        send_specs(); //update search results
-        stop_loading();
-        alert("Item successfully updated.");
-      });*/
-      //}
     });
 }
 
@@ -430,7 +414,7 @@ function save_new_location()
     });
 }
 
-function save_new_remote_location()
+function save_new_remote_location() 
 {
     var location = document.getElementById("NewRemoteLocationName").value;
     $.post('add_remote_location', {location: location}, function(returnedData)
@@ -453,7 +437,7 @@ function stop_loading()
   document.getElementById("div_loading").style.display = "none";
 }
 
-function sort_select_edit_item_brand()
+function sort_select_edit_item_brand()  //function called on mousedown of select for item brands in item view popup, sorts select options
 {
   var my_options = $("#popup_select_item_brand_id option");
   var selected = $("#popup_select_item_brand_id").val();
@@ -468,7 +452,7 @@ function sort_select_edit_item_brand()
   $("#popup_select_item_brand_id").val(selected);
 }
 
-function sort_select_edit_item_location()
+function sort_select_edit_item_location() //function called on mousedown of select for item locations in item view popup, sorts select options
 {
   var my_options = $("#popup_select_item_location_id option");
   var selected = $("#popup_select_item_location_id").val();
@@ -483,7 +467,7 @@ function sort_select_edit_item_location()
   $("#popup_select_item_location_id").val(selected);
 }
 
-function sort_select_edit_item_condition()
+function sort_select_edit_item_condition()  //function called on mousedown of select for item conditions in item view popup, sorts select options
 {
   var my_options = $("#popup_select_item_condition_id option");
   var selected = $("#popup_select_item_condition_id").val();
@@ -498,7 +482,7 @@ function sort_select_edit_item_condition()
   $("#popup_select_item_condition_id").val(selected);
 }
 
-function sort_select_receipt_client()
+function sort_select_receipt_client() //function called on mousedown of select receipt client in receipt popup, sorts select options
 {
   var my_options = $("#receipt_client_name_id option");
   var selected = $("#receipt_client_name_id").val();
@@ -513,7 +497,7 @@ function sort_select_receipt_client()
   $("#receipt_client_name_id").val(selected);
 }
 
-function sort_select_receipt_receiver()
+function sort_select_receipt_receiver() //function called on mousedown of select receipt receiver in receipt popup, sorts select options
 {
   var my_options = $("#receipt_receiver_name_id option");
   var selected = $("#receipt_receiver_name_id").val();
@@ -528,7 +512,7 @@ function sort_select_receipt_receiver()
   $("#receipt_receiver_name_id").val(selected);
 }
 
-function sort_select_receipt_country()
+function sort_select_receipt_country()  //function called on mousedown of select receipt country in receipt popup, sorts select options
 {
   var my_options = $("#receipt_location_id option");
   var selected = $("#receipt_location_id").val();
