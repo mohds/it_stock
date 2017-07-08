@@ -1,3 +1,9 @@
+#management-container #storage-container{
+    width: 300px;
+}
+#storage-container input{
+    width: 100%;
+}
 .flash_me{
     background-color: #ed6d64;
     -webkit-animation-name: flash; /* Safari 4.0 - 8.0 */

@@ -107,6 +107,21 @@
                     </table>
                     <button id="SaveEmails">Save</button>
                 </div>
+                <div id="storage-container">
+                    <h1>Storage Settings</h1>
+                    <label>Receipts Pending</label><br>
+                    <input type="text" name="receipts_pending" id="receipts_pending">
+                    <label>Receipts Done</label><br>
+                    <input type="text" name="receipts_done" id="receipts_done">
+                    <label>Images</label><br>
+                    <input type="text" name="images_folder" id="images_folder">
+                    <label>Storage Hostname</label><br>
+                    <input type="text" name="storage_hostname" id="storage_hostname">
+                    <label>Credentials</label><br>
+                    <input type="text" placeholder="Username" name="storage_username" id="storage_username">
+                    <input type="password" placeholder="Password" name="storage_password" id="storage_password">
+                    <button type="button" id="save-storage-settings">Save</button>
+                </div>
             </div>
             <div id="NewMethodDialog" title="New Method">
                 <input type="text" id="NewMethod" />

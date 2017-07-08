@@ -60,11 +60,43 @@ $(document).ready(function(){
     $("#ChangePasswordButton").on("click", function(){
         save_password();
     });
+    $("#save-storage-settings").on("click", function(){
+        save_storage_settings();
+    });
     
     populate_methods_container();
     populate_user_emails_row();
+    populate_storage_settings();
     
 });
+
+function populate_storage_settings(){
+    $.getJSON('get_storage_settings',{}, function(returnedData){
+        if(returnedData.length == 6){
+            document.getElementById("receipts_pending").value = returnedData[0];
+            document.getElementById("receipts_done").value = returnedData[1];
+            document.getElementById("images_folder").value = returnedData[2];
+            document.getElementById("storage_hostname").value = returnedData[3];
+            document.getElementById("storage_username").value = returnedData[4];
+            document.getElementById("storage_password").value = returnedData[5];
+        }
+    });
+}
+
+function save_storage_settings(){
+    var receipts_pending = document.getElementById("receipts_pending").value;
+    var receipts_done = document.getElementById("receipts_done").value;
+    var images_folder = document.getElementById("images_folder").value;
+    var storage_hostname = document.getElementById("storage_hostname").value;
+    var storage_username = document.getElementById("storage_username").value;
+    var storage_password = document.getElementById("storage_password").value;
+    document.getElementById("message-box").innerHTML = "Saving storage settings. Please wait";
+    start_loading();    
+    $.post('save_storage_settings', {receipts_pending: receipts_pending, receipts_done: receipts_done, images_folder: images_folder, storage_hostname: storage_hostname, storage_username: storage_username, storage_password: storage_password }, function(returnedData){
+        document.getElementById("message-box").innerHTML = returnedData;
+        stop_loading();
+    });
+}
 
 function change_password(username){
     $("#ChangePasswordDialog").dialog("open");

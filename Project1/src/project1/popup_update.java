@@ -90,10 +90,10 @@ public class popup_update
                 //credentials for the IT Stock user, used to access the folder in which item images and invoice images are stored
                 //
                 //
-                String user = "it.stock";
-                String pass ="it$t0cK*543";
-                String server_ip = "140.125.2.102";
-                String sharedFolder="IT/IT Support/IT STOCK/Item Images";
+                String user = StorageSettings.read_setting("storage_username");
+                String pass = StorageSettings.read_setting("storage_password");
+                String server_ip = StorageSettings.read_setting("storage_hostname");
+                String sharedFolder= StorageSettings.read_setting("images_folder");
               
                 String fileName = item.getName(); //fileName is the name of the file currently being processed
                 

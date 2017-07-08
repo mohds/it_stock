@@ -65,12 +65,12 @@ public class upload_image
               FileItem item = (FileItem) iterator.next();
               if (!item.isFormField())
               {
-                String user = "it.stock";
-                String pass ="it$t0cK*543";
-                String server_ip = "140.125.2.102";
-                String sharedFolder="IT/IT Support/IT STOCK/Item Images";
+                String user = StorageSettings.read_setting("storage_username");
+                String pass = StorageSettings.read_setting("storage_password");
+                String server_ip = StorageSettings.read_setting("storage_hostname");
+                String sharedFolder= StorageSettings.read_setting("receipts_pending");
               
-                fileName = item.getName(); 
+                fileName = item.getName();
                 
                 String path="smb://"+ server_ip +"/"+sharedFolder+"/" + fileName;
                 NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);

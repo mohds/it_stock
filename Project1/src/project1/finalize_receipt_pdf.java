@@ -42,10 +42,10 @@ public class finalize_receipt_pdf
         
         try
         {
-          String user = "it.stock";
-          String pass ="it$t0cK*543";
-          String server_ip = "140.125.2.102";
-          String sharedFolder="IT/IT Support/_Receipts/IT_STOCK";
+          String user = StorageSettings.read_setting("storage_username");
+          String pass = StorageSettings.read_setting("storage_password");
+          String server_ip = StorageSettings.read_setting("storage_hostname");
+          String sharedFolder = StorageSettings.read_setting("receipts_pending");
           String path="smb://"+ server_ip +"/"+sharedFolder+"/Complete/Receipt_"+ receipt_id +"_complete.pdf";
           //System.out.println("path: " + path); // test
           NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);

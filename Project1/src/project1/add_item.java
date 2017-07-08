@@ -80,10 +80,10 @@ public class add_item extends HttpServlet {
                   if (!item.isFormField())
                   {
                       
-                    String user = "it.stock";
-                    String pass ="it$t0cK*543";
-                    String server_ip = "140.125.2.102";
-                    String sharedFolder="IT/IT Support/IT STOCK/Item Images";
+                    String user = StorageSettings.read_setting("storage_username");
+                    String pass = StorageSettings.read_setting("storage_password");
+                    String server_ip = StorageSettings.read_setting("storage_hostname");
+                    String sharedFolder= StorageSettings.read_setting("receipts_pending");
                   
                     String fileName = item.getName();
                     

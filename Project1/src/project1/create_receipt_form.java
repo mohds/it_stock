@@ -171,10 +171,10 @@ public class create_receipt_form
     {
       //authentication and final destination of receipt pdf
       //
-      String user = "it.stock";
-      String pass ="it$t0cK*543";
-      String server_ip = "140.125.2.102";
-      String sharedFolder="IT/IT Support/_Receipts/IT_STOCK";
+      String user = StorageSettings.read_setting("storage_username");
+      String pass = StorageSettings.read_setting("storage_password");
+      String server_ip = StorageSettings.read_setting("storage_hostname");
+      String sharedFolder= StorageSettings.read_setting("receipts_pending");
       String path="smb://"+ server_ip +"/"+sharedFolder+"/Receipt_"+ receipt_id +".pdf";
       NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
       SmbFile smbFile = new SmbFile(path,auth);
