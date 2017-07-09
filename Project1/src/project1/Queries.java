@@ -759,7 +759,7 @@ public class Queries {
         String brand_id = get_id_from_name("brands", brand);
         String type_id = get_id_from_name("types", type);
         String condition_id = get_id_from_name("item_conditions", condition);
-        String invoice_id = "";
+        String invoice_id = "0";
         
         // check if label / serial exist
         Access access = new Access();

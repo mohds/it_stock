@@ -69,7 +69,7 @@ public class get_specs_popup
     //sql_get_general_info: used to query results exclusively from the items table (general information about the item)
     //sql_get_specs: used to query results that will show the values of specs assigned to this item
     //
-    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES,ITEMS.WARRANTY_START_DATE,ITEMS.WARRANTY_END_DATE, INVOICES.INVOICE_NUMBER FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS,INVOICES WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.INVOICE_FK = INVOICES.ID AND ITEMS.ID = '" + item_id + "'";
+    String sql_get_general_info  = "SELECT ITEMS.ID, TYPES.NAME, BRANDS.NAME,ITEMS.MODEL, LOCATIONS.NAME, REMOTE_LOCATIONS.NAME, ITEM_CONDITIONS.NAME, ITEMS.LABEL,ITEMS.KEYWORD,ITEMS.SERIAL_NUMBER,ITEMS.NOTES,ITEMS.WARRANTY_START_DATE,ITEMS.WARRANTY_END_DATE, INVOICES.INVOICE_NUMBER, INVOICES.IMAGE FROM ITEMS,TYPES,BRANDS,LOCATIONS,REMOTE_LOCATIONS,ITEM_CONDITIONS,INVOICES WHERE ITEMS.TYPE_ID = TYPES.ID AND ITEMS.BRAND_ID = BRANDS.ID AND ITEMS.LOCATION_ID = LOCATIONS.ID AND ITEMS.CONDITION_ID = ITEM_CONDITIONS.ID AND DELETED = '0' AND ITEMS.CURRENT_LOCATION_ID = REMOTE_LOCATIONS.ID AND ITEMS.INVOICE_FK = INVOICES.ID AND ITEMS.ID = '" + item_id + "'";
     String sql_get_specs = "SELECT SPECS.NAME, ITEMSPECVALUES.VALUE,SPECS.ID FROM SPECS,ITEMSPECVALUES WHERE ITEMSPECVALUES.SPEC_ID = SPECS.ID  AND ITEMSPECVALUES.ITEM_ID = '" + item_id + "'";
 
     try
@@ -306,6 +306,10 @@ public class get_specs_popup
             out.println("<label>End Date</label>");
             out.println("<input type = 'text' class = 'datepicker' id = 'warranty_end_date_id' value = '" + warranty_end_date + "' readonly = 'true'>");
             out.println("<br><br>");
+            if(rs_general_info.getString(15) != null && !rs_general_info.getString(15).equals("null"))
+            {
+              out.println("<a href = 'display_image_servlet?image=" + rs_general_info.getString(15) + "' target = '_blank'>View invoice image</a><br><br>");
+            }
             out.println("<label>Update Invoice Image</label><br>");
             out.println("<input id='invoice_image' type='file'>");
         }
@@ -426,14 +430,12 @@ public class get_specs_popup
         if(authorized_edit)
         {
           out.println("<div id = 'image_upload_id'>");
-          out.println("<form action = 'upload_image' method = 'POST' enctype = 'multipart/form-data'>");
           out.println("<input type = 'hidden' id = 'item_id_hidden' name = 'item_id_hidden' value = '" + item_id + "'>");
           out.println("<fieldset>");
           out.println("<label for = 'fileName'>Browse</label>");
           out.println("<input id = 'fileName' type = 'file' name = 'fileName' id = 'fileUploader'/>");
           out.println("</fieldset>");
           out.println("<input type='checkbox' name = 'add_to_all_similar_checkbox' id = 'check_all_similar_checkbox_id'> Add image to all similar items");
-          out.println("<button type = 'submit'><span>Add Image</span></button>");
           out.println("</div>");
         }
         out.println("</div>");

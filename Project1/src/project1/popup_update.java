@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -66,6 +67,7 @@ public class popup_update
     String [] popup_new_specs_values = null; //null;  //will contain values of input text elements of added specs (new specs)
     String item_image_name = "";
     String invoice_image_name = "";
+    String popup_checkbox_update_similar_items = "";
     
     
     boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -173,6 +175,10 @@ public class popup_update
                 {
                     popup_warranty_end_date = item.getString();
                 }
+                else if(name.equals("popup_checkbox_update_similar_items"))
+                {
+                    popup_checkbox_update_similar_items = item.getString();
+                }
                 
                 //for variables that are lists, we need to split them on ","
                 //
@@ -204,7 +210,7 @@ public class popup_update
         
         catch(Exception ex)
           {
-            System.out.println(ex.toString());
+            out.println(ex.toString());
         }
     }
     
@@ -218,7 +224,8 @@ public class popup_update
     int popup_condition_id = queries.get_condition_id_from_name(popup_condition);
     
     //sql_update_general will update general information in ITEMS table
-    String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label + "', KEYWORD = '" + popup_keyword + "', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "', WARRANTY_START_DATE = TO_DATE('" + popup_warranty_start_date + "','dd-mm-yyyy'), WARRANTY_END_DATE = TO_DATE('" + popup_warranty_end_date + "','dd-mm-yyyy'), IMAGE = '" + item_image_name + "' WHERE ID = '" + item_id + "'";
+    String sql_update_general = "UPDATE ITEMS SET BRAND_ID = '" + popup_brand_id + "', MODEL = '" + popup_model + "', LOCATION_ID = '" + popup_location_id + "', CONDITION_ID = '" + popup_condition_id + "', LABEL = '" + popup_label + "', KEYWORD = '" + popup_keyword + "', SERIAL_NUMBER = '" + popup_sn + "', NOTES = '" + popup_notes + "', WARRANTY_START_DATE = TO_DATE('" + popup_warranty_start_date + "','dd-mm-yyyy'), WARRANTY_END_DATE = TO_DATE('" + popup_warranty_end_date + "','dd-mm-yyyy') WHERE ID = '" + item_id + "'";
+    
     try
     {
       Statement stat_update_general = con.createStatement();  
@@ -228,6 +235,75 @@ public class popup_update
     {
       out.println(e.toString());
     }
+    
+    //below the item image will be added to the database
+    //if the "add image to all similar items checkbox is checked (popup_checkbox_update_similar_items = 1), then item will be added
+    //to all items of similar type,brand, and model
+    //
+    
+    String sql_add_image_to_db = "";
+      try
+      {
+        if(popup_checkbox_update_similar_items.equals("0") && !item_image_name.equals(""))
+        {
+          sql_add_image_to_db = "UPDATE ITEMS SET ITEMS.IMAGE = '" + item_image_name +"' WHERE ITEMS.ID = '" + item_id + "'";
+        }
+        else if(popup_checkbox_update_similar_items.equals("1") && !item_image_name.equals(""))
+        {
+          String sql_get_type_model = "SELECT ITEMS.TYPE_ID,ITEMS.BRAND_ID, ITEMS.MODEL FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";
+          Statement stat_get_type_model = con.createStatement();
+          ResultSet rs_get_type_model = stat_get_type_model.executeQuery(sql_get_type_model);
+          rs_get_type_model.next();
+          String type = rs_get_type_model.getString(1); //type is directly initialized since it can't be null
+          //check if a brand and a model are assigned to this item. If so, initialize them
+          //
+          String brand = "";
+          String model = "";
+          try
+          {
+            brand = rs_get_type_model.getString(2);
+          }
+          catch(Exception e)
+          {
+            brand = "null";
+          }
+          try
+          {
+            model = rs_get_type_model.getString(3);
+          }
+          catch(Exception e)
+          {
+            model = "null";
+          }
+          
+          //below we will build the add image to database query according to the assignment of model and brand to an item
+          //
+          sql_add_image_to_db = "UPDATE ITEMS SET ITEMS.IMAGE = '" + item_image_name + "' WHERE ITEMS.TYPE_ID = '" + type + "'";  
+          if(model == null || model.equals("null"))
+          {
+            sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.MODEL IS NULL";
+          }
+          else
+          {
+            sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.MODEL = '" + model + "'";
+          }
+          if(brand == null || brand.equals("null"))
+          {
+            sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.BRAND_ID IS NULL";
+          }
+          else
+          {
+            sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.BRAND_ID = '" + brand + "'";
+          }
+        }
+      Statement stat_add_image_to_db = con.createStatement();
+      stat_add_image_to_db.executeUpdate(sql_add_image_to_db);  //execute.
+    }
+    catch(Exception e)
+    {
+      out.println(e.toString());
+    }
+    
     String sql_get_invoice_id = "SELECT ITEMS.INVOICE_FK FROM ITEMS WHERE ITEMS.ID = '" + item_id + "'";  //sql query to get invoice ID from item ID
     try
     {
@@ -238,11 +314,42 @@ public class popup_update
       ResultSet rs_get_invoice_id = stat_get_invoice_id.executeQuery(sql_get_invoice_id);
       rs_get_invoice_id.next();
       int invoice_id = rs_get_invoice_id.getInt(1);
-      
       //update invoice information
-      String sql_update_invoice = "UPDATE INVOICES SET INVOICES.INVOICE_NUMBER = '" + popup_invoice_number + "'" + " WHERE INVOICES.ID = '" + invoice_id + "', INVOICES.IMAGE = '" + invoice_image_name + "'";
-      Statement stat_update_invoice = con.createStatement();
-      stat_update_invoice.executeUpdate(sql_update_invoice);
+      if(invoice_id != 0)
+      {
+        String sql_update_invoice = "UPDATE INVOICES SET INVOICES.INVOICE_NUMBER = '" + popup_invoice_number + "'";// + " WHERE INVOICES.ID = '" + invoice_id + "', INVOICES.IMAGE = '" + invoice_image_name + "'";
+        if(!invoice_image_name.equals(""))
+        {
+          sql_update_invoice = sql_update_invoice + ", INVOICES.IMAGE = '" + invoice_image_name + "'";
+        }
+        sql_update_invoice = sql_update_invoice + " WHERE INVOICES.ID = '" + invoice_id + "'";
+        Statement stat_update_invoice = con.createStatement();
+        stat_update_invoice.executeUpdate(sql_update_invoice);
+      }
+      else
+      {
+        String sql_create_new_invoice = "INSERT INTO INVOICES (INVOICE_NUMBER";
+        if(!invoice_image_name.equals(""))
+        {
+          sql_create_new_invoice += ",IMAGE";
+        }
+        sql_create_new_invoice += ") VALUES('" + popup_invoice_number + "'";
+        if(!invoice_image_name.equals(""))
+        {
+          sql_create_new_invoice += ",'" + invoice_image_name + "'";
+        }
+        sql_create_new_invoice += ")";
+        
+        String generatedColumns[] = { "ID" };
+        PreparedStatement stat_create_invoice = con.prepareStatement(sql_create_new_invoice,generatedColumns);
+        stat_create_invoice.executeUpdate();
+        ResultSet rs_get_new_invoice_id = stat_create_invoice.getGeneratedKeys();
+        rs_get_new_invoice_id.next();
+        int new_invoice_id = rs_get_new_invoice_id.getInt(1);
+        String sql_update_invoice_fk = "UPDATE ITEMS SET INVOICE_FK = '" + new_invoice_id + "' WHERE ITEMS.ID = '" + item_id + "'";
+        Statement stat_update_invoice_fk = con.createStatement();
+        stat_update_invoice_fk.executeUpdate(sql_update_invoice_fk);
+      }
     }
     catch(Exception e)
     {
@@ -298,7 +405,7 @@ public class popup_update
       }
       catch(Exception e)
       {
-        System.out.println(e.toString());
+        out.println(e.toString());
       }
     }
     

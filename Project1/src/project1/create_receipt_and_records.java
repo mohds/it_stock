@@ -185,7 +185,7 @@ public class create_receipt_and_records
     }
     catch(Exception e)
     {
-      System.out.println(e.toString());
+      out.println(e.toString());
     }
     out.close();
     

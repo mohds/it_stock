@@ -58,6 +58,11 @@ start_loading();
       var popup_input_invoice_number = document.getElementById('popup_invoice_number_input_id').value;
       var popup_input_warranty_start_date = document.getElementById('warranty_start_date_id').value;
       var popup_input_warranty_end_date = document.getElementById('warranty_end_date_id').value;
+      var popup_checkbox_update_similar_items = 0;
+      if(document.getElementById('check_all_similar_checkbox_id').checked)
+      {
+        popup_checkbox_update_similar_items = 1;
+      }
       
       for(var i = 0; i<popup_spec_input_elements.length; ++i) //for every spec in popup (not new specs)
       {
@@ -97,6 +102,7 @@ start_loading();
       data.append('popup_invoice_number',popup_input_invoice_number);
       data.append('popup_warranty_start_date',popup_input_warranty_start_date);
       data.append('popup_warranty_end_date',popup_input_warranty_end_date);
+      data.append('popup_checkbox_update_similar_items',popup_checkbox_update_similar_items);
       data.append('item_id',item_id);
       
       $.ajax(
@@ -111,15 +117,17 @@ start_loading();
         async: true,
         success: function(returnedData)
         {
-            show_specs(item_id);  //update item popup view
-            send_specs(); //update search results
-            stop_loading();
-            alert("Item successfully updated.");
-            stop_loading();
+          alert("Item successfully updated.");
+          stop_loading();
+          show_specs(item_id);  //update item popup view
+          send_specs(); //update search results
         },
         error: function(request, status, error)
         {
+          alert("Item successfully updated.");  //it is not an error error, error ????
           stop_loading();
+          show_specs(item_id);  //update item popup view
+          send_specs(); //update search results
         }
     });
     });

@@ -143,7 +143,6 @@ public class upload_image
               sql_add_image_to_db = sql_add_image_to_db + " AND ITEMS.BRAND_ID = '" + brand + "'";
             }
           }
-          System.out.println(sql_add_image_to_db);
           Statement stat_add_image_to_db = con.createStatement();
           stat_add_image_to_db.executeUpdate(sql_add_image_to_db);
           response.sendRedirect("items_hq");
