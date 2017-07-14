@@ -272,7 +272,7 @@ public class Records {
         
         // in the following query the admin returned is the one who checked and delivered the item to the client
         // the client returned is the one who borrowed the item
-        String query = "SELECT items.id AS item_id, items.label, types.name AS type, clients.name AS client, admins.name AS admin, admins.username, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.id AS receipt_id FROM items, types, admins, clients, receipts, records WHERE records.id = "+ record_id +" AND items.type_id = types.id AND records.receipt_id = receipts.id AND records.admin_checker_id = admins.id AND records.client_borrower_id = clients.id AND records.item_id = items.id";
+        String query = "SELECT records.notes AS records_notes, receipts.notes AS receipts_notes, items.id AS item_id, items.label, types.name AS type, clients.name AS client, admins.name AS admin, admins.username, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.id AS receipt_id FROM items, types, admins, clients, receipts, records WHERE records.id = "+ record_id +" AND items.type_id = types.id AND records.receipt_id = receipts.id AND records.admin_checker_id = admins.id AND records.client_borrower_id = clients.id AND records.item_id = items.id";
         // System.out.println(query);
         
         List<RecordDetailed> record = new ArrayList<RecordDetailed>();
@@ -291,6 +291,8 @@ public class Records {
                 String borrow_date = rs.getString("borrow_datetime");
                 String status = "status"; // rs.getString("status");
                 String receipt_id = rs.getString("receipt_id");
+                String record_notes = rs.getString("records_notes");
+                String receipt_notes = rs.getString("receipts_notes");
                 
                 // make status human friendaly
                 if(status.contains("0")){
@@ -308,7 +310,7 @@ public class Records {
                     // do nothing
                 }
                 
-                record.add(new RecordDetailed(record_id, admin_checker, item_id, item_label, item_type, borrower, borrow_date, return_date, status, receipt_id));
+                record.add(new RecordDetailed(record_id, admin_checker, item_id, item_label, item_type, borrower, borrow_date, return_date, status, receipt_id, record_notes, receipt_notes));
                 
             }
             con.close();
@@ -321,7 +323,7 @@ public class Records {
         out.println(gson.toJson(record));
     }
     
-    public static void generate_results(String ReceiptId, String RecordId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String RecordStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound){
+    public static void generate_results(String ReceiptId, String RecordId, String item_id, String label, String Borrower, String AdminCheckerId, String BorrowBeforeDate, String BorrowAfterDate, String ReturnBeforeDate, String ReturnAfterDate, String ItemType, String ReceiptStatus, String RecordStatus, String ItemStatus, PrintWriter out, String lower_bound, String upper_bound, String user){
         String query = "SELECT records.id, TO_CHAR(records.expected_date, 'DD/MM/YYYY') AS expected_date, receipts.id AS receipt_id, items.id AS item_id, items.label, types.name AS type, clients.name AS client, TO_CHAR(borrow_datetime, 'DD/MM/YYYY') AS borrow_datetime, TO_CHAR(return_datetime, 'DD/MM/YYYY') AS return_datetime, receipts.status FROM records, clients, receipts, items, admins, types WHERE 1=1 ";
         
         if(!(ReceiptId.length() == 0)){
@@ -440,6 +442,15 @@ public class Records {
                 // make return date human friendly
                 if(return_date == null){
                     return_date = "Pending";
+                    if(!record_returning(record_id)){
+                        Access access = new Access();
+                        String method = "return_non_returning";
+                        if(user != null){
+                            if(!access.has_access(user, method)){
+                                return_date = "NoReturn";
+                            }
+                        }
+                    }
                 }
                 else{
                     // do nothing
@@ -454,6 +465,27 @@ public class Records {
         }
         Gson gson = new Gson();
         out.println(gson.toJson(record_list));
+    }
+    public static boolean record_returning(String record_id){
+        boolean return_me = false;
+        String query = "SELECT returning FROM records WHERE id = '"+ record_id +"' ";
+        //System.out.println(query);
+        Connection con = connect_to_db();
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()){
+                String returning = rs.getString("returning");
+                if(returning.contains("1")){
+                    return_me = true;
+                }
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+        return return_me;
     }
     
     private static Connection connect_to_db(){

@@ -1,7 +1,7 @@
 package project1;
 
 public class RecordDetailed {
-    private String record_id, admin_checker, item_id, item_label, item_type, borrower, borrow_date, return_date, status, receipt_id;
+    private String record_id, admin_checker, item_id, item_label, item_type, borrower, borrow_date, return_date, status, receipt_id, record_notes, receipt_notes;
     
     public String get_item_label(){
         return item_label;
@@ -32,6 +32,12 @@ public class RecordDetailed {
     }
     public String get_receipt_id(){
         return receipt_id;
+    }
+    public String get_record_notes(){
+        return record_notes;
+    }
+    public String get_receipt_notes(){
+        return receipt_notes;
     }
     
     public void set_item_label(String s){
@@ -64,8 +70,14 @@ public class RecordDetailed {
     public void set_admin(String s){
         admin_checker = s;
     }
+    public void set_record_notes(String s){
+        record_notes = s;
+    }
+    public void set_receipt_notes(String s){
+        receipt_notes = s;
+    }
     
-    public RecordDetailed(String record_id, String admin_checker, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status, String receipt_id) {
+    public RecordDetailed(String record_id, String admin_checker, String item_id, String item_label, String item_type, String borrower, String borrow_date, String return_date, String status, String receipt_id, String record_notes, String receipt_notes) {
         super();
         set_record_id(record_id);
         set_admin(admin_checker);
@@ -77,5 +89,7 @@ public class RecordDetailed {
         set_return_date(return_date);
         set_status(status);
         set_receipt_id(receipt_id);
+        set_record_notes(record_notes);
+        set_receipt_notes(receipt_notes);
     }
 }

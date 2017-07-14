@@ -31,7 +31,7 @@ public class Record {
     public String get_status(){
         return status;
     }
-    public String expected_date(){
+    public String get_expected_date(){
         return expected_date;
     }
     

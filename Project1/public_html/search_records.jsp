@@ -104,7 +104,7 @@
                 </div>
             </div>
             
-            <div id="ViewDetailsDialog" title="Item Details">
+            <div id="ViewDetailsDialog" title="Record Details">
                 <label>Item ID:</label><span id="ItemId_dialog"></span><br>
                 <label>Item Label:</label><span id="ItemLabel_dialog"></span><br>
                 <label>Item Type:</label><span id="ItemType_dialog"></span><br>
@@ -113,6 +113,8 @@
                 <label>Borrowed On:</label><span id="BorrowDate_dialog"></span><br>
                 <label>Returned On:</label><span id="ReturnDate_dialog"></span><br>
                 <label>Receipt ID:</label><span id="ReceiptId_dialog"></span><br>
+                <label>Record Note:</label><span id="RecordNote_dialog"></span><br>
+                <label>Receipt Note:</label><span id="ReceiptNote_dialog"></span><br>
             </div>
             <div id="ItemDetailsDialog" title="Item Details">
                 <label>ID:</label><span id="ItemId_ItemDialog"></span><br>
