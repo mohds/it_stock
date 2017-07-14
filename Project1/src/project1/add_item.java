@@ -83,7 +83,7 @@ public class add_item extends HttpServlet {
                     String user = StorageSettings.read_setting("storage_username");
                     String pass = StorageSettings.read_setting("storage_password");
                     String server_ip = StorageSettings.read_setting("storage_hostname");
-                    String sharedFolder= StorageSettings.read_setting("receipts_pending");
+                    String sharedFolder = StorageSettings.read_setting("images_folder");
                   
                     String fileName = item.getName();
                     
