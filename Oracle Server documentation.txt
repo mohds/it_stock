@@ -1,4 +1,6 @@
-Documentation2
+Documentation
+
+All credentials are for the default setup. Make sure to change all credentials when deploying the application.
 
 SSH Login available,
 username: oracle
